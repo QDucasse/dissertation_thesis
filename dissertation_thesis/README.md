@@ -36,11 +36,11 @@
     - Frame
       - Motivations
       - About Perspective
-    - Methodology
+    - Methodology <== To change
       - Notation
       - Training
       - Deployment
-    - Setup
+    - Setup       <== To change
       - Network
       - Dataset
       - Training framework
@@ -80,15 +80,15 @@
 
 
 ## Planning
-`Mon 29/06` Litterature Review - Background
-`Wed 01/07` Litterature Review - Applications / Mixed Precision
-`Fri 03/07` Litterature Review - Deployment on FPGAs
-`Mon 06/07` Requirement Analysis
-`Wed 08/07` Implementation - Frame / Method
-`Fri 10/07` Implementation - Setup
-`Mon 13/07` Results
-`Wed 15/07` Discussion
-`Fri 17/07` Evaluation
-`Mon 20/07` PLES
-`Wed 22/07` Conclusion/Introduction/Abstract
-`Fri 24/07` Deadline
+`Mon 29/06` Litterature Review - Background  
+`Wed 01/07` Litterature Review - Applications / Mixed Precision  
+`Fri 03/07` Litterature Review - Deployment on FPGAs  
+`Mon 06/07` Requirement Analysis  
+`Wed 08/07` Implementation - Frame / Method  
+`Fri 10/07` Implementation - Setup  
+`Mon 13/07` Results  
+`Wed 15/07` Discussion  
+`Fri 17/07` Evaluation  
+`Mon 20/07` PLES  
+`Wed 22/07` Conclusion/Introduction/Abstract  
+`Fri 24/07` Deadline  
