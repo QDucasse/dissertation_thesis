@@ -1,0 +1,59 @@
+============
+KEYWORDS
+============
+Deep learning
+Synchronised Gradient descent
+All Reduce
+
+============
+ABSTRACT
+============
+Synchronised stochastic gradient descent (SGD) optimisers with data parallelism
+are widely used in training large-scale deep neural networks. Although using
+larger mini-batch sizes can improve the system scalability by reducing the
+communication-to-computation ratio, it may hurt the generalisation ability of
+the models. To this end, we build a highly scalable deep learning training
+system for dense GPU clusters with three main contributions: (1) We propose a
+mixed-precision training method that significantly improves the training
+throughput of a single GPU without losing accuracy. (2) We propose an
+optimisation approach for extremely large mini- batch size (up to 64k) that can
+train CNN models on the ImageNet dataset without losing accuracy. (3) We propose
+highly optimised all-reduce algorithms that achieve up to 3x and 11x speedup on
+AlexNet and ResNet-50 respectively than NCCL-based training on a cluster with
+1024 Tesla P40 GPUs. On training ResNet-50 with 90 epochs, the state-of-the-art
+GPU-based system with 1024 Tesla P100 GPUs spent 15 minutes and achieved 74.9%
+top-1 test accuracy, and another KNL-based system with 2048 Intel KNLs spent 20
+minutes and achieved 75.4% accuracy. Our training system can achieve 75.8% top-1
+test accuracy in only 6.6 minutes using 2048 Tesla P40 GPUs. When training
+AlexNet with 95 epochs, our system can achieve 58.7% top-1 test accuracy within
+4 minutes, which also outperforms all other existing systems.
+
+============
+BACKGROUND
+============
+Long training times (29hours with 8 Tesla P100 for ResNet-50).
+|-> Distributed synchronous SDG
+|-> Mini-batch size per machine should not be too small
+
+Low-precision computation lowers the time or energy cost of machine learning
+BUT the round-off or quantisation error that results from converting numbers
+into low-precision representation introduces noise that can affect the
+convergence rate and accuracy of SGD.
+
+Distributed machine learning frameworks use centralised deployment mode
+(bottleneck: high communication on central nodes).
+
+ALL REDUCE ALGORITHMS:
+- Baidu ring all reduce allows to reduce the communication load when the number
+of nodes increases.
+- Goyal inter-node reduce | inter-node all-reduce | intra-node broadcast
+- Horovod gradient fusion strategy
+
+============
+SOLUTION
+============
+HALP: Use Stochastic Variance Reduced Gradient (SVRG) to reduce the gradient
+variance  as well as bit centring to reduce quantisation error.
+
+Lower memory bandwidth and higher arithmetic throughput
+|-> use fewer bits to store the same number of values 

@@ -1,0 +1,66 @@
+============
+KEYWORDS
+============
+Fixed-point arithmetic
+Genetic programming
+
+============
+ABSTRACT
+============
+Several problems in the implementations of control systems, signal-processing
+systems, and scientific computing systems reduce to compiling a polynomial
+expression over the reals into an imperative program using fixed-point
+arithmetic. Fixed-point arithmetic only approximates real values, and its
+operators do not have the fundamental properties of real arithmetic, such as
+associativity. Consequently, a naive compilation process can yield a program
+that significantly deviates from the real polynomial, whereas a different order
+of evaluation can result in a program that is close to the real value on all
+inputs in its domain. We present a compilation scheme for real-valued arithmetic
+expressions to fixed-point arithmetic programs. Given a real-valued polynomial
+expression t, we find an expression t′ that is equivalent to t over the reals,
+but whose implementation as a series of fixed-point operations minimises the
+error between the fixed-point value and the value of t over the space of all
+inputs. We show that the corresponding decision problem, checking whether there
+is an implementation t′ of t whose error is less than a given constant, is
+NP-hard. We then propose a solution technique based on genetic programming. Our
+technique evaluates the fitness of each candidate program using a static
+analysis based on affine arithmetic. We show that our tool can significantly
+reduce the error in the fixed-point implementation on a set of linear control
+system benchmarks. For example, our tool found implementations whose errors are
+only one half of the errors in the original fixed-point expressions.
+
+============
+BACKGROUND
+============
+The use of floating-point co-processors or software-based emulation of
+floating-point is often discarded due to either inefficiency or cost and power
+consumption. The algorithms are therefore implemented using fixed-point arithmetic.
+
+A lot of research made to provide semi-automation of floating-point -> fixed-point
+implementations. The methods find the number of bits to use for the integral
+and fractional parts. However, even with optimised bit-width, errors can occur
+within the order of evaluation of the operations (not associative, not distributive).
+
+-Fixed-point Representations
+<s,v,w> --> s = sign, v = length, w = length of the fractional part
+         |-> length of the integer part is v-w-1
+
+Worst-case error = | tr - tf | where tr = t in real, tf = t in fixed
+
+Several implementations can correspond to the same number but may vary due to
+their different allocation to integer and fractional parts.
+-> Allocating fewer for the integer: overflow
+-> Allocating more to the integer (less for fractional): quantisation error increase
+
+-Control Systems
+State estimation
+
+-Genetic Programming
+Heuristic search parametrised by a fitness function to evaluate a candidate.
+
+============
+SOLUTION
+============
+Fixed-point program synthesis methodology based on expression rewriting and
+genetic programming. Abstract interpretation to estimate the error bound of a
+fixed-point implementation

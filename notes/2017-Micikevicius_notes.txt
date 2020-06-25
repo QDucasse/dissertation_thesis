@@ -1,0 +1,57 @@
+============
+KEYWORDS
+============
+FP16
+CNN
+Loss-scaling
+Master copy of weights
+
+============
+ABSTRACT
+============
+Increasing the size of a neural network typically improves accuracy but also
+increases the memory and compute requirements for training the model. We
+introduce methodology for training deep neural networks using half-precision
+floating point numbers, without losing model accuracy or having to modify
+hyper-parameters. This nearly halves memory requirements and, on recent GPUs,
+speeds up arithmetic. Weights, activations, and gradients are stored in IEEE
+half-precision format. Since this format has a narrower range than single-
+precision we propose three techniques for preventing the loss of critical
+information. Firstly, we recommend maintaining a single-precision copy of
+weights that accumulates the gradients after each optimiser step (this copy is
+rounded to half-precision for the forward- and back-propagation). Secondly, we
+propose loss-scaling to preserve gradient values with small magnitudes. Thirdly,
+we use half-precision arithmetic that accumulates into single-precision outputs,
+which are converted to half-precision before storing to memory. We demonstrate
+that the proposed methodology works across a wide variety of tasks and modern
+large scale (exceeding 100 million parameters) model architectures, trained on
+large datasets.
+
+============
+BACKGROUND
+============
+Several attempts at quantising the weights, activations and gradients
+|-> Leads to non-trivial loss of accuracy
+
+Doubling or tripling the number of layers may bring back some accuracy
+
+Aim towards the use of half precision for weights, gradients and activations
+|-> How to recover the precision lost?
+|-> Use half-precision on all three?
+
+============
+SOLUTION
+============
+All tensors and arithmetic use reduced precision (FP16).
+
+Need to keep an FP32 master copy of weights and update it with the weight
+gradient in the optimiser step.
+
+Loss-scaling: FP16 balances between [-14, 15] while gradient values tend to
+gravitate around small magnitudes. Scaling the gradient will force them to
+occupy more of the representable range
+
+Arithmetic precision is needed through vector dot-products, reductions and
+point-wise operations. Vector dot-products can be done with partial products in
+FP32 to maintain accuracy. Large reductions have to be done in FP32. Point-wise
+operations can be done in either FP16 or FP32.

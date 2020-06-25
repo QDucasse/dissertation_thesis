@@ -1,0 +1,64 @@
+============
+KEYWORDS
+============
+Smalltalk Pharo
+FPGA
+VHDL
+
+============
+ABSTRACT
+============
+
+Due to their ability to combine high performances along with flexibility, FPGAs
+(Field Programmable Gate Array) are used in robotic applications nowadays,
+especially in case of real-time applications. The FPGA circuits are often
+designed and configured using the Hardware Description Languages (HDLs) like
+VHDL or Verilog. However, although these languages provide abstractions up to
+the functionality level, they lack many features of todays modern languages that
+make them unsuited for high-level models and systems. In this paper, we present
+an overview of a methodology that uses a Dynamic Reflective Language, such as
+Smalltalk, for high level hardware/software co-design on FPGAs.
+
+============
+BACKGROUND
+============
+Robotic application = (1) Perception (2) Planification (3) Control
+
+Multi-sensor processing and analysis are expensive -> real-time constraint
+Adding sensors -> Changing configuration
+
+Smalltalk -> simple semantic
+ |-> Not suitable for mass data processing
+
+FPGA circuits allow both parallel paths and reconfiguration and answer both
+of the above issues.
+
+HDL (Hardware Description Languages) allow specification at Register Transfer
+Level but lack the semantics at algorithmic level
+
+FPGA:
+HDL is transformed from RTL constructs to gate level components.
+-> Translate: merges the design in a single netlist
+-> Map: maps the gates in the netlist to the logic cells
+-> Place and Route: physical layout in the FPGA
+
+============
+SOLUTION
+============
+Abstraction level between Smalltalk and VHDL in order to produce VHDL code from
+Smalltalk and invoke the vendor's synthesis toolchain.
+
+From this level:
+(1) Smalltalk-VHDL conversion
+(2) RTL simulation task -> correctness of the design from within Pharo
+
+Requirements:
+-Correctness of Conversion
+-Reusability and Extendability
+-Simulation (-> VCD)
+-Robust interaction with vendor's tools
+
+
+SMALLTALK WITH FPGAs
+FFI NativeBoost
+FPGA-ARM SoM/SoC

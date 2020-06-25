@@ -1,0 +1,33 @@
+============
+KEYWORDS
+============
+Fixed-point arithmetic
+
+============
+REPRESENTATIONS
+============
+A collection of N (N positive integer) binary digits has 2^N possible states.
+Note that the meaning of an N-bit binary word depends entirely on its
+interpretation (or the interpretation of the mapping we choose to use).
+
+-Unsigned fixed-point rational:
+Rational a/b where a and b are integers
+Values from { p/2^b | 0<=p<=2^N -1, p ∈ Z} --> U(a, b) with a=N-b
+Range: 0 to (2^N -1)/2^b = 2^a - 2^-b
+For example the 8-bit unsigned fixed-point rational representation U(6,2):
+    b5 b4 b3 b2 b1 b0 . b-1 b-2 --> Range of 63 3/4 (2^6 - 2^-2)
+
+
+unsigned integer = unsigned fixed-point rational where b=0
+
+
+-One's and two's complement:
+00000011 -1-> 11111100
+00000011 -2-> 11111101
+
+-Signed Two's complement fixed-point rational:
+Values in {p/2^b | − 2^N−1 ≤ p ≤ 2^N−1 − 1, p ∈ Z} --> A(a, b) with a=N-b-1
+
+============
+RULES
+============

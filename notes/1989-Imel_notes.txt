@@ -1,0 +1,56 @@
+==========
+ABSTRACT
+==========
+Apparatus for performing mixed precision calculations in the floating point unit
+of a microprocessor from a single instruction opcode. 80-bit floating-point
+registers may be specified as the source or destination address of a floating-
+point instruction. When the address range of the destination indicates that a
+floating point register is addressed, the result of that operation is not rounded
+to the precision specified by the instruction, but is rounded to extended 80-bit
+precision and loaded into the floating point register. When the address range of
+the source indicates that an FP register is addressed, the data is loaded from
+the FP register in extended precision, regardless of the precision specified by
+the instruction. In this way, real and long-real operations can be made to use
+extended precision numbers without explicitly specifying that in the opcode.
+
+==========
+BACKGROUND
+==========
+The machine used is an Intel  iAPX 286/20 Numeric Data Processor (NDP). It has
+eight 80-bit floating point registers (~ 40 16-bit registers). Two registers
+handle the results of numerical instructions. A control word registers defines
+the rounding, infinity, precision and error-mask controls (IEEE standard). NDP
+supports 32, 64 and 80-bit real values for high precision calculations. Separate
+opcodes are used for the different operations. Using a single opcode would
+reduce the number of floating point operations and will both simplify the
+programming and increase the performance of those operations.
+
+==========
+SOLUTION
+==========
+This idea is accomplished by using an instruction decoder that generates a
+microinstruction (1 bit of which specifies the address range of source or
+destination to be an 80-bit FP register). The logic in the FP unit responsive to
+this one bit forces the result of the floating point operation to extended
+precision. Using a single opcode shows that both mixed and extended precision
+can be used. This is done through the arithmetic that avoids extra conversion
+and allows computation to sufficient precision instead of the widest.
+
+Seven major units:
+- Instruction Fetch Unit:
+    Fetches and caches instructions from memory. Maintains 6 instruction pointers
+- Instruction Decoder:
+    Decodes and controls the instruction execution.
+- Microinstruction Sequencer:
+    Sequences microcode flows to handle chip initialization.
+- Translation Lookaside Buffer:
+    Address translation to implement virtual memory.
+- Floating Point Unit:
+    The Floating Point Representation  represents each number by a pair of
+    numerals equals one of those numeral times a power of an implicit fixed
+    positive integer base.
+- Bus Control Logic:
+    Pipelines and sequences external bus accesses.
+- Integer Execution Unit:
+Communication between them with a 32-bit data bus, a 29-bit microinstruction
+bit and a microinstruction-valid signal.

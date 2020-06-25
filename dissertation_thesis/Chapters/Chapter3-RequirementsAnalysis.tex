@@ -1,0 +1,139 @@
+\chapter{Requirements Analysis} % Main chapter title
+
+\label{Chapter3} % For referencing this chapter elsewhere, use \ref{Chapter3}
+
+\lhead{Chapter 3. \emph{Requirements Analysis}}
+
+
+This chapter looks over the aims and objectives set in the \emph{Introduction} and translates them into requirements and use cases in the first part. The second part is centred around the methodology the project will be evaluated with. The third and final part will enumerate the needed deliverables.
+%----------------------------------------------------------------------------------------
+%	SECTION 1 - Project Goals
+%----------------------------------------------------------------------------------------
+
+\section{Project Goals}
+
+The aims and objectives defined at first are then translated into requirements using \emph{functional analysis}, a method borrowed to the field of software engineering. All the functional and non-functional requirements are then discussed along with the requirements table.
+
+%----------------------------------------------------------------------------------------
+%	SUBSECTION 1 - Aims and Objectives
+%----------------------------------------------------------------------------------------
+
+\subsection{Aims and Objectives}
+
+Taking from the \textbf{Aims} defined in Chapter \ref{Chapter1}, we derive the objectives and define the requirements for the project.
+
+\textbf{Aims}
+
+\begin{enumerate}
+  \item Determine the motivations behind mixed-precision.
+  \item Assess the impact of mixed-precision on state-to-the-art applications.
+  \item Present the methods to apply a mixed-precision mindset to a given application.
+  \item Look into the range of applications mixed-precision has in the literature.
+  \item Provide insight on the choice of architecture for mixed-precision applications.
+\end{enumerate}
+
+\textbf{Objectives}
+
+\begin{enumerate}
+  \item Implement a CNN on an FPGA
+  \begin{enumerate}
+    \item Hardware architectures: Digilent Nexys A7 and Zedboard Zynq 7000
+    \item Framework: FINN and Brevitas
+    \item Datasets: MNIST and CIFAR-10
+  \end{enumerate}
+  \item Determine the impact of the size of parameters linked to the application.
+  \begin{enumerate}
+    \item Weights
+    \item Activation Function
+    \item Training Time
+  \end{enumerate}
+  \item Measure the metrics of the associated application as compared to the literature.
+  \begin{enumerate}
+    \item Throughput
+    \item Latency
+    \item Energy
+    \item Compression Ratio
+    \item Robustness
+  \end{enumerate}
+  \item Confront the results to the state-of-the-art comparable experimental results.
+  \item Present how each parameter impacts the overall performance of the system.
+  \item In medium term, provide an insight on how security can be impacted when trying to deteriorate precision.
+  \item In medium term, present a set of rules to go against the potential security flaws.
+\end{enumerate}
+
+The above objectives consist of an extension of the \cite{Bacchus2020} article in order to benchmark the same setup with an extended framework (PyTorch with Brevitas), other hardware architectures (Digilent Nexys A7) and new datasets (CIFAR-10).
+
+%----------------------------------------------------------------------------------------
+%	SUBSECTION 2 - Requirements
+%----------------------------------------------------------------------------------------
+
+\subsection{Requirements}
+
+The baseline chosen to illustrate hardware acceleration is the implementation of a modular CNN on an FPGA. The system illustrates the use as well as impact of mixed-precision. The system should respect the following requirements.
+
+\textbf{Requirements Table} The table specifies the requirements that the developed system should fulfill. It does not give an indication of how the requirements will be met but instead explains the reasons of its existence. Each requirement has an identifier, a name, a priority rank (0 being the highest) and an explanation.
+
+% REWORK PRIORITIES
+\resizebox{\textwidth}{!}{
+  \begin{tabular}{ | c c c c c c | }
+    \hline
+    \textbf{ID}  & \textbf{Name}      & \textbf{Description} & \textbf{Type}  & \textbf{Priority} & \textbf{Justification} \\
+    \hline
+    \textbf{R0}  & \emph{LitParam}    & The system should tune parameters defined by the literature                             & Constraint & 0 &  Literature review \\
+    \hline
+    \textbf{R2}  & \emph{LitInfOpt}   & The system should use inference optimisations taken from the literature                 & Constraint & 0 &  Literature review \\
+    \hline
+    \textbf{R3}  & \emph{LitHardDes}  & The system should use hardware design taken from the literature                         & Constraint & 1 &  Literature review \\
+    \hline
+    \textbf{R4}  & \emph{TestParam}   & The system should evaluate the impact of the tuning parameters                          & Constraint & 0 &  User requirement  \\
+    \hline
+    \textbf{R5}  & \emph{TestOptMeth} & The system should evaluate the impact of the optimisation methods                       & Constraint & 0 &  User requirement  \\
+    \hline
+    \textbf{R6}  & \emph{TestHardDes} & The system should evaluate the impact of the hardware design                            & Constraint & 1 &  User requirement  \\
+    \hline
+    \textbf{R7}  & \emph{ExpSound}    & The system should lead the experiment through a sound process                           & Constraint & 0 &  Meaningful experimental process \\
+    \hline
+    \textbf{R8}  & \emph{ExpConsist}  & The system should lead the experiment through a consistent and replicable process       & Constraint & 1 &  Meaningful experimental process \\
+    \hline
+    \textbf{R9}  & \emph{ResGuide}    & The system should help create guidelines with the results                               & Constraint & 1 &  Exploitable results \\
+    \hline
+    \textbf{R10} & \emph{ResComp}     & The system should create results comparable to the literature                           & Constraint & 0 &  Exploitable results \\
+    \hline
+    \textbf{R11} & \emph{ResFlaws}    & The system should identify its security flaws and define a set of rules to contain them & Constraint & 2 &  Exploitable results \\
+    \hline
+  \end{tabular}
+}
+
+The projected deliverables for the \emph{Research Report} are this given report as well as the \emph{Ethics Forms}. The additional deliverables for the \emph{Dissertation Thesis} are the developed \emph{Software}, the \emph{Guidelines}, \emph{Discussion and Evaluation of the results}, as well as the final \emph{Dissertation Thesis} and \emph{Ethics Forms}.
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2 - Evaluation Methodology
+%----------------------------------------------------------------------------------------
+
+\section{Evaluation Methodology}
+
+This section will provide methods, criteria and metrics to evaluate the end product and the deliverables.
+
+%----------------------------------------------------------------------------------------
+%	SUBSECTION 1 - Comparison
+%----------------------------------------------------------------------------------------
+
+\subsection{Comparison}
+
+The results of the study and the values obtained will be compared to state-of-the-art studies and methods. The main works used for the comparison will be similar CNNs applied on different parallel architectures, from GPUs \cite{Micikevicius2017, Jia2018, Kurth2018} to FPGAs \cite{Zhao2016, Colangelo2018, Jahanshahi2019, Bacchus2020}.
+
+%----------------------------------------------------------------------------------------
+%	SUBSECTION 2 - Requirements
+%----------------------------------------------------------------------------------------
+
+\subsection{Requirements}
+
+Each requirement from the table will be examined later on and run against the actual product. A decision will be made on wether the requirement has been met, partially fulfilled or unsatisfied. A justification will have to be given for the unsatisfied requirements. Modifications to the actual requirements will have to be justified along with why the previous one was not fitting the final product.
+
+%----------------------------------------------------------------------------------------
+%	SUBSECTION 3 - Quality
+%----------------------------------------------------------------------------------------
+
+\subsection{Quality}
+
+The scientific process will be reviewed to check if it complies to good practices and sound methodology. The results have to be reproducible and performed under a sound experimental process. Any parameter or configuration that might have been overlooked will have to be stated as so and justified.

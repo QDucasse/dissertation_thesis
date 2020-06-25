@@ -1,0 +1,61 @@
+============
+KEYWORDS
+============
+
+Lattice QCD system
+Inverse of Dirac operator (large sparse matrix)
+
+============
+ABSTRACT
+============
+
+Modern graphics hardware is designed for highly parallel numerical tasks and
+promises significant cost and performance benefits for many scientific
+applications. One such application is lattice quantum chromodynamics (lattice
+QCD), where the main computational challenge is to efficiently solve the
+discretised Dirac equation in the presence of an SU(3) gauge field. Using
+NVIDIA’s CUDA platform we have implemented a Wilson–Dirac sparse matrix–vector
+product that performs at up to 40, 135 and 212 Gflops for double, single and
+half precision respectively on NVIDIA’s GeForce GTX 280 GPU. We have developed
+a new mixed precision approach for Krylov solvers using reliable updates which
+allows for full double precision accuracy while using only single or half
+precision arithmetic for the bulk of the computation. The resulting BiCGstab and
+CG solvers run in excess of 100 Gflops and, in terms of iterations until
+convergence, perform better than the usual defect-correction approach for mixed
+precision.
+
+============
+BACKGROUND
+============
+
+Solve linear problems with mixed precision. Here, the use of the Inverse Direct
+operator (large sparse matrix) to perform vector operations is the most
+computationally expensive part of the computation.
+
+Performance of single precision arithmetic is superior to that of double
+precision. CPUs (a factor of two) while on GPUs (order of magnitude).
+
+Using the "C for CUDA" programming language in order to use NVidia GPUs.
+
+Previous works:
+Defect-correction approaches, calculate the residual in double-precision, find
+the solution using single precision, accumulate the solution in double precision
+and repeat until convergence. Most operations are performed in single precision.
+The disadvantage is that the Krylov search space is discarded each time the
+solver is restarted.
+
+============
+SOLUTION
+============
+- Iterated residual is replaced periodically with the true residual calculated at
+high precision.
+- High-precision group-wise updates for the solution.
+- No explicit restart needed.
+
+Wilson-Dirac matrix-vector routines optimised.Krylov solver based upon those and
+created on the CUDA architecture. Minimising the memory bandwidth requirements,
+even at the expense of increasing the overall floating point operation count.
+
+Alternative mixed precision method using reliable updates.
+
+--> open-source QUDA library in order to do QCD calculations

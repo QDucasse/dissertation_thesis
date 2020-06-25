@@ -1,0 +1,30 @@
+language: generic
+before_install:
+- sudo apt-get install texlive-binaries
+install:
+- export PATH="$HOME/miniconda/bin:$PATH"
+- if ! command -v conda > /dev/null; then wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+  -O miniconda.sh; bash miniconda.sh -b -p $HOME/miniconda -u; conda config --add
+  channels conda-forge; conda config --set always_yes yes; conda install tectonic==0.1.11;
+  fi
+- conda install -c malramsay biber==2.11 --yes
+- conda info -a
+cache:
+  directories:
+  - "$HOME/miniconda"
+  - "$HOME/.cache/Tectonic"
+script:
+- cd ./research_report/
+- tectonic --keep-intermediates --reruns 0 ./research_report.tex
+- if [ -f "main.bcf" ]; then biber main; fi
+- tectonic ./research_report.tex --print
+- cd ../
+deploy:
+  provider: releases
+  api_key:
+    secure: 3RidsjDqtq7XLT1ulW29WSbkKaqXSEvxAu78b32gLWz/BBQvgybi9TC8WnqMUSCroPFx6fEarmsZcfuHInqRAnoUUiF++PmKOVFlkDNxysExjadg9oGF8sy2WTWgYag1fLDGZIrFRRpy+NjWOo0pwn0eZScnk0Lbs9eQkiv4LZrIDA30M1SlfHT0iKFrIbIaJCHh39GBIUBv5l6hoLU+gS/36+jQ9Y88RumQsgw1JEUmp0l0b+eeMYmmwua/Jj+q+z0jPqZutSxuT2PVOIJN0M5MRyXr7I/Sni8+84yr8N0Xd42jdAB7zosFJVh/+uEhGh7OFXRUPPuc9u8IpTA6PXX0qyBQVVZ+mtAK1sxLPZfucnJBbn/GgI3zvaSElNuCd9jZfVCl5GAOxfr9MG/CjCRHoYE5JFUsuUn94zbr8/05vkXWUQzZHuEG6TNU2/6urrGpVXWCZFcasXmPvae6knIfwkaxGQO3nNdyfOPcBOSr0s3aoPt3DUts0KBhJbKjja7K4FBBFB4F1QjWL9GMbfz0WNTtL4xina2zizfy1YyqQ34wFX45fvtO1WrwAButj7tagK+3cNVrPpP/vpXNmiRLWdSXg9Q+kTJbbMKFZMAryY98Mba1okScjoK4u4voQIc1cNmAWE4CCXgkbQoLbZPV2ep+iS5vzRchy8fIBaM=
+  file: ./research_report/research_report.pdf
+  skip_cleanup: true
+  on:
+    repo: QDucasse/msc_research_report
+    tags: true

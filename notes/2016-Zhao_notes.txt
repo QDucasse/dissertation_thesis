@@ -1,0 +1,36 @@
+============
+KEYWORDS
+============
+
+============
+ABSTRACT
+============
+This paper presents a novel reconfigurable framework for training Convolutional
+Neural Networks (CNNs). The proposed framework is based on reconfiguring a
+streaming datapath at runtime to cover the training cycle for the various layers
+in a CNN. The streaming datapath can support various parameterised modules which
+can be customised to produce implementations with different trade-offs in
+performance and resource usage. The modules follow the same input and output
+data layout, simplifying configuration scheduling. For different layers,
+instances of the modules contain different computation kernels in parallel,
+which can be customised with different layer configurations and data precision.
+The associated models on performance, resource and bandwidth can be used in
+deriving parameters for the datapath to guide the analysis of design trade-offs
+to meet application requirements or platform constraints. They enable estimation
+of the implementation specifications given different layer configurations, to
+maximise performance under the constraints on bandwidth and hardware resources.
+Experimental results indicate that the proposed module design targeting Maxeler
+technology can achieve a performance of 62.06 GFLOPS for 32-bit floating-point
+arithmetic, outperforming existing accelerators. Further evaluation based on
+training LeNet-5 shows that the proposed framework achieves about 4 times faster
+than CPU implementation of Caffe and about 7.5 times more energy efficient than
+the GPU implementation of Caffe.
+
+============
+BACKGROUND
+
+============
+
+============
+SOLUTION
+============

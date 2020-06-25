@@ -1,0 +1,37 @@
+============
+ABSTRACT
+============
+On modern architectures, the performance of 32-bit operations is often at least
+twice as fast as the performance of 64-bit operations. By using a combination of
+32-bit and 64-bit floating point arithmetic, the performance of many dense and
+sparse linear algebra algorithms can be significantly enhanced while maintaining
+the 64-bit accuracy of the resulting solution. The approach presented here can
+apply not only to conventional processors but also to other technologies such
+as Field Programmable Gate Arrays (FPGA), Graphical Processing Units (GPU), and
+the STI Cell BE processor. Results on modern processor architectures and the
+STI Cell BE are presented.
+
+============
+BACKGROUND
+============
+Performance of 32-bit operations is often at least twice as fast as the
+performance of 64-bit operations. Two reasons for this: arithmetic is twice as
+fast and the amount of bytes moved through the memory is halved. The 64-bit
+accuracy needs to be maintained throughout the computations in order to get the
+correct answer but also to be more stable (critical conditions -> 64).
+
+============
+SOLUTION
+============
+Mixed precision can be achieved by refining a single precision solution to a
+point where double precision is achieved. This refinement can be accomplished
+by means of the Newton's algorithm for example (x_n+1 = x_n - f(x_n)/f'(x_n)).
+If the refinement process is cheaper than the initial computation of the
+solution then double precision accuracy can be achieved nearly at the same speed
+as the single precision accuracy.
+
+============
+METHODS USED
+============
+-Direct methods:
+-Iterative methods:

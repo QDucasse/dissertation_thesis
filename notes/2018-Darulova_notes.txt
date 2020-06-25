@@ -1,0 +1,77 @@
+============
+KEYWORDS
+============
+Round-off error
+Rewriting
+Mixed-precision tuning
+Daisy
+
+============
+ABSTRACT
+============
+Finite-precision arithmetic, widely used in embedded systems for numerical
+calculations, faces an inherent tradeoff between accuracy and efficiency. The
+points in this tradeoff space are determined, among other factors, by different
+data types but also evaluation orders. To put it simply, the shorter a
+precision’s bit-length, the larger the roundoff error will be, but the faster
+the program will run. Similarly, the fewer arithmetic operations the program
+performs, the faster it will run; however, the effect on the roundoff error is
+less clear-cut. Manually optimising the efficiency of finite-precision programs
+while ensuring that results remain accurate enough is challenging. The
+unintuitive and discrete nature of finite-precision makes estimation of roundoff
+errors difficult; furthermore the space of possible data types and evaluation
+orders is prohibitively large. We present the first fully automated and sound
+technique and tool for optimising the performance of floating-point and
+fixed-point arithmetic kernels. Our technique combines rewriting and
+mixed-precision tuning. Rewriting searches through different evaluation orders
+to find one which minimises the roundoff error at no additional runtime cost.
+Mixed-precision tuning assigns different finite precisions to different
+variables and operations and thus provides finer-grained control than uniform
+precision. We show that when these two techniques are designed and applied
+together, they can provide higher performance improvements than each alone.
+
+============
+BACKGROUND
+============
+Finite-precision computations = tradeoff accuracy/efficiency due to roundoff
+errors.
+Magnitude of the errors depends on data type chosen (larger data type -> smaller
+errors but less performance).
+Finite-precision arithmetic is not associative or distributive -> minimising the
+amount of arithmetic operations may lead to a higher roundoff error.
+
+-MIXED PRECISION TUNING:
+Choose the smallest data type that provides enough accuracy.
+Too long to go through each variable exhaustively + cast operations can be
+expensive.
+
+Dynamic techniques to estimate roundoff errors (unsound)
+FPTuner tool soundly tune (user guidance needed)
+
+-REWRITING:
+Reduce the number of operations that need to be carried out (distributivity
+& associativity) -> These laws do not hold for finite-precision arithmetic.
+          |-> changing the order changes the magnitude
+
+Automated techniques exist but optimising for accuracy may increase the number
+of arithmetic operations (>execution time >energy consumption)
+
+
+============
+SOLUTION
+============
+Fully automated technique for optimisation of finite-precision arithmetic
+kernels. Tool sound because guaranteed to satisfy the specified roundoff bounds.
+The approach can handle both floating-point and fixed-point arithmetic kernels.
+The combination of mixed-precision tuning and rewriting should bring out the
+best possible performance.
+
+Rewriting procedure takes into account both accuracy and the number of
+arithmetic operations -> Reduce runtime + improve accuracy
+
+Unsound mixed-precision tuning algorithm + sound static error analysis + static
+performance cost function.
+
+-Optimisation procedure based on rewriting (accuracy + performance)
+-Mixed-precision tuning technique (sound + automated + efficient + scalable)
+-Combination (more performance)

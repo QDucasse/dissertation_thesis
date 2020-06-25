@@ -1,0 +1,61 @@
+============
+KEYWORDS
+============
+Monte Carlo simulation
+FPGA (Field-Programmable Gate Array) and GPP (General Purpose Processor)
+Asian option pricing
+GARCH volatility model
+Collateralised Mortgage Obligation
+Numerical integration
+
+============
+ABSTRACT
+============
+This paper introduces a novel mixed precision methodology applicable to any
+Monte Carlo (MC) simulation. It involves the use of data-paths with reduced
+precision, and the resulting errors are corrected by auxiliary sampling. An
+analytical model is developed for a reconfigurable accelerator system with a
+field-programmable gate array (FPGA) and a general purpose processor (GPP).
+Optimisation based on mixed integer geometric programming is employed for
+determining the optimal reduced precision and optimal resource allocation among
+the MC data-paths and correction data- paths. Experiments show that the proposed
+mixed precision methodology requires up to 11 % additional evaluations while
+less than 4 % of all the evaluations are computed in the reference precision;
+the resulting designs are up to 7.1 times faster and 3.1 times more energy
+efficient than baseline double precision FPGA designs, and up to 163 times
+faster and 170 times more energy efficient than quad-core software designs
+optimised with the Intel compiler and Math Kernel Library. Our methodology also
+produces designs for pricing Asian options which are 4.6 times faster and 5.5
+times more energy efficient than NVIDIA Tesla C2070 GPU implementations.
+
+============
+BACKGROUND
+============
+Monte-Carlo simulations are a class of algorithms based on randomisation which
+are extensively used in many high performance computing applications. Well
+suited to FPGA due to its parallel nature.
+
+Actual Monte-Carlo designs exploiting the better performance/lower accuracy
+trade-off are computed with a certain tolerance on precision. However, if
+very precise outputs are required, the data-paths with lower performance will
+have to be taken.
+
+============
+SOLUTION
+============
+
+Finite precision error handling is novel. Instead of keeping the output error
+within a certain tolerance, the data-path is initially constructed with a
+reduced precision. Then, a sampling process will use both the precision reference
+and the reduced precision to correct the error.
+
+This methodology can be split between different processors. A GPP in a host PC
+can be used for the sampling while the reduced computations were done on
+customised data-paths on the FPGA.
+
+The paper brings:
+- Error analysis that separates finite precision error and sampling errors
+- Techniques for partitioning workloads on different precisions for sampling
+to a reconfigurable accelerator (FPGA(s) + GPP(s))
+- Optimisation method based on analytical model for execution time, Mixed Integer
+Geometric Programming

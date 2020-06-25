@@ -1,0 +1,114 @@
+============
+KEYWORDS
+============
+Iterative refinement applied to FPGAs
+PDEs (Poisson) Conjugate Gradient Solver
+Float types are the point of study
+
+============
+ABSTRACT
+============
+FPGAs are becoming more and more attractive for high precision scientific
+computations. One of the main problems in efficient resource utilisation is the
+quadratically growing resource usage of multipliers depending on the operand
+size. Many research efforts have been devoted to the optimisation of individual
+arithmetic and linear algebra operations. In this paper we take a higher level
+approach and seek to reduce the intermediate computational precision on the
+algorithmic level by optimising the accuracy towards the final result of an
+algorithm. In our case this is the accurate solution of partial differential
+equations (PDEs). Using the Poisson Problem as a typical PDE example we show
+that most intermediate operations can be computed with floats or even smaller
+formats and only very few operations (e.g. 1%) must be performed in double
+precision to obtain the same accuracy as a full double precision solver. Thus
+the FPGA can be configured with many parallel float rather than few resource
+hungry double operations. To achieve this, we adapt the general concept of mixed
+precision iterative refinement methods to FPGAs and develop a fully pipelined
+version of the Conjugate Gradient solver. We combine this solver with different
+iterative refinement schemes and precision combinations to obtain resource
+efficient mappings of the pipelined algorithm core onto the FPGA.
+
+============
+BACKGROUND & PROBLEM
+============
+The size of FPGAs grows quickly and allows to implement many parallel arithmetic
+units even for large number formats (e.g. IEEE double standard). In order to
+implement arithmetic floating point operations on FPGAs, one important fact is
+that the area of a multiplier grows quadratically when the area of an adder
+grows linearly. Hardwired embedded multipliers manage the issue until some
+extent but it mostly shifts the issue.
+
+Micro-processors: Fixed width formats
+FPGA: Adaptable number format (tailored to the application)
+
+Some optimisations have already been studied:
+ALGORITHMIC
+-Trade-offs between latency and area
+-Fully parametrisable floating point libraries
+-Automatic optimisation of the operand size
+-Logarithmic number systems (easier * but harder +)
+
+LOGIC AND DATA PATH
+-Floating point FIR filters
+-Fast-Fourier transform
+-Custom floating point numbers on N-body simulation
+
+---> Structural level optimised by exchanging order and placement of operations
+---> Implementational level optimised by balancing the available resources against
+     area and time constraints
+
+============
+SOLUTION
+============
+Higher level of algorithmic optimisation
+--> Including semantic knowledge of the goal of the algorithm
+--> Exploiting theoritical and empirical knowledge of error propagation and
+    contribution to the final result
+
+
+============
+METHODS USED
+============
+Discrete solution to PDE (Partial Differential Equation)
+--> Conjugate Gradient Iterative solver
+  |--> Pipelined (better hardware implementation)
+     |--> Algorithmic precision optimisations (~ iterative refinement)
+
+============
+ITERATIVE REFINEMENT
+============
+Distinguish between types of iterations
+--> Computationally demanding low precision inner iteration loop  (1)
+    + Computationally simple high precision outer correction loop (2)
+
+(1) can be performed with low precision components on parallel
+(2) few small micro-processor
+
+Different solvers can be used (eg multigrid) in the two loops and this process
+is flexible (choose number of iterations in the inner loop)
+
+============
+BENCHMARK
+============
+
+Theoritical:
+------------
+Poisson PDE
+
+Iterative refinement
+l outer loop (runs while e > e_outer)
+k inner loop (runs while e > e_inner or k=k_max)
+
+Inner loop is used to gain a bit of accuracy at each iteration
+If this gain is made, the outer loop will translate it in a global accuracy
+
+Highly parallel inner loop
+
+FULL DETAILS CHAPTER 2.2 ITERATIVE REFINEMENT
+
+FULL DETAILS CG SOLVER (+PIPELINED VERSIONS --> allows implementation of mixed precision)
+  |--> RESIDUAL GUIDED PIPELINED CG (variation of cg pipelined + more frequent reinitialisation)
+
+
+Practical:
+----------
+Subclass of the half class (OpenEXR framework)

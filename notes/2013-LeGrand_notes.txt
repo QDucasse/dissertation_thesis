@@ -1,0 +1,50 @@
+============
+KEYWORDS
+============
+SPFP: Speed without compromise
+Molecular dynamics simulation on GPUs
+NVIDIA GPUs
+Generalised Born implicit/explicit solvent simulations e
+Particle mesh Ewald (PME)
+
+============
+ABSTRACT
+============
+A new precision model is proposed for the acceleration of all-atom classical
+molecular dynamics (MD) simulations on graphics processing units (GPUs). This
+precision model replaces double precision arithmetic with fixed point integer
+arithmetic for the accumulation of force components as compared to a previously
+introduced model that uses mixed single/double precision arithmetic. This
+significantly boosts performance on modern GPU hardware without sacrificing
+numerical accuracy. We present an implementation for NVIDIA GPUs of both
+generalised Born implicit solvent simulations as well as explicit solvent
+simulations using the particle mesh Ewald (PME) algorithm for long-range
+electrostatics using this precision model. Tests demonstrate both the
+performance of this implementation as well as its numerical stability for
+constant energy and constant temperature bio-molecular MD as compared to a
+double precision CPU implementation and double and mixed single/double precision
+GPU implementations.
+
+============
+BACKGROUND
+============
+Other paper presents AMBER: PMEMD engine that uses single/double precision (SPDP)
+arithmetic to achieve max performance --> single precision performance is better
+The model presented allowed to achieve better results if the architecture
+comparative performance (single/double) was no worse than 10 to 1.
+
+============
+SOLUTION
+============
+New precision model named SPFP: single precision + 64-bit fixed point integer
+arithmetic in place of double precision floating point arithmetic.
+
+Three precision models:
+-SPDP: real-space and non-bonded PME (single) / bonded and force accumulation (double)
+
+Cast of a 32-bit float to a 64-bit integer.
+
+Rapid atomic operations by using a combination of Q24.40 and Q34.30 fixed
+arithmetic for accumulation of forces and energies. Delivers an accuracy
+comparable to a SPDP model but with better performance. Memory footprint has
+been reduced (significantly in the case of implicit solvent GB).

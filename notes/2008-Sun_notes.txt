@@ -1,0 +1,79 @@
+============
+KEYWORDS
+============
+Floating point FPGAs operations
+Mixed-precision iterative refinement
+Mixed-precision linear solver design on FPGA
+Floating point types are the main focus
+Linear algebra
+
+============
+ABSTRACT
+============
+Compared to higher precision data formats, lower precision data formats result in
+higher performance for computationally intensive applications on FPGAs because
+of their lower resource cost, reduced memory bandwidth requirements, and higher
+circuit frequency. On the other hand, scientific computations usually demand
+highly accurate solutions. This paper seeks to utilise lower precision data
+formats whenever possible for higher performance without losing the accuracy of
+higher precision data formats by using mixed-precision algorithms and
+architectures. First, we analyse the floating-point performance of different
+data formats on FPGAs. Second, we introduce mixed-precision iterative
+refinement algorithms for linear solvers and give an error analysis. Finally,
+we propose an innovative architecture for a mixed-precision direct solver for
+reconfigurable computing. Our results show that our mixed-precision algorithm
+and architecture significantly improve the performance of linear solvers on
+FPGAs.
+
+============
+BACKGROUND & PROBLEM
+============
+Floating point performance is highly demanded when it comes to scientific
+computation. Floating point operators are now pipelined (through floating-point
+intellectual property, IP). Some operators are built from logic slices or
+embedded circuits to achieve better results
+
+Low accuracy performance is way better than the performance of high precision
+data formats BUT high accuracy is required for scientific computations.
+
+Linear algebra => intensive floating-point computational load and high
+                  communication-to-computation ratio
+|-> Bad performance
+However, reducing the precision by accommodating more floating-point operators,
+increasing the clock frequency and shortening the pipeline latency.
+As memory bandwidth is often a key factor, using lower precision arithmetic
+enables higher performance.
+
+============
+SOLUTION
+============
+
+Iterative refinement adapted to FPGA by:
+-implementing different precision floating-point IP cores on a single FPGA chip.
+  |-> Big enough capacity to accommodate parallel for multiple data formats
+-different precision arithmetic on different FPGAs or on both FPGAs and CPUs.
+
+Using a lower precision data format help increase the circuit frequency and
+reduce resource cost and bandwidth requirements
+|-> BUT might require more refinement iterations and may result in a failure to
+    converge
+
+Lower precision data formats -> resource cost is reduced
+          |-> more floating-point
+              operators can be implemented
+          |-> memory space reduced
+          |-> bus bandwidth reduced
+
+============
+METHODS USED
+============
+STEPS DETAILED 4.1
+LU decomposition (L triangular and U upper) with A=LU
+1: column normalisation
+2: submatrix modification
+3: 1+2 applied to the new submatrix
+
+Design for pivoting
+Details on Hybrid Direct
+
+ATLAS, optimised BLAS library
