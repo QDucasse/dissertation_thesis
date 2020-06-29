@@ -7,22 +7,24 @@
 - Abstract
 - Introduction (Motivation + Aims)
 - Literature Review & Background
-    - Background
+    - Background: On Number Representation
         - Number representation
         - Associated performance
+    - Background: On Machine Learning
+        - Machine Learning Bases
+        - Main Layers
+        - Development Frameworks
+    - Background: Hardware
+        - GPU
+        - FPGA
     - Mixed Precision
         - Motivations
         - Methods
-    - Applications
-        - Linear Algebra
-        - Simulations (Physics, Chemistry)
-        - Deep Learning
-    - Hardware
-        - GPU
-        - FPGA
+        - Application to Deep Learning
     - CNNs on FPGAs
         - Parallelisation Vectors
         - Inference Optimisations
+        - Existing Frameworks
 - Requirement Analysis
     - Aims and Objectives
     - Requirements
@@ -80,9 +82,9 @@
 
 
 ## Planning
-`Mon 29/06` Litterature Review - Background  
-`Wed 01/07` Litterature Review - Applications / Mixed Precision  
-`Fri 03/07` Litterature Review - Deployment on FPGAs  
+`Mon 29/06` Litterature Review - Background Number Representation / Background Machine Learning 
+`Wed 01/07` Litterature Review - Background Hardware / Mixed Precision  
+`Fri 03/07` Litterature Review - CNNs on FPGAs
 `Mon 06/07` Requirement Analysis  
 `Wed 08/07` Implementation - Frame / Method  
 `Fri 10/07` Implementation - Setup  
