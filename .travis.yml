@@ -14,17 +14,17 @@ cache:
   - "$HOME/miniconda"
   - "$HOME/.cache/Tectonic"
 script:
-- cd ./research_report/
-- tectonic --keep-intermediates --reruns 0 ./research_report.tex
+- cd ./dissertation_thesis/
+- tectonic --keep-intermediates --reruns 0 ./dissertation_thesis.tex
 - if [ -f "main.bcf" ]; then biber main; fi
-- tectonic ./research_report.tex --print
+- tectonic ./dissertation_thesis.tex --print
 - cd ../
 deploy:
   provider: releases
   api_key:
     secure: 3RidsjDqtq7XLT1ulW29WSbkKaqXSEvxAu78b32gLWz/BBQvgybi9TC8WnqMUSCroPFx6fEarmsZcfuHInqRAnoUUiF++PmKOVFlkDNxysExjadg9oGF8sy2WTWgYag1fLDGZIrFRRpy+NjWOo0pwn0eZScnk0Lbs9eQkiv4LZrIDA30M1SlfHT0iKFrIbIaJCHh39GBIUBv5l6hoLU+gS/36+jQ9Y88RumQsgw1JEUmp0l0b+eeMYmmwua/Jj+q+z0jPqZutSxuT2PVOIJN0M5MRyXr7I/Sni8+84yr8N0Xd42jdAB7zosFJVh/+uEhGh7OFXRUPPuc9u8IpTA6PXX0qyBQVVZ+mtAK1sxLPZfucnJBbn/GgI3zvaSElNuCd9jZfVCl5GAOxfr9MG/CjCRHoYE5JFUsuUn94zbr8/05vkXWUQzZHuEG6TNU2/6urrGpVXWCZFcasXmPvae6knIfwkaxGQO3nNdyfOPcBOSr0s3aoPt3DUts0KBhJbKjja7K4FBBFB4F1QjWL9GMbfz0WNTtL4xina2zizfy1YyqQ34wFX45fvtO1WrwAButj7tagK+3cNVrPpP/vpXNmiRLWdSXg9Q+kTJbbMKFZMAryY98Mba1okScjoK4u4voQIc1cNmAWE4CCXgkbQoLbZPV2ep+iS5vzRchy8fIBaM=
-  file: ./research_report/research_report.pdf
+  file: ./dissertation_thesis/dissertation_thesis.pdf
   skip_cleanup: true
   on:
-    repo: QDucasse/msc_research_report
+    repo: QDucasse/dissertation_thesis
     tags: true
