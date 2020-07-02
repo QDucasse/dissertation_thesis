@@ -10,7 +10,7 @@
 ## make clean_all:
 ##     remove EVERYTHING
 # Variables
-FILENAME=research_report
+FILENAME=dissertation_thesis
 
 help:
 	@grep -e "^##" Makefile;

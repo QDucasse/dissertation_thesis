@@ -17,13 +17,15 @@
     - Background: Hardware
         - GPU
         - FPGA
-    - Mixed Precision
+    - Literature Review: Mixed Precision
         - Motivations
         - Methods
-        - Application to Deep Learning
-    - CNNs on FPGAs
-        - Parallelisation Vectors
-        - Inference Optimisations
+    - Literature Review: Quantised Networks
+        - Mixed Precision Vectors
+        - Quantisation Methods
+    - Literature Review: CNNs on FPGAs
+        - Training on an FPGA
+        - Inference on an FPGA
         - Existing Frameworks
 - Requirement Analysis
     - Aims and Objectives
@@ -38,26 +40,26 @@
     - Frame
       - Motivations
       - About Perspective
-    - Methodology <== To change
-      - Notation
+    - Workflow
+      - Brevitas
+      - ONNX
+      - FINN
+      - Benchmark extension
+    - Methodology and Setup
+      - Experiments
       - Training
       - Deployment
-    - Setup       <== To change
-      - Network
-      - Dataset
-      - Training framework
-      - Deployment framework
 - Results
-    - Results tables
     - Results graphs
+    - Results tables
 - Discussion
-    - Network Architecture
+    - Network Architectures
     - Dataset
     - Training Process
     - Deployment Process
     - Weight and Activation Bitwidths
 - Evaluation & Future Work
-    - Evaluation (in accordance with Evaluation Methodology)
+    - Evaluation 
     - Limits of the study
     - Future Work
 - Conclusion
@@ -82,7 +84,7 @@
 
 
 ## Planning
-`Mon 29/06` Litterature Review - Background Number Representation / Background Machine Learning 
+`Mon 29/06` Litterature Review - Background Number Representation / Background Machine Learning
 `Wed 01/07` Litterature Review - Background Hardware / Mixed Precision  
 `Fri 03/07` Litterature Review - CNNs on FPGAs
 `Mon 06/07` Requirement Analysis  
