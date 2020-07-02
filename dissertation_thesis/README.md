@@ -6,7 +6,7 @@
 ## Report plan
 - Abstract
 - Introduction (Motivation + Aims)
-- Literature Review & Background
+-  Background
     - Background: On Number Representation
         - Number representation
         - Associated performance
@@ -17,6 +17,7 @@
     - Background: Hardware
         - GPU
         - FPGA
+- Literature Review
     - Literature Review: Mixed Precision
         - Motivations
         - Methods
@@ -42,7 +43,7 @@
       - About Perspective
     - Workflow
       - Brevitas
-      - ONNX
+      - ONNX (notion d'interchange)
       - FINN
       - Benchmark extension
     - Methodology and Setup
@@ -59,7 +60,7 @@
     - Deployment Process
     - Weight and Activation Bitwidths
 - Evaluation & Future Work
-    - Evaluation 
+    - Evaluation
     - Limits of the study
     - Future Work
 - Conclusion

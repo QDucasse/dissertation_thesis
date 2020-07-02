@@ -5,7 +5,7 @@
 \lhead{Chapter 2. \emph{Literature Review}}
 
 %----------------------------------------------------------------------------------------
-%	SECTION 1 - Background - Number representation
+%	SECTION 2.1 - Background - Number representation
 %----------------------------------------------------------------------------------------
 
 \section{Background: On Number Representation}
@@ -13,14 +13,14 @@
 The question of the representation of numbers as we, humans, use them in a world of electronics has been central in the creation of computers and their associated arithmetics. Several problems are contained in the simple question of: How to translate our arithmetic and number operations in a piece of hardware?
 
 %-----------------------------------
-%	SUBSECTION 1 - Number Representation
+%	SUBSECTION 2.1.1 - Number Representation
 %-----------------------------------
 \subsection{Number Representation}
 
 The first thing to note is that electronics can represent two states, a presence or absence of an electric impulsion. The states of \guille{on} and \guille{off} is embedded in transistors that can represent both. The transistor is the hardware representant of this duality while a bit is its software counter-part. This is the underlying reason why computers, even the first fully electronical computer ENIAC (\emph{Electronical Numerical Integrator and Computer}), use a binary system. If this system is handy to translate our base 10 arithmetic and simple numbers such as integers, it is harder to translate more complex numbers such as reals and floating point operations. The meaning of an N-bit binary word is entirely dependent of the interpretation we choose to use. This interpretation consists of both a representation (the type of the object the memory represents) and its associated mapping. Common number representations consists of unsigned integers, signed integers (using two's complement), floating point reals as well as fixed-point reals.
 
 %-----------------------------------
-%	SUBSUBSECTION 1 - Integer Representation
+%	SUBSUBSECTION 2.1.1.1 - Integer Representation
 %-----------------------------------
 \subsubsection{Integer Representation}
 
@@ -29,7 +29,7 @@ The representation of integers and especially unsigned integers is straightforwa
 Now, if we want to represent a signed integer, we have to use a method called the \emph{two's complement} in order to bring the sign in. This method keeps the basic behaviour of the addition to work on numbers be they positive or negative. The method consists in changing the value of all the bits of a given number then adding one to the result. The representation of -4576 when doing the computation with 13 bits (1 sign bit and 12 mantissa bits) consists of:
 
 \begin{align}
-(01000111100000)^\mathit{two's complement} &= (01000111100000)^\mathit{one's complement} + 1
+(01000111100000)^\text{two's complement} &= (01000111100000)^\text{one's complement} + 1
                                            &= 10111000011111 + 1
                                            &= 10111000100000
 \end{align}
@@ -46,7 +46,7 @@ The result for 32 and 64 bits can be seen on \emph{Figure} \ref{IntegerRepr}.
 Those two representations allow a complete mapping of integers up to a certain range: signed 32-bit integers can represent base 10 numbers between -2,147,483,648 and 2,147,483,647 while unsigned integers can represent base 10 numbers between 0 and 4,294,967,295.
 
 %-----------------------------------
-%	SUBSUBSECTION 2 - Floating-Point Representation
+%	SUBSUBSECTION 2.1.1.2 - Floating-Point Representation
 %-----------------------------------
 \subsubsection{Floating-Point Representation}
 
@@ -98,7 +98,7 @@ Referring to double precision floating-point representation means looking at 64-
 Along these representations, IEEE-754 introduces representations of special numbers. Positive and negative infinities are encoded with all 1s exponents and a fraction equal to zero. Zero is encoded with an all-0s exponent and fraction. Moreover, it adds methods to round floating-point numbers to positive or negative infinity, zero or to the nearest value.
 
 %-----------------------------------
-%	SUBSUBSECTION 3 - Fixed-Point Representation
+%	SUBSUBSECTION 2.1.1.3 - Fixed-Point Representation
 %-----------------------------------
 \subsubsection{Fixed-Point Representation}
 
@@ -123,7 +123,7 @@ As shown in \emph{Figure} \ref{fig:FixedPoint}, several representations can depi
 Along with this new representation comes a whole new arithmetic. While this format can help tailor your needs in terms of variable types, it comes with an additional cost. The operations performed in this arithmetic are non-trivial as addition and multiplication are not associative and distributive anymore. This means the order of the operations will have an impact on the final result. Moreover, the round-off error underlying this representation is often non-trivial to grasp. However, those operations are low demanding in terms of computing power.
 
 %-----------------------------------
-%	SUBSECTION 2 - Performance Benchmarks
+%	SUBSECTION 2.1.2 - Performance Benchmarks
 %-----------------------------------
 \subsection{Metrics \& Performance benchmarks}
 
@@ -164,7 +164,7 @@ The authors show the example of an FIR filter implementation in fixed-point repr
 In conclusion, customising type in an environment where costs are translated in terms of energy consumption, memory or bandwidth usage, will always come out as an improvement. This redirects the issue to a need to guarantee little to no loss in accuracy.
 
 %----------------------------------------------------------------------------------------
-%	SECTION 2 - Background - Machine Learning
+%	SECTION 2.2 - Background - Machine Learning
 %----------------------------------------------------------------------------------------
 
 \section{Background: On Machine Learning}
@@ -172,12 +172,12 @@ In conclusion, customising type in an environment where costs are translated in 
 Machine Learning is one of the most promising asset of the recent years since it has proven to be reliable when tackling complex issues. Those tasks can either be recognizing a street sign, a disease in a radiography or classifying a piece of text under a sentiment. Text-to-speech, speech-to-text, image classification, object detection, etc. Those are all thedomains machine learning is suited for. This section will provide insight on the basic functions machine learning uses, present neural network architectures and development frameworks.
 
 %-----------------------------------------------
-%	SUBSECTION 1 - Neurons and Neural Networks
+%	SUBSECTION 2.2.1 - Neurons and Neural Networks
 %-----------------------------------------------
 
 \subsection{Neural Networks}
 
- Karpathy et al. \cite{Karpathy2015} present the different structures in their lecture materials. The apparition of neural networks in machine learning comes from the analogy with the human brain and the way neurons work and communicate between each other. The analogy can be seen on \emph{Figure} \ref{fig:Neuron}.
+ Machine learning has been extended to the use of neural networks. Karpathy et al. \cite{Karpathy2015} present the different structures in their lecture materials. The apparition of neural networks in machine learning comes from the analogy with the human brain and the way neurons work and communicate between each other. The analogy can be seen on \emph{Figure} \ref{fig:Neuron}.
 
 % NEURON PRESENTATION
 \begin{figure}[htbp]
@@ -227,7 +227,7 @@ Several layers are used and allow to perform different operations on images. The
 Layers take as input a set of data, known as a \emph{Feature Map} and output a new set of feature maps with higher-level semantics. Those layers then compose a CNN architecture and can be trained on a bank of images to adjust the different bias and weights for each layers and their corresponding neurons. Finally, once the network is trained, it can deduce the class of a given image. Those two steps are called \emph{Training} and \emph{Inference}, the training will work on a set of annotated data samples to create a model \guille{which semantics extrapolate outside the training set, [with a] \emph{modelling power}} \cite{Abdelouahab2018}. Once this step is completed, the \emph{Inference} phase can start and the network will have to classify new data instances. The training phase is extremely consuming in terms of time, energy and hardware resources. However, it only needs to be performed once. On the other hand, the inference has to be run each time a new instance is provided to the system. Therefore, if literature focus on accelerating both phases, an emphasis is put on inference as it will be needed to embark trained networks in lighter architectures.
 
 %-------------------------------------------------
-%	SUBSECTION 2 - Architectures for Classification
+%	SUBSECTION 2.2.2 - Architectures for Classification
 %-------------------------------------------------
 
 \subsection{Architectures for Classification}
@@ -238,26 +238,124 @@ While there exists a wide range of applications for neural networks and machine 
   \item \emph{Classification}: This phase consists of flattening the output of the first phase and running it through several linear layers with varying number of neurons. The final linear layer will always have a number of neurons equal to the number of classes in the classification challenge.
 \end{itemize}
 
+Le Cun et al. \cite{LeCun1998} architecture chose to tackle the two phases by designing a neural network architecture called \emph{LeNet}. This architecture represents the feature extraction phase by using a succession of two $5 \times 5$ convolutions and $2 \times 2$ average pooling layers. Then, three linear layers (fully connected) perform the classification. Their respective size are 120, 84 and 10 (the number of classes in MNIST \cite{LeCun2010} case which it was designed for). The activation function used is hyperbolic tangent. This whole architecture is displayed on \emph{Figure} \ref{LeNet-5} representing the version \emph{LeNet-5}.
+
+% LeNet-5 PRESENTATION
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=8cm]{Figures/LeNet-5.png}
+	\caption[LeNet-5]{Architecture of LeNet-5 as taken from \cite{LeCun1998}}
+	\label{fig:LeNet-5}
+\end{figure}
+
+Krizhevsky et al. present \emph{AlexNet} \cite{Krizhevsky2012} in 2012, 14 years later, as the succesor of \emph{LeNet}. \emph{AlexNet} consists of deeper and wider version of \emph{LeNet}. There are now five convolution layers (of respective filter size $11 \times 11$, $5 \times 5$ and $3 \times 3$ for the remaining). Maximum pooling is used instead of average and it is the first time the ReLU function is used as an activation function ($max(0,x)$ as a reminder). The three final layers are now sized as 4096, 4096 and 1000 (the number of classes of the ImageNet \cite{ImageNet2009} dataset). This whole architecture is displayed on \emph{Figure} \ref{AlexNet}.
+
+% AlexNet PRESENTATION
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=8cm]{Figures/AlexNet.png}
+	\caption[AlexNet]{Architecture of AlexNet as taken from \cite{Krizhevsky2012}}
+	\label{fig:AlexNet}
+\end{figure}
 
 
-VGGNet
+Using the same idea that Krizhevsky et al. \cite{Krizhevsky2012} had in mind when designing \emph{AlexNet} in 2014, Simonyan et al. took it a step further when designing \emph{VGGNet} \cite{Simonyan2014}. The VGG net comes with different versions (11, 13, 16 and 19) corresponding to the number of convolutions and fully-connected layers. Using only $3 \times 3$ convolution filters and the same size of linear layers, VGG-16 performed very well on ImageNet \cite{ImageNet2009}. Its architecture is displayed on \emph{Figure} \ref{VGG-16}. One of the downside of this very-deep neural network is that it holds an enormous amount of parameters taking memory space. VGG-16 for example takes about 500MB of memory.
 
-AlexNet
+% VGG-16 PRESENTATION
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=8cm]{Figures/VGG-16.png}
+	\caption[VGG-16]{Architecture of VGG-16 as taken from \cite{Simonyan2014}}
+	\label{fig:VGG-16}
+\end{figure}
 
-MobileNet
+From now on, extending the layer size and network depth does not seem to give better results. Reknowned companies are now enrolling in the battle to the best accuracy on the ImageNet dataset \cite{ImageNet2009} and Microsoft presents its \emph{ResNet} \cite{He2015} in the 2015 competition. \emph{ResNet} uses a method to add a way to skip some connections. During the training of a network, all weights receive an update proportional to the gradient. If this gradient is very small, the change in weight can be minimal and the network can stop its training. Microsoft Research used those skipping connections to conserve the signal and mitigate data loss. In other words, \emph{ResNet} breaks a deep neural network into smaller networks connected through skip or shortcut connections. Its architecture is displayed on \emph{Figure} \ref{ResNet-50}.
 
-ResNet
+% % ResNet-50 PRESENTATION
+% \begin{figure}[htbp]
+% 	\centering
+% 		\includegraphics[width=8cm]{Figures/ResNet-50.png}
+% 	\caption[ResNet-50]{Architecture of ResNet-50 as taken from \cite{He2015}}
+% 	\label{fig:ResNet-50}
+% \end{figure}
+
+MobileNet \cite{Howard2017}
+
+% % MobileNet PRESENTATION
+% \begin{figure}[htbp]
+% 	\centering
+% 		\includegraphics[width=8cm]{Figures/MobileNet.png}
+% 	\caption[MobileNet]{Architecture of MobileNet as taken from \cite{He2015}}
+% 	\label{fig:MobileNet}
+% \end{figure}
+
+
+% Table simplifying the different networks -> number of parameters, year, methodology, etc.
 
 These architectures are well-known and are still getting better with version iterations and the discovery of new techniques (batch normalisation, depth-wise convolution, residuals, etc.). On the other side, datasets have evolved to present each time a new and harder challenge for different architectures to perform on. Well-known datasets consist of the following:
-MNIST
-CIFAR-10
-CIFAR-100
-SVHN
-GTSRB
-Imagenet
+\begin{itemize}
+  \item MNIST is the historical dataset, considered as the machine learning version of a classic \guille{\emph{hello world}}. It was implemented along with the \emph{LeNet} architecture and has been the default first dataset to train a network architecture on ever since. Several extensions to this dataset have been created since the dataset is juged to be \guille{too easy} to be a challenge to modern neuron architectures. Very simple CNN can achieve less than 3\% error on this dataset. Several drop-in replacements have been developed such as \emph{Fashion-MNIST} \cite{Xiao2017} - set up by Zalando with simple images of garnments -, \emph{Kuzushiji-MNIST} \cite{Clanuwat2018} - three versions on the recognition of Japanese characters - or even \emph{MNIST-MIX} \cite{Jiang2020} - a mix of handwritten digits from different languages -. All the instances of the MNIST dataset and its variations are images with only one channel (grey levels) and sized 28 pixels by 28 pixels. Those images are labelled in 10 different classes (digits from 0 to 9).
+
+  % % MNIST PRESENTATION
+  % \begin{figure}[htbp]
+  % 	\centering
+  % 		\includegraphics[width=8cm]{Figures/NN.png}
+  % 	\caption[MNIST]{Instances extracted from the MNIST dataset}
+  % 	\label{fig:MNIST}
+  % \end{figure}
+
+  \item CIFAR-10 and CIFAR-100
+
+  % % CIFAR-10 PRESENTATION
+  % \begin{figure}[htbp]
+  % 	\centering
+  % 		\includegraphics[width=8cm]{Figures/CIFAR-10.png}
+  % 	\caption[CIFAR-10]{Instances extracted from the CIFAR-10 dataset}
+  % 	\label{fig:CIFAR-10}
+  % \end{figure}
+
+  % % CIFAR-100 PRESENTATION
+  % \begin{figure}[htbp]
+  % 	\centering
+  % 		\includegraphics[width=8cm]{Figures/CIFAR-100.png}
+  % 	\caption[CIFAR-100]{Instances extracted from the CIFAR-100 dataset}
+  % 	\label{fig:CIFAR-100}
+  % \end{figure}
+
+  \item SVHN and GTSRB
+
+  % % SVHN PRESENTATION
+  % \begin{figure}[htbp]
+  % 	\centering
+  % 		\includegraphics[width=8cm]{Figures/SVHN.png}
+  % 	\caption[SVHN]{Instances extracted from the SVHN dataset}
+  % 	\label{fig:SVHN}
+  % \end{figure}
+
+  % % GTSRB PRESENTATION
+  % \begin{figure}[htbp]
+  % 	\centering
+  % 		\includegraphics[width=8cm]{Figures/GTSRB.png}
+  % 	\caption[GTSRB]{Instances extracted from the GTSRB dataset}
+  % 	\label{fig:GTSRB}
+  % \end{figure}
+
+  \item ImageNet
+
+  % % IMAGENET PRESENTATION
+  % \begin{figure}[htbp]
+  % 	\centering
+  % 		\includegraphics[width=8cm]{Figures/ImageNet.png}
+  % 	\caption[ImageNet]{Instances extracted from the ImageNet dataset}
+  % 	\label{fig:ImageNet}
+  % \end{figure}
+
+\end{itemize}
+
+% TODO: INCLUDE Table simplifying the different datasets
 
 %-------------------------------------------------
-%	SUBSECTION 3 - Main Development Frameworks
+%	SUBSECTION 2.2.3 - Main Development Frameworks
 %-------------------------------------------------
 
 \subsection{Main Development Frameworks}
@@ -267,8 +365,10 @@ Caffe
 Torch
 Theano
 
+% TODO: INCLUDE Table comparing the different development frameworks
+
 %----------------------------------------------------------------------------------------
-%	SECTION 3 - Background Hardware Architecture
+%	SECTION 2.3 - Background Hardware Architecture
 %----------------------------------------------------------------------------------------
 
 \section{Background: On Hardware Architecture}
@@ -276,7 +376,7 @@ Theano
 Moore's law \cite{Moore2006} predicted the evolution of hardware capacities in years to come when defined in 1965. It is an empirical relationship and in no means a physical or natural law but has shown to be exact for the thirty years following its creation. The Moore's law, when announced in 1965 said that \guille{the number of components per integrated circuit would double every year}. This law held for a decade and was then revised to \guille{doubling every two years} for the next decade. This law has been an industry guideline and helped produce long term business plans. However, the law is slowly coming to an end and has been shown to not fulfill the prophecy anymore due to physical limitations such as thermal restrictions. New architectures will have to take the lead as more computational power is still needed for the years to come. What are the new ways and architectures to increase performance even more?
 
 %-----------------------------------
-%	SUBSECTION 1 - GPU
+%	SUBSECTION 2.3.1 - GPU
 %-----------------------------------
 
 \subsection{GPU}
@@ -287,10 +387,12 @@ Along with GPUs come their proper Software Development Kit (SDK) in order for de
 
 GPUs allow computers to delegate expensive tasks (3D rendering for example) from the CPU to them. The GPUs can be either integrated or external. They require less knowledge than FPGAs but provide a more static architecture that will limit tuning opportunities. Mixed-precision mindset will not reach its full potential with this architecture but will still manage to increase the performance of different operations and tasks.
 
+% TODO: Include the different physics application and simulation here along with the hardware they are using
+
 Previous cited works have used CPUs, in mathematical computations and physics simulations \cite{Goddeke2007, Baboulin2009, Clark2010, LeGrand2013, Haidar2018, Ichimura2018} or deep learning \cite{Goddeke2007, Baboulin2009, Micikevicius2017, Jia2018, Ichimura2018}.
 
 %-----------------------------------
-%	SUBSECTION 2 - FPGA
+%	SUBSECTION 2.3.2 - FPGA
 %-----------------------------------
 
 \subsection{FPGA}
@@ -319,7 +421,7 @@ One downside of FPGAs is the need for intrinsic knowledge of a Hardware Descript
 
 
 %----------------------------------------------------------------------------------------
-%	SECTION 3 - Mixed Precision
+%	SECTION 2.4 - Mixed Precision
 %----------------------------------------------------------------------------------------
 
 \section{Mixed Precision}
@@ -327,7 +429,7 @@ One downside of FPGAs is the need for intrinsic knowledge of a Hardware Descript
 The first section explained in details the different existing number representations. With a particular emphasis on the representation of floating-point number, it has shown what the underlying issues of such representations are. The question now is how can we use to our advantage the different types along with their strengths and weaknesses?
 
 %-----------------------------------
-%	SUBSECTION 1 - Motivations
+%	SUBSECTION 2.4.1 - Motivations
 %-----------------------------------
 \subsection{Motivations}
 
@@ -352,15 +454,16 @@ Mixed precision methods consist of doing a large part of the computation in low-
 \end{itemize}
 
 %-----------------------------------
-%	SUBSECTION 2 - Methods and Implementations
+%	SUBSECTION 2.4.2 - Methods and Implementations
 %-----------------------------------
 
 \subsection{Methods and Implementations}
 Several methods to actually implement a mixed precision algorithm have been developed starting 60 years ago. If the methods are different in practice, the theory behind them is the same as they aim to delegate most of the work to low-precision components while only using high-precision to recover the desired accuracy for the computation.
 
 %-----------------------------------
-%	SUBSUBSECTION 1 - Iterative Refinement
+%	SUBSUBSECTION 2.4.2.1 - Iterative Refinement
 %-----------------------------------
+
 \subsubsection{Iterative Refinement}
 
 Since the early 1960's, literature has studied the effects and ways to implement mixed precision. The first reported works to implement such methods are James H. Wilkinson \cite{Wilkinson1994} and Cleve Moler \cite{Moler1967}. The method presented by both is named \guille{iterative refinement} and uses a combination of accumulative inner products along with a linear solver. This solution is directed towards the resolution of a system in the form of $Ax=b$ for a quadratic $N*N$ matrix $A$. The main idea is to use a residual between the wanted result and the result obtained by the last iteration. This residual is computed using high precision and accumulated using high-precision as well while the resolution of the equation is done in low-precision.
@@ -379,6 +482,10 @@ Since the early 1960's, literature has studied the effects and ways to implement
 \end{figure}
 
 This method has later been reused and extended. Baboulin et al. \cite{Baboulin2009} combine single- and double-precision floating-point numbers to enhance the performance of \guille{dense and sparse linear algebra algorithms}. Strzodka et al. \cite{Strzodka2006} present an enhanced algorithm to resolve a partial differential equation (Poisson problem) to present the effects of a mixed-precision approach. Sun et al. \cite{Sun2008} reproduce a linear solver in mixed-precision but adds an error analysis. The last two articles implement the result of their research on a reprogrammable architecture. Several applications profit directly from these papers and their implementations of mixed-precision algorithms as seen in later sections.
+
+%-----------------------------------
+%	SUBSUBSECTION 2.4.2.2 - Iterative Refinement
+%-----------------------------------
 
 \subsubsection{Analysis and Rewriting}
 
@@ -460,15 +567,15 @@ int main( int argc, char **argv) {
 \end{figure}
 
 %---------------------------------------------------------
-%	SECTION 4 - Quantised Networks and Quantisation Methods
+%	SECTION 2.5 - Quantised Networks and Quantisation Methods
 %---------------------------------------------------------
 \section{Quantised Networks}
 
-Machine learning can also benefit from mixed-precision since it is heavily relying on matrix operations. In the recent years, machine learning, and especially deep learning, are benefitting from the research in mixed-precision. There is a clear emphasis on either speeding up the training process or making the inference quicker. In this section we will be looking at neural networks using reduced precision. These types of networks are called \emph{Quantised Neural Networks} or \emph{QNN}. 
+Machine learning can also benefit from mixed-precision since it is heavily relying on matrix operations. In the recent years, machine learning, and especially deep learning, are benefitting from the research in mixed-precision. There is a clear emphasis on either speeding up the training process or making the inference quicker. In this section we will be looking at neural networks using reduced precision. These types of networks are called \emph{Quantised Neural Networks} or \emph{QNN}.
 
-%-----------------------------------
-%	SUBSECTION 1 - Introducing Mixed Precision
-%-----------------------------------
+%------------------------------------------------
+%	SUBSECTION 2.5.1 - Introducing Mixed Precision
+%------------------------------------------------
 
 \subsection{Introducing Mixed Precision}
 
@@ -497,14 +604,14 @@ Jahanshahi et al. \cite{Jahanshahi2019} propose a CNN accelerator tool. It gener
 Kurth et al. \cite{Kurth2018} presents a direct application of mixed-precision training on GPUs to help climate analysis. The authors expand open-source tools such as Tensorflow and Horovod in order to present their work. They managed to optimise the network's training to increase the overall efficiency and performance. The predictions the network is able to make are shown to be of an unmet precision and will help characterise the impact of several physical events (flooding, monetary loss, etc.).
 
 %-------------------------------------
-%	SUBSECTION 2 - Quantisation Methods
+%	SUBSECTION 2.5.2 - Quantisation Methods
 %-------------------------------------
 
 \subsection{Quantisation Methods}
 
 
 %-----------------------------------
-%	SECTION 5 - CNNs on FPGAs
+%	SECTION 2.6 - CNNs on FPGAs
 %-----------------------------------
 
 \section{CNNs on FPGAs}
@@ -513,6 +620,10 @@ Due to their heavy parallel affinity, CNNs can benefit from both GPUs \cite{Mici
 However, CNNs as stated in \cite{Jahanshahi2019}, "CNN-based methods are computational-intensive and resource-consuming, and thus are hard to be integrated into embedded systems such as smartphones, smart glasses and robots". FPGAs can counterbalance this issue by providing a tailored hardware representation of the CNN and making the most our of limited precision datatypes.
 
 \cite{Zhao2016, Colangelo2018, Jahanshahi2019} presented frameworks for CNNs automatic or semi-automatic hardware implementations on FPGAs. Abdelouahab et al. \cite{Abdelouahab2018} present the issues FPGAs face and resolve in a survey paper. While this paper cites over a hundred sources, the following sections focuses on the main ideas it highlights.
+
+%--------------------------------------------
+%	SUBSECTION 2.6.1 - Parallelisation Vectors
+%--------------------------------------------
 
 \subsection{Parallelisation Vectors}
 
@@ -529,6 +640,10 @@ Batch size is an important parameter when looking at networks, it corresponds to
 A CNN can simultaneously run the filters of the network on the instances of the same batch and obtain a significant acceleration when using batch processing. On the other hand, the structure of the network can be described as \guille{feed-forward}, meaning the output of layer $n$ is directly fed into layer $n+1$. A pipelined implementation can trigger the layer $n+1$ before the end of layer $n$ on selected instances.
 
 The layers CONV are source of concurrency that can be exploited through the separation of the different planes the CONV layer uses (inter-FM), or the separation of the outputs of the layer (intra-FM). Moreover, the 3D-convolution can be expressed as a sum of 2D-convolutions that can be executed in parallel (inter-convolution) and the 2D-convolutions themselves can be pipelined concurrently (intra-convolution).
+
+%---------------------------------------------------------
+%	SUBSECTION 2.6.2 - Training and Inference Optimisations
+%---------------------------------------------------------
 
 \subsection{Training and Inference Optimisations}
 
@@ -554,9 +669,13 @@ The main strategies are:
 
 Several solutions found in the literature present combination of three strategies to perform best on a given architecture. These works present several ways to tune a CNN to perform best. When looking globally, re-centring to mixed-precision we can see that, as concluded in \cite{Abdelouahab2018}, \guille{CNNs are by nature over-parameterised and support particularly well approximate tuning techniques such as weight pruning and fixed-point computation}.
 
-Quantisation or the use of reduced precision applied to network parameters has been the focus of the literature in the last years. Hubara et al. \cite{Hubara2016} present a way to train a quantised neural network with extremely low precision parameters. The Quantised Neural Networks (QNNs) they train achieve comparable prediction accuracy on well-known datasets such as: MNIST (hand-written digits) \cite{Lecun2010}, CIFAR-10 (tiny images in 10 distinct classes of animals or vehicles) \cite{Krizhevsky2012}, SVHN \cite{Netzer2011} and ImageNet \cite{ImageNet2009}.
+Quantisation or the use of reduced precision applied to network parameters has been the focus of the literature in the last years. Hubara et al. \cite{Hubara2016} present a way to train a quantised neural network with extremely low precision parameters. The Quantised Neural Networks (QNNs) they train achieve comparable prediction accuracy on well-known datasets such as: MNIST (hand-written digits) \cite{LeCun2010}, CIFAR-10 (tiny images in 10 distinct classes of animals or vehicles) \cite{Krizhevsky2012}, SVHN \cite{Netzer2011} and ImageNet \cite{ImageNet2009}.
 
 An even more agressive vision of quantisation is the use of binary parameters (either +1 or -1). Courbariaux et al. \cite{Courbariaux2016} implemented this type of Binarised Neural Network (BNN) and manage to keep the prediction accuracy for the same above datasets. Both implementations were conducted on GPUs but their FPGA counterpart have been developed later on. Liang et al. \cite{Liang2017} present a BNN implemented on an FPGA and the benchmarked results show an improvement in speed and energy efficiency over other computing platforms.
+
+%--------------------------------------------------------
+%	SUBSECTION 2.6.3 - FGPA Frameworks & Compression Tools
+%--------------------------------------------------------
 
 \subsection{FGPA Frameworks \& Compression Tools}
 
@@ -567,6 +686,10 @@ FPGAs run against several bottlenecks such as limited bandwidth and on-chip memo
 Those bottlenecks can be handled automatically using frameworks to generate hardware design and tailor needed precisions. Zhao et al. \cite{Zhao2016} designed F-CNN, the first FPGA framework to train CNNS. Later on, Wang et al. \cite{Wang2018} developed a design flow for extremely low-bit neural networks that focuses on quantisation in both training and FPGA deployment. They aimed at strict resources and power constraints in order to provide a design to the developer. Ding et al. \cite{Ding2019} propose a \guille{Resource-aware, efficient quantisation framework} for object detection on FPGAs. They present an extension and automation of the YOLO model used in the object detection field. Jahanshahi et al. \cite{Jahanshahi2019} present TinyCNN, a modular CNN framework using 16-bit fixed-point data . Zhao et al. \cite{Zhao2019} present Tomato, \guille{a framework designed to automate the process of generating efficient CNN accelerators}. Tomato uses different arithmetics and precisions within each Convolutional layer. This is the first multi-precision multi-arithmetic auto-generation framework for CNNs. fpgaConvNet \cite{Venieris2017} automates the mapping of CNNs on FPGAs using application-level needs (throughput, latency or multiobjective criteria).
 
 Another way to optimise the performance of Neural Networks is the use of compressions. Compressing a neural network results in lowering the precision of its parameters. Tools have been developed to automate the process on several hardware architecture. Distiller is an Intel product built as a Python package on a PyTorch environment. This package focuses more on GPUs. On the other hand, FINN \cite{Umuroglu2017} has been developed as an open-source framework by the FPGA manufacturer Xilinx. It works as a network compression tool especially tailored for FPGAs and have been actively under development with extensions to quantised networks \cite{Blott2018} or Long Short-Term Memory (LSTM) networks \cite{Rybalkin2018}.
+
+%------------------------------------------------------
+%	SUBSECTION 2.7 - Takeaway frin the Literature Review
+%------------------------------------------------------
 
 \section{Takeaway from the Literature Review}
 In this \emph{Literature Review}, the focus went from the backend different number representations and their link to performance to frontend applications that take profit from any gain in energy or time. These applications can be found in different scientific fields such as mathematics, physics simulations and deep learning applications. Different hardware architectures are used to perform the described applications in parallel.

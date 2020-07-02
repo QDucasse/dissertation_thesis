@@ -25,6 +25,16 @@
 	address = {USA}
 }
 
+@article{LeCun1998,
+	author={Y. {Lecun} and L. {Bottou} and Y. {Bengio} and P. {Haffner}},
+	journal={Proceedings of the IEEE},
+	title={Gradient-based learning applied to document recognition},
+	year={1998},
+	volume={86},
+	number={11},
+	pages={2278-2324}
+}
+
 @article{Tong2000,
 	author = {Tong, Jonathan Ying Fai and Nagle, David and Rutenbar, Rob. A.},
 	title = {Reducing Power by Optimizing the Necessary Precision/Range of Floating-Point Arithmetic},
@@ -150,7 +160,7 @@
    pages={1517–1528}
 }
 
-@article{Lecun2010,
+@article{LeCun2010,
   added-at = {2017-12-14T14:05:27.000+0100},
   author = {LeCun, Yann and Cortes, Corinna},
   biburl = {https://www.bibsonomy.org/bibtex/2935bad99fa1f65e03c25b315aa3c1032/slicside},
@@ -168,6 +178,20 @@
   year = 2010
 }
 
+@article{Ipp2011,
+	title={Non-Abelian plasma instabilities: SU(3) versus SU(2)},
+	volume={84},
+	ISSN={1550-2368},
+	url={http://dx.doi.org/10.1103/PhysRevD.84.056003},
+	DOI={10.1103/physrevd.84.056003},
+	number={5},
+	journal={Physical Review D},
+	publisher={American Physical Society (APS)},
+	author={Ipp, Andreas and Rebhan, Anton and Strickland, Michael},
+	year={2011},
+	month={Sep}
+}
+
 @inproceedings{Netzer2011,
 	title	= {Reading Digits in Natural Images with Unsupervised Feature Learning},
 	author	= {Yuval Netzer and Tao Wang and Adam Coates and Alessandro Bissacco and Bo Wu and Andrew Y. Ng},
@@ -176,8 +200,6 @@
 	booktitle	= {NIPS Workshop on Deep Learning and Unsupervised Feature Learning 2011}
 }
 
-
-
 @inproceedings{Chow2012,
   title={A mixed precision Monte Carlo methodology for reconfigurable accelerator systems},
   author={Gary Chun Tak Chow and Anson H. T. Tse and Qiwei Jin and Wayne Luk and Philip Heng Wai Leong and David B. Thomas},
@@ -185,13 +207,15 @@
   year={2012}
 }
 
-@article{Krizhevsky2012,
-	author = {Krizhevsky, Alex},
+@incollection{Krizhevsky2012,
+	title = {ImageNet Classification with Deep Convolutional Neural Networks},
+	author = {Alex Krizhevsky and Sutskever, Ilya and Hinton, Geoffrey E},
+	booktitle = {Advances in Neural Information Processing Systems 25},
+	editor = {F. Pereira and C. J. C. Burges and L. Bottou and K. Q. Weinberger},
+	pages = {1097--1105},
 	year = {2012},
-	month = {05},
-	pages = {},
-	title = {Learning Multiple Layers of Features from Tiny Images},
-	journal = {University of Toronto}
+	publisher = {Curran Associates, Inc.},
+	url = {http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf}
 }
 
 @article{LeGrand2013,
@@ -208,19 +232,7 @@
 	keywords = "Molecular dynamics, Graphic processing unit, Accelerator, Precision model, SPSP, SPDP, DPDP, SPFP",
 	abstract = "A new precision model is proposed for the acceleration of all-atom classical molecular dynamics (MD) simulations on graphics processing units (GPUs). This precision model replaces double precision arithmetic with fixed point integer arithmetic for the accumulation of force components as compared to a previously introduced model that uses mixed single/double precision arithmetic. This significantly boosts performance on modern GPU hardware without sacrificing numerical accuracy. We present an implementation for NVIDIA GPUs of both generalized Born implicit solvent simulations as well as explicit solvent simulations using the particle mesh Ewald (PME) algorithm for long-range electrostatics using this precision model. Tests demonstrate both the performance of this implementation as well as its numerical stability for constant energy and constant temperature biomolecular MD as compared to a double precision CPU implementation and double and mixed single/double precision GPU implementations."
 }
-@article{Ipp2011,
-	title={Non-Abelian plasma instabilities: SU(3) versus SU(2)},
-	volume={84},
-	ISSN={1550-2368},
-	url={http://dx.doi.org/10.1103/PhysRevD.84.056003},
-	DOI={10.1103/physrevd.84.056003},
-	number={5},
-	journal={Physical Review D},
-	publisher={American Physical Society (APS)},
-	author={Ipp, Andreas and Rebhan, Anton and Strickland, Michael},
-	year={2011},
-	month={Sep}
-}
+
 @inproceedings{Darulova2013,
 	author = {Darulova, Eva and Kuncak, Viktor and Majumdar, Rupak and Saha, Indranil},
 	title = {Synthesis of Fixed-Point Programs},
@@ -261,6 +273,29 @@
 	bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
+@inproceedings{Horowitz2014,
+	author={M. {Horowitz}},
+	booktitle={2014 IEEE International Solid-State Circuits Conference Digest of Technical Papers (ISSCC)},
+	title={1.1 Computing's energy problem (and what we can do about it)},
+	year={2014},
+	volume={},
+	number={},
+	pages={10-14},
+	keywords={performance evaluation;power aware computing;search engines;innovative computing devices;compute engines;computing performance;transistors;power;voltage scaling;CMOS integrated circuits;Hardware;Transistors;Voltage control;CMOS technology;Energy efficiency;Logic gates},
+	doi={10.1109/ISSCC.2014.6757323},
+	ISSN={2376-8606},
+	month={Feb},
+}
+
+@misc{Simonyan2014,
+    title={Very Deep Convolutional Networks for Large-Scale Image Recognition},
+    author={Karen Simonyan and Andrew Zisserman},
+    year={2014},
+    eprint={1409.1556},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV}
+}
+
 @inproceedings{XuanSang2014,
   title = {{From Smalltalk to Silicon: Towards a methodology to turn Smalltalk code into FPGA}},
   author = {Sang, LE Xuan and Lagadec, Lo{\"i}c and Fabresse, Luc and Laval, Jannik and Bouraqadi, Noury},
@@ -275,18 +310,13 @@
   hal_version = {v1},
 }
 
-@inproceedings{Horowitz2014,
-	author={M. {Horowitz}},
-	booktitle={2014 IEEE International Solid-State Circuits Conference Digest of Technical Papers (ISSCC)},
-	title={1.1 Computing's energy problem (and what we can do about it)},
-	year={2014},
-	volume={},
-	number={},
-	pages={10-14},
-	keywords={performance evaluation;power aware computing;search engines;innovative computing devices;compute engines;computing performance;transistors;power;voltage scaling;CMOS integrated circuits;Hardware;Transistors;Voltage control;CMOS technology;Energy efficiency;Logic gates},
-	doi={10.1109/ISSCC.2014.6757323},
-	ISSN={2376-8606},
-	month={Feb},
+@misc{He2015,
+    title={Deep Residual Learning for Image Recognition},
+    author={Kaiming He and Xiangyu Zhang and Shaoqing Ren and Jian Sun},
+    year={2015},
+    eprint={1512.03385},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV}
 }
 
 @misc{Karpathy2015,
@@ -362,6 +392,15 @@
 	month={July},
 }
 
+@misc{Howard2017,
+    title={MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications},
+    author={Andrew G. Howard and Menglong Zhu and Bo Chen and Dmitry Kalenichenko and Weijun Wang and Tobias Weyand and Marco Andreetto and Hartwig Adam},
+    year={2017},
+    eprint={1704.04861},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV}
+}
+
 @article{Liang2017,
 	author = {Liang, Shuang and Yin, Shouyi and Liu, Leibo and Luk, Wayne and Wei, Shaojun},
 	year = {2017},
@@ -410,7 +449,14 @@
 	series = {FPGA ’17}
 }
 
-
+@misc{Xiao2017,
+    title={Fashion-MNIST: a Novel Image Dataset for Benchmarking Machine Learning Algorithms},
+    author={Han Xiao and Kashif Rasul and Roland Vollgraf},
+    year={2017},
+    eprint={1708.07747},
+    archivePrefix={arXiv},
+    primaryClass={cs.LG}
+}
 
 @manual{Xilinx2017,
 	title  = "Reduce Power and Cost by Converting from Floating Point to Fixed Point",
@@ -439,6 +485,15 @@
     eprint={1809.04570},
     archivePrefix={arXiv},
     primaryClass={cs.AR}
+}
+
+@misc{Clanuwat2018,
+    title={Deep Learning for Classical Japanese Literature},
+    author={Tarin Clanuwat and Mikel Bober-Irizar and Asanobu Kitamoto and Alex Lamb and Kazuaki Yamamoto and David Ha},
+    year={2018},
+    eprint={1812.01718},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV}
 }
 
 @misc{Colangelo2018,
@@ -633,6 +688,15 @@
 	language = "English",
 	note = "16th International Symposium on Applied Reconfigurable Computing 2020, ARC2020 ; Conference date: 01-04-2020 Through 03-04-2020",
 	url = "https://arcoresearch.com/arc2020/",
+}
+
+@misc{Jiang2020,
+    title={MNIST-MIX: A Multi-language Handwritten Digit Recognition Dataset},
+    author={Weiwei Jiang},
+    year={2020},
+    eprint={2004.03848},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV}
 }
 
 @misc{Radu2020,
