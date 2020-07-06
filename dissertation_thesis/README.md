@@ -12,8 +12,10 @@
         - Associated performance
     - Background: On Machine Learning
         - Machine Learning Bases
-        - Main Layers
-        - Development Frameworks
+        - Tools for Classification
+          - Network Architectures
+          - Datasets
+          - Development Frameworks
     - Background: Hardware
         - GPU
         - FPGA
@@ -85,9 +87,9 @@
 
 
 ## Planning
-`Mon 29/06` Litterature Review - Background Number Representation / Background Machine Learning
+`Mon 29/06` Litterature Review - Background Number Representation / Background Machine Learning  
 `Wed 01/07` Litterature Review - Background Hardware / Mixed Precision  
-`Fri 03/07` Litterature Review - CNNs on FPGAs
+`Fri 03/07` Litterature Review - CNNs on FPGAs  
 `Mon 06/07` Requirement Analysis  
 `Wed 08/07` Implementation - Frame / Method  
 `Fri 10/07` Implementation - Setup  
