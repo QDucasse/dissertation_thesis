@@ -163,35 +163,74 @@ Machine learning can also benefit from mixed-precision since it is heavily relyi
 
 \subsection{Introducing Mixed Precision}
 
-Training a neural network is the longest process, among mandatory ones, to make the most out of the architecture. However, mixed-precision mindset offers ways to accelerate the training of the network by decreasing the precision of some operations. The ImageNet Project \cite{ImageNet2009} is a large database designed to be used in visual object recognition softwares.  While accuracy is the main factor to determine the winner, deep learning real-world issues often have to take in account the network's training phase.
+Training a neural network is the longest process, among mandatory ones, to make the most out of the architecture. However, mixed-precision mindset offers ways to accelerate the training of the network by decreasing the precision of some operations. The ImageNet Project \cite{ImageNet2009} presented earlier is a large database designed to be used in visual object recognition softwares. While accuracy is the main factor to determine the winner of the \emph{ILSRVC}, deep learning real-world issues often have to take in account the network's training phase and its time and resource-consuming necessities. Moreover, inference is a critical spot of a machine learning application workflow and has to be taken in consideration when establishing requirements.
 
-The benchmarks in this field use several metrics in order to quantify and qualify the networks and their implementations.
+Neural networks would benefit from mixed-precision by reducing the precision of its different parameters. Reducing the precision of all the \emph{weights} of a network would have a significant impact because each parameter of the network would be impacted, therefore reducing the overall size taken by the \emph{weights}. Along with the \emph{weights}, the other parameter that can be impacted by reduced precision are the \emph{activations}, the precision of the activation function when applying a non-linear function to the result of a layer. Several questions rise, is the training of a reduced-precision CNN identical to a full precision one? What is the impact of a precision reduction for weights? And for activations? Will the reduction on those parameters transfer inherent mixed-precision gains in energy and memory? All of these questions have been the focus of the literature since 2016 and the rise of the first implementations of \emph{Quantised Neural Networks}. Ever since, articles either present novel methods of training and inference for \emph{Quantised Neural Networks} or benchmarks to answer the previous questions.
+
+Many researchers have been looking into the issue with mixed-precision in mind. As shown by Bacchus et al. \cite{Bacchus2020}, there is a fundamental underlying trade-off between accuracy, network training time and hardware efficiency when choosing precision for activations and weights.. Research looked upon ways to reduce the size taken by weights and activations. Mixed-precision is the natural extent of neural networks due to the fact that mixed-precision methods help reducing computation time and resources. Its application to neural networks comes through the presented precision vectors: \emph{weights} and \emph{activations}.
+
+In order to determine the impact of reduced precision on neural network, the benchmarks in this field use several metrics in order to quantify and qualify the networks and their implementations.
 \begin{itemize}
-	\item \textbf{Parameters' Size}: The size or precision of parameters of the network: weights and activation functions.
+	\item \textbf{Parameters' Size}: The size (or precision) of parameters of the network: weights and activations.
 	\item \textbf{Network Layout}: The configuration of the neural networks with the number, size and type of layers.
-	\item \textbf{Accuracy}: The ratio of the number of correct precisions out of the total number of predictions. \emph{The higher the better}.
-	\item \textbf{Training Time}: The cost of operations in a given representation. \emph{The lower the better}.
+	\item \textbf{Accuracy}: The ratio of the number of correct predictions out of the total number of predictions. This accuracy can either be called \emph{Top-1} accuracy, the chance that the image class is the most probable one or \emph{Top-5} accuracy, the chance that the image class is among the top five most probable class.
+	\item \textbf{Training Time}: The number of epochs the network has to train on the dataset.
+  \item \textbf{Choice of optimiser/loss function}: The choice of both optimiser and loss function can help lower-precision networks train better.
 \end{itemize}
 
-Many researchers have been looking into the issue with mixed-precision in mind. As shown by Bacchus et al. \cite{Bacchus2020}, there is a fundamental underlying trade-off between accuracy, network training time and hardware efficiency. Research looked upon ways to reduce the size taken by weights and the activation function and the impact of a reduction in the size of those:
+The main differences between \emph{Quantised Neural Networks} are the \emph{parameters' size} and the \emph{network architecture}. Efforts are noticed from all around the quantisation spectrum. In 2016, Hubara et al. \cite{Hubara2016} presented their version and methodology of \emph{QNNs} and then, later on, Courbariaux et al. \cite{Courbariaux2016} presented a methodology to train \emph{Binary Neural Networks (BNNs)}. Courbariaux et al. work was based on earlier iterations of Courbariaux's work in 2015 \cite{Courbariaux2015} on \emph{BNNs} by creating \emph{BinaryConnect}, a way to propagate binary weights. The same year, Rastegari et al. \cite{Rastegari2016} design \emph{XNOR-Net}, a network where all convolution layers are modified, the inputs and filters now being binary.
 
-Micikevicius et al. \cite{Micikevicius2017} store weights, activations and gradients in IEEE half-precision nearly halving the memory requirements and speeding up the arithmetic. The authors propose three techniques to maintain the accuracy of the model. They maintain a single-precision copy of weights to accumulate the gradients, propose a loss-scaling to preserve low-magnitude gradients and use half-precision arithmetic that writes to single-precision arithmetic before writing the half-precision values to memory.
+The year 2016, along with these different works, sets the milestone for new neural networks. Network architectures are now modified from the inside by reducing the precision and not looking to modify the overall architecture as it was the case until then. Those networks have proven they are able to reach or approach state-of-the-art accuracy by using a lot less memory and energy.
 
-Colangelo et al. \cite{Colangelo2018} present a CNN mapping to a reconfigurable architecture in order to use sub 8-bit activation and weights. In order to use binary- or ternary-weighted neural networks, they cap their sizes to respectively 1 and 2-bits. Using this type of limited numeric precision can only be fully optimised with FPGAs and the authors show that they manage to get an optimisation of \guille{the bandwidth, memory, power and computation savings}.
+%----------------------------------------
+%	SUBSECTION 3.2.2 - Optimisation Methods
+%----------------------------------------
 
-Jia et al. \cite{Jia2018} present a novel mixed-precision training method along with an optimised all-reduce algorithm. Any neural network will have to use a version of an all-reduce algorithm, consisting of the sum of all the previous elements broadcasted to all the next elements. Using an optimised version of the algorithm will increase the performance of each layer separately and the whole system in the end.
+\subsection{Optimisation Methods}
 
-Zhao et al. \cite{Zhao2016} propose F-CNN, a framework to train CNNs on FPGAs. Their design makes available highly customisable modules that will be optimised to maximise performance under the constraints of bandwidth and hardware resources. The authors state that the introduction of mixed-precision will be the next step of optimisation of their design. Moreover, the use of they prove their design is more performant than CPUs and less expensive in terms of energy than GPUs.
+Running a neural network on low-power devices is often a challenge and is inefficient due to the number of \emph{multiply-accumulate (MACs)} operations needed. Those \emph{MACs} operations are required to compute the weighted sums of the neurons' inputs. If training is often performed on several GPUs, the inference part cannot possibly be run on the same equipment and needs to run on low-power, low-space hardware architectures.
 
-Jahanshahi et al. \cite{Jahanshahi2019} propose a CNN accelerator tool. It generates the hardware description for a CNN to be programmed on a target FPGA. The software uses an API the developer can use to enter the available resources. The software will then generate the hardware description and run a simulation to adjust the precision and minimise the classification error. The whole system is shown to be more performant on a half-precision fixed-point representation rather than using single-precision floating-point data: 3\% accuracy loss in exchange for 15.75x speedup.
+Optimisations of neural networks may come in many different shapes. A field that is \emph{not} in the scope of this study is the algorithmic optimisation. The objective in this field is to optimise the most performed operations (matrix multiplication for example). Work in this field refer to several transformation. The \emph{GEMM (General Matrix Multiply) transformation} is optimised in \cite{Cong2014, Chellapilla2006}, the \emph{Winograd transformation} is optimised in \cite{Aydonat2017} or the \emph{Fast Fourier transformation} used in \cite{Ko2017}.
 
-Kurth et al. \cite{Kurth2018} presents a direct application of mixed-precision training on GPUs to help climate analysis. The authors expand open-source tools such as Tensorflow and Horovod in order to present their work. They managed to optimise the network's training to increase the overall efficiency and performance. The predictions the network is able to make are shown to be of an unmet precision and will help characterise the impact of several physical events (flooding, monetary loss, etc.).
+The most common approach to \guille{port} a network on a small architecture is to \emph{compress} a full-precision trained network. Following this particular idea, Chen et al. \cite{Chen2015} designed \emph{HashNets} that reduce model sizes by using a hash function to randomly group connection weights and force them to share a single parameter value.  Gong et al. \cite{Gong2014} compressed deep \emph{CNNs} by using vector quantisation. They present different quantisation methods (binarisation, \emph{k-means}, product quantisation or residual quantisation). The different methods shown a loss of 1\% accuracy while compressing the network more than 20 times.
 
-%-------------------------------------
-%	SUBSECTION 3.2.2 - Quantisation Methods
-%-------------------------------------
+Another approach is to \emph{prune} the weights of a network to only keep the most important ones. Molchanov et al. \cite{Molchanov2016} present pruning as a \emph{backward filter} that would alternate pruning least important neurons and fine tuning. The pruning stops when the target trade-off between accuracy and pruning objective (e.g. floating point operations number or memory utilisation) is reached. \emph{Figure} \ref{fig:PruningMethod} Fujii et al. \cite{Fujii2017} present their pruning method adapted to FPGAs. Authors state that \guille{In the convolution layer, the multiply accumulation is a bottleneck, while in the fully-connected layer, the memory access is the bottleneck}. Their method present number of neurons reduced by 89.3\% while keeping a 99\% accuracy on a \emph{VGG-11} network architecture. They both present a pruning method occuring in the \emph{Fully-Connected layers}, and in those only. Han et al. \cite{Han2015} present their pruning method that allows to reduce the number of parameters of an order of magnitude.
 
-\subsection{Quantisation Methods}
+% PRUNING AS A BACKWARD OPERATOR
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=\textwidth]{Figures/PruningMethod.png}
+	\caption[Inference Optimisations]{Pruning method as a backward operator, presented in \cite{Molchanov2016}}
+	\label{fig:PruningMethod}
+\end{figure}
+
+The last presented approach is \emph{quantisation} as it uses mixed-precision and uses it to optimise CNN models. This optimisation was closely studied since 2016 that was a year where many researchers studied the phenomenon. Starting in 2015 and 2016, Hubara, Courbariaux et al. \cite{Hubara2016, Courbariaux2015, Courbariaux2016} present the first works on \emph{QNNs}  and write the first training methodology for \emph{BNNs}.
+
+Techniques have been presented the same year by Miyashita et al. \cite{Miyashita2016} to train \emph{QNNs}. In their work, they highlight a new logarithmic data representation to encode a neural network using 3-bits values. Their data representation consists of using \guille{non-uniform, base-2  logarithmic representation to encode weights, communicate activations and perform dot products}. They manage achieve higher classification accuracies than fixed-point at the same resolution and they propose a 5-bit representation that achieve higher test accuracy than 5-bit linear representation. Through their encoding, they manage to save space by encoding weights and activations in less space and save memory bandwidth by replacing the dot product (multiply accumulate) with a simpler operator for the logarithmic representation as shown oon \emph{Figure} \ref{fig:DotProdLog}.
+
+% LOG REPRESENTATION
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=\textwidth]{Figures/DotProdLog.png}
+	\caption[Logarithmic Dot Product]{The Logarithmic way to perform Dot-Product \cite{Miyashita2016}}
+	\label{fig:DotProdLog}
+\end{figure}
+
+Using yet another data representation, Micikevicius et al. \cite{Micikevicius2017} store weights, activations and gradients in IEEE half-precision nearly halving the memory requirements and speeding up the arithmetic. The authors propose three techniques to maintain the accuracy of the model. They maintain a single-precision copy of weights to accumulate the gradients, propose a loss-scaling to preserve low-magnitude gradients and use half-precision arithmetic that writes to single-precision arithmetic before writing the half-precision values to memory. A layer performs several operations in order to keep a high precision result, this behaviour is shown on \emph{Figure} \ref{fig:HPTraining}.
+
+% LOG REPRESENTATION
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=\textwidth]{Figures/HPTraining.png}
+	\caption[HPTraining]{Half-Precision Training  \cite{Micikevicius2017}}
+	\label{fig:HPTraining}
+\end{figure}
+
+Rastegari et al. \cite{Rastegari2016} present \emph{Binary-Weights Networks}, on the same vein as Courabariaux et al. \cite{Courbariaux2016}. Their implementation however outperform the other of more than 16\% in top-1 accuracy. On the other hand, they present \emph{XNOR-Nets} that, for the first time, reduce dot-product operations to \emph{XNOR} operations followed by a \emph{Population Count (POPCount)} operator that counts the number of ones in the binarised vector. The \emph{XNOR-Nets} are using mostly bitwise operations to approximate convolutions and this enables a speed-up of approximately 58 times and enables \guille{the possibility of running state-of-the-art deep neural networks on CPU (rather than GPU) in real-time}.
+
+Zhou et al. \cite{Zhou2016} present \emph{DoReFaNet}, a method to train neural network that have low bitwidth weights and low bitwidth activations. This is done by using low bitwidth gradients. During the backward pass, parameters gradients are quantised to low bitwidth numbers before being propagated to convolutional layers. They present a version of \emph{AlexNet} that has 1-bit weights, 2-bit activations that is trained from scratch using 6-bit gradients and manages to get 46.1\% top-1 accuracy on \emph{ImageNet}, a state-of-the-art performance.
+
+Mixed-precision is extremely useful when dealing with \emph{inference} on low-space, low-energy hardware architectures. However, it can also be used to speed up the training times of deep neural networks on large datasets (such as \emph{ImageNet} for example). For now, training \emph{ResNet-50} on 8 Tesla P100 GPUs takes 29 hours \cite{He2016}. This time  impedes the research and development progress. Jia et al. \cite{Jia2018} present a novel mixed-precision training method along with an optimised all-reduce algorithm. Any neural network will have to use a version of an all-reduce algorithm, consisting of the sum of all the previous elements broadcasted to all the next elements. Using an optimised version of the algorithm will increase the performance of each layer separately and the whole system in the end. This method along with a \emph{Synchronised Stochastic Gradient Descent (SVG)} allows them to train the network extremely quickly on their setup (consisting of a cluster of 1024 Tesla P40 GPUs). Mixed-precision allowed them to speed-up the training to a point where they manage to train \emph{ResNet-50} in 15 minutes and \emph{AlexNet} in 4 minutes, both on the \emph{ImageNet} dataset.
 
 
 %-----------------------------------
@@ -201,9 +240,7 @@ Kurth et al. \cite{Kurth2018} presents a direct application of mixed-precision t
 \section{CNNs on FPGAs}
 
 Due to their heavy parallel affinity, CNNs can benefit from both GPUs \cite{Micikevicius2017, Jia2018, Kurth2018} and FPGAs \cite{Park2016, Liang2017, Colangelo2018, Jahanshahi2019, Bacchus2020} heavy parallelisation capabilities.
-However, CNNs as stated in \cite{Jahanshahi2019}, "CNN-based methods are computational-intensive and resource-consuming, and thus are hard to be integrated into embedded systems such as smartphones, smart glasses and robots". FPGAs can counterbalance this issue by providing a tailored hardware representation of the CNN and making the most our of limited precision datatypes.
-
-\cite{Zhao2016, Colangelo2018, Jahanshahi2019} presented frameworks for CNNs automatic or semi-automatic hardware implementations on FPGAs. Abdelouahab et al. \cite{Abdelouahab2018} present the issues FPGAs face and resolve in a survey paper. While this paper cites over a hundred sources, the following sections focuses on the main ideas it highlights.
+However, CNNs as stated in \cite{Jahanshahi2019}, "CNN-based methods are computational-intensive and resource-consuming, and thus are hard to be integrated into embedded systems such as smartphones, smart glasses and robots". FPGAs can counterbalance this issue by providing a tailored hardware representation of the CNN and making the most our of limited precision datatypes. They also appear as an in-between alternative over GPUs and under ASICs.
 
 %--------------------------------------------
 %	SUBSECTION 3.3.1 - Parallelisation Vectors
@@ -225,17 +262,18 @@ A CNN can simultaneously run the filters of the network on the instances of the 
 
 The layers CONV are source of concurrency that can be exploited through the separation of the different planes the CONV layer uses (inter-FM), or the separation of the outputs of the layer (intra-FM). Moreover, the 3D-convolution can be expressed as a sum of 2D-convolutions that can be executed in parallel (inter-convolution) and the 2D-convolutions themselves can be pipelined concurrently (intra-convolution).
 
+Many modern development frameworks implement a distributed version of optimisers and back-propagation to perform operations with \emph{MPI} or \emph{NCCL} for \emph{CUDA Tensors}. This allows both training and inference to be sped up by distributing their different heavy-load operations (multiply accumulate, dot-products, all-reduce, etc.). It also allows to separate the different instances from within the same batch to be run separately before gathering the resulting impact on the network parameters.
+
 %---------------------------------------------------------
 %	SUBSECTION 3.3.2 - Training and Inference Optimisations
 %---------------------------------------------------------
 
 \subsection{Training and Inference Optimisations}
 
-As said earlier, the \emph{Inference} step is a critical spot of CNN implementations as it is required each time a new instance is presented to the system whereas the \emph{Training} step can be done once and for all. Increasing the performance of this step is crucial and can be done in several ways. First, the memory bandwidth is the bottleneck of several FPGA implementations. High number of memory reads or high number of weights stored result in a loss of performance. A caching strategy is often a nice answer to this kind of issues.
+FPGAs provide an in-between solution between GPUs and ASICs. They can be used in both \emph{Training} and \emph{Inference} in order to process the different instances of the dataset they are being fed. This subsection will present the different training and inference optimisations that can be brought on FPGAs. As said earlier, the \emph{Inference} step is a critical spot of CNN implementations as it is required each time a new instance is presented to the system whereas the \emph{Training} step can be done once and for all. Increasing the performance of this step is crucial and can be done in several ways. First, the memory bandwidth is the bottleneck of several FPGA implementations. High number of memory reads or high number of weights stored result in a loss of performance. A caching strategy is often a nice answer to this kind of issues.
 
-Next, the literature presents several \emph{Inference Optimisations} strategies that will help the CNN perform best on an FPGA. Exporting a CNN to an FPGA consists in finding the most efficient way to map the CNN on the hardware architecture of the FPGA. The main strategies are listed beneath and presented in \emph{Figure} \ref{fig:InferenceOpt}.
+Next, the literature presents several optimisations strategies that will help the CNN perform best on an FPGA. Exporting a CNN to an FPGA consists in finding the most efficient way to map the CNN on the hardware architecture of the FPGA. The main strategies are listed beneath and presented in \emph{Figure} \ref{fig:InferenceOpt}. Several solutions found in the literature present combination of different strategies to perform best on a given architecture. Several methods have already been presented in the \emph{Optimisation Methods} subsection such as \emph{Pruning}, \emph{Compression} or \emph{Quantisation} with an FPGA note. \emph{Pruning} still has an FPGA implementation as presented by Fujii et al. \cite{Fujii2017} as well as an accelerator model proposed by Kang et al. \cite{Kang2019}. However, more FPGA-specific methods exist.
 
-% INFERENCE OPTIMISATIONS
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=\textwidth]{Figures/InferenceOpt.png}
@@ -243,25 +281,63 @@ Next, the literature presents several \emph{Inference Optimisations} strategies 
 	\label{fig:InferenceOpt}
 \end{figure}
 
-The main strategies are:
-\begin{itemize}
-	\item Algorithmic optimisations: GEMM transformation, Winograd transform, Fast Fourier Transform .
-	\item Data-path optimisations: Systolic arrays, SIMD and loop optimisations, Data-flow MoC.
-	\item Approximate computations: Fixed-point, Quantisation \cite{Hubara2016}, Dynamic Fixed-point Binary \cite{Courbariaux2016} and Pseudo-Binary nets.
-	\item Reduce computations: Weight pruning \cite{Radu2020}, Low rank approximations.
-\end{itemize}
+The main strategies specific to FPGAs are linked to \emph{Hardware Generation} and \emph{Data-path optimisations}. The first one, \emph{Hardware Generation}, depends on the way the configurable hardware will be used and tuned. As shown in \emph{Figure} \ref{fig:InferenceOpt}, several methods exist to reconfigure an FPGA. Some use \emph{High Level Synthesis} through either OpenCL or Vivado. These different frameworks and accelerators will be the focus of the next subsection. On the other side, the \emph{Data-path optimisations} mainly revolve around the idea of loop optimisation. Several methods can be applied to the execution of nested loops to perform better on an FPGA. Loop optimisation comes in two different shapes: \emph{loop unrolling} and \emph{loop tiling}. Unrolling a loop accelerates its execution at the cost of resource utilisation. Loop tiling consists of modifying the order of the different embedded loops in order to have the most expensive operations come all-together. These operations are \emph{DRAM (external memory)} accesses where the weights are stored since the FPGA cannot store them all with on-chip memory. An example of loop tiling can be seen on \emph{Figure} \ref{fig:LoopTiling}. The settings of unroll and tiling factors will directly determine the number of \emph{Processing Elements (PE)} and their associated computing resources as well as the amount of DRAM accesses.
 
-Several solutions found in the literature present combination of three strategies to perform best on a given architecture. These works present several ways to tune a CNN to perform best. When looking globally, re-centring to mixed-precision we can see that, as concluded in \cite{Abdelouahab2018}, \guille{CNNs are by nature over-parameterised and support particularly well approximate tuning techniques such as weight pruning and fixed-point computation}.
+% Loop Tiling
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{.48\textwidth}
+\begin{lstlisting}[style=CInputStyle]
+// Ll: Layer
+for (int l=0;l<L,l++){ // Lb : Batch
+for (int b=0;b<B,l++){ // Ln: Y Depth
+for (int n=0;n<N;n++){ // Lv: Y Columns
+for (int v=0;v<V,v++){ // Lu: Y Raws
+for (int u=0;u<U,u++){ // Lc: X Depth
+for (int c=0;n<C;c++){ // Lj: Theta Columns for (int j=0;j<J,j++){ // Lk: Theta Raws
+for (int k=0;k<K,k++){
+Y[b,l,n,v,u] += X[b,l,c,v+j,u+k] *
+      Theta[l,n,c,j,k]
+}}}}}}}
+\end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{.48\textwidth}
+\begin{lstlisting}[style=CInputStyle]
+for (int n=0;n<N;n+=Tn){ for (int v=0;v<V,v+=Tv){ for (int u=0;u<U,u+=Tu){ for (int c=0;n<C;c+=Tc){
+// DRAM: Load in on−chip buffers the tiles: // X[l,c:c+Tc,v:v+Tv,u:u+Tu]
+// Theta [l,n:n+Tn,c:c+Tc,j,k]
+// Process on−chip tiles
+for (int tn=0;tn<Tn;tn++){ for (int tv=0;tv<Tv,tv++){ for (int tu=0;tu<Tu,tu++){ for (int tc=0;tn<Tc;tc++){ for (int j=0;j<J,j++){
+for (int k=0;k<K,k++){
+Y[l,tn,tv,tu] += X[l,tc,tv+j,tu+k] *
+        Theta[l,tn,tc,j,k];
+  }}}}}}
+  // DRAM: Store output tile
+}}}}
+\end{lstlisting}
+\end{minipage}
+\caption[LoopTiling]{Loop Tiling Example \cite{Abdelouahab2018}}
+	\label{fig:LoopTiling}
+\end{figure}
 
-Quantisation or the use of reduced precision applied to network parameters has been the focus of the literature in the last years. Hubara et al. \cite{Hubara2016} present a way to train a quantised neural network with extremely low precision parameters. The Quantised Neural Networks (QNNs) they train achieve comparable prediction accuracy on well-known datasets such as: MNIST (hand-written digits) \cite{LeCun2010}, CIFAR-10 (tiny images in 10 distinct classes of animals or vehicles) \cite{Krizhevsky2012}, SVHN \cite{Netzer2011} and ImageNet \cite{ImageNet2009}.
+Now if we look more closely on \emph{Quantisation} methods applied to FPGAs, the literature present several works:
+Colangelo et al. \cite{Colangelo2018} present a CNN mapping to a reconfigurable architecture in order to use sub 8-bit activation and weights. In order to use binary- or ternary-weighted neural networks, they cap their sizes to respectively 1 and 2-bits. Using this type of limited numeric precision can only be fully optimised with FPGAs and the authors show that they manage to get an optimisation of \guille{the bandwidth, memory, power and computation savings}.
 
-An even more agressive vision of quantisation is the use of binary parameters (either +1 or -1). Courbariaux et al. \cite{Courbariaux2016} implemented this type of Binarised Neural Network (BNN) and manage to keep the prediction accuracy for the same above datasets. Both implementations were conducted on GPUs but their FPGA counterpart have been developed later on. Liang et al. \cite{Liang2017} present a BNN implemented on an FPGA and the benchmarked results show an improvement in speed and energy efficiency over other computing platforms.
+Zhao et al. \cite{Zhao2016} propose F-CNN, a framework to train CNNs on FPGAs. Their design makes available highly customisable modules that will be optimised to maximise performance under the constraints of bandwidth and hardware resources. The authors state that the introduction of mixed-precision will be the next step of optimisation of their design. Moreover, the use of they prove their design is more performant than CPUs and less expensive in terms of energy than GPUs.
+
+Jahanshahi et al. \cite{Jahanshahi2019} propose a CNN accelerator tool. It generates the hardware description for a CNN to be programmed on a target FPGA. The software uses an API the developer can use to enter the available resources. The software will then generate the hardware description and run a simulation to adjust the precision and minimise the classification error. The whole system is shown to be more performant on a half-precision fixed-point representation rather than using single-precision floating-point data: 3\% accuracy loss in exchange for 15.75x speedup.
+
+The even more agressive vision of quantisation with binary parameters as set by Courbariaux et al. \cite{Courbariaux2016} was conducted on GPUs but their FPGA counterpart have been developed later on. Liang et al. \cite{Liang2017} present a BNN implemented on an FPGA and the benchmarked results show an improvement in speed and energy efficiency over other computing platforms.
+
 
 %--------------------------------------------------------
-%	SUBSECTION 3.3.3 - FGPA Frameworks & Compression Tools
+%	SUBSECTION 3.3.3 - FGPA Frameworks
 %--------------------------------------------------------
 
-\subsection{FGPA Frameworks \& Compression Tools}
+\subsection{FGPA Frameworks}
+
+YodaNN \cite{Andri2016}
 
 Improvements on state-of-the-art performance can come from either novel training methods or efficient hardware design. The diversity of FPGAs in terms of designs and manufacturers brought the focus on higher-level tools and frameworks. The field of CNN presents several frameworks to help the design and hardware implementation, automation in the selection of the precision of the parameters and neural network compression tools. They all result in more efficient hardware design and therefore better performance.
 
@@ -272,7 +348,7 @@ Those bottlenecks can be handled automatically using frameworks to generate hard
 Another way to optimise the performance of Neural Networks is the use of compressions. Compressing a neural network results in lowering the precision of its parameters. Tools have been developed to automate the process on several hardware architecture. Distiller is an Intel product built as a Python package on a PyTorch environment. This package focuses more on GPUs. On the other hand, FINN \cite{Umuroglu2017} has been developed as an open-source framework by the FPGA manufacturer Xilinx. It works as a network compression tool especially tailored for FPGAs and have been actively under development with extensions to quantised networks \cite{Blott2018} or Long Short-Term Memory (LSTM) networks \cite{Rybalkin2018}.
 
 %------------------------------------------------------
-%	SUBSECTION 3.4 - Takeaway frin the Literature Review
+%	SUBSECTION 3.4 - Takeaway from the Literature Review
 %------------------------------------------------------
 
 \section{Takeaway from the Literature Review}
