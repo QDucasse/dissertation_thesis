@@ -192,14 +192,14 @@ Running a neural network on low-power devices is often a challenge and is ineffi
 
 Optimisations of neural networks may come in many different shapes. A field that is \emph{not} in the scope of this study is the algorithmic optimisation. The objective in this field is to optimise the most performed operations (matrix multiplication for example). Work in this field refer to several transformation. The \emph{GEMM (General Matrix Multiply) transformation} is optimised in \cite{Cong2014, Chellapilla2006}, the \emph{Winograd transformation} is optimised in \cite{Aydonat2017} or the \emph{Fast Fourier transformation} used in \cite{Ko2017}.
 
-The most common approach to \guille{port} a network on a small architecture is to \emph{compress} a full-precision trained network. Following this particular idea, Chen et al. \cite{Chen2015} designed \emph{HashNets} that reduce model sizes by using a hash function to randomly group connection weights and force them to share a single parameter value.  Gong et al. \cite{Gong2014} compressed deep \emph{CNNs} by using vector quantisation. They present different quantisation methods (binarisation, \emph{k-means}, product quantisation or residual quantisation). The different methods shown a loss of 1\% accuracy while compressing the network more than 20 times.
+The most common approach to \guille{port} a network on a small architecture is to \emph{compress} a full-precision trained network. Following this particular idea, Chen et al. \cite{Chen2015} designed \emph{HashNets} that reduce model sizes by using a hash function to randomly group connection weights and force them to share a single parameter value.  Gong et al. \cite{Gong2014} compressed deep \emph{CNNs} by using vector quantisation. They present different quantisation methods (binarisation, \emph{k-means}, product quantisation or residual quantisation). The different methods shown a loss of 1\% accuracy while compressing the network more than 20 times. Tools have been developed to automate the process on several hardware architecture. \emph{Distiller} \cite{Nzmora2019} is an Intel product built as a Python package over a \emph{PyTorch} environment.
 
 Another approach is to \emph{prune} the weights of a network to only keep the most important ones. Molchanov et al. \cite{Molchanov2016} present pruning as a \emph{backward filter} that would alternate pruning least important neurons and fine tuning. The pruning stops when the target trade-off between accuracy and pruning objective (e.g. floating point operations number or memory utilisation) is reached. \emph{Figure} \ref{fig:PruningMethod} Fujii et al. \cite{Fujii2017} present their pruning method adapted to FPGAs. Authors state that \guille{In the convolution layer, the multiply accumulation is a bottleneck, while in the fully-connected layer, the memory access is the bottleneck}. Their method present number of neurons reduced by 89.3\% while keeping a 99\% accuracy on a \emph{VGG-11} network architecture. They both present a pruning method occuring in the \emph{Fully-Connected layers}, and in those only. Han et al. \cite{Han2015} present their pruning method that allows to reduce the number of parameters of an order of magnitude.
 
 % PRUNING AS A BACKWARD OPERATOR
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=\textwidth]{Figures/PruningMethod.png}
+		\includegraphics[width=4cm]{Figures/PruningMethod.png}
 	\caption[Inference Optimisations]{Pruning method as a backward operator, presented in \cite{Molchanov2016}}
 	\label{fig:PruningMethod}
 \end{figure}
@@ -264,6 +264,8 @@ The layers CONV are source of concurrency that can be exploited through the sepa
 
 Many modern development frameworks implement a distributed version of optimisers and back-propagation to perform operations with \emph{MPI} or \emph{NCCL} for \emph{CUDA Tensors}. This allows both training and inference to be sped up by distributing their different heavy-load operations (multiply accumulate, dot-products, all-reduce, etc.). It also allows to separate the different instances from within the same batch to be run separately before gathering the resulting impact on the network parameters.
 
+FPGAs run against several bottlenecks such as limited bandwidth and on-chip memory. However, due to their flexible nature, CNNs can be adapted to be run on them. Qiu et al. \cite{Qiu2016} show in their state-of-the-art study that the Convolutional layers are computationally-centric and Fully-Connected layers are memory-centric. This means that using any of the two layers will have to bring a concern on the associated bottleneck it holds as well.
+
 %---------------------------------------------------------
 %	SUBSECTION 3.3.2 - Training and Inference Optimisations
 %---------------------------------------------------------
@@ -289,29 +291,45 @@ The main strategies specific to FPGAs are linked to \emph{Hardware Generation} a
 \begin{minipage}{.48\textwidth}
 \begin{lstlisting}[style=CInputStyle]
 // Ll: Layer
-for (int l=0;l<L,l++){ // Lb : Batch
-for (int b=0;b<B,l++){ // Ln: Y Depth
-for (int n=0;n<N;n++){ // Lv: Y Columns
-for (int v=0;v<V,v++){ // Lu: Y Raws
-for (int u=0;u<U,u++){ // Lc: X Depth
-for (int c=0;n<C;c++){ // Lj: Theta Columns for (int j=0;j<J,j++){ // Lk: Theta Raws
+for (int l=0;l<L,l++){
+// Lb : Batch
+for (int b=0;b<B,l++){
+// Ln: Y Depth
+for (int n=0;n<N;n++){
+// Lv: Y Columns
+for (int v=0;v<V,v++){
+// Lu: Y Raws
+for (int u=0;u<U,u++){
+// Lc: X Depth
+for (int c=0;n<C;c++){
+// Lj: Theta Columns
+for (int j=0;j<J,j++){
+// Lk: Theta Raws
 for (int k=0;k<K,k++){
-Y[b,l,n,v,u] += X[b,l,c,v+j,u+k] *
-      Theta[l,n,c,j,k]
+  Y[b,l,n,v,u] += X[b,l,c,v+j,u+k] *
+        Theta[l,n,c,j,k]
 }}}}}}}
 \end{lstlisting}
 \end{minipage}
 \hfill
 \begin{minipage}{.48\textwidth}
 \begin{lstlisting}[style=CInputStyle]
-for (int n=0;n<N;n+=Tn){ for (int v=0;v<V,v+=Tv){ for (int u=0;u<U,u+=Tu){ for (int c=0;n<C;c+=Tc){
-// DRAM: Load in on−chip buffers the tiles: // X[l,c:c+Tc,v:v+Tv,u:u+Tu]
-// Theta [l,n:n+Tn,c:c+Tc,j,k]
-// Process on−chip tiles
-for (int tn=0;tn<Tn;tn++){ for (int tv=0;tv<Tv,tv++){ for (int tu=0;tu<Tu,tu++){ for (int tc=0;tn<Tc;tc++){ for (int j=0;j<J,j++){
-for (int k=0;k<K,k++){
-Y[l,tn,tv,tu] += X[l,tc,tv+j,tu+k] *
-        Theta[l,tn,tc,j,k];
+for (int n=0;n<N;n+=Tn){
+for (int v=0;v<V,v+=Tv){
+for (int u=0;u<U,u+=Tu){
+for (int c=0;n<C;c+=Tc){
+  // DRAM: Load in on-chip buffer the tiles
+  // X[l,c:c+Tc,v:v+Tv,u:u+Tu]
+  // Theta [l,n:n+Tn,c:c+Tc,j,k]
+  // Process on-chip tiles
+  for (int tn=0;tn<Tn;tn++){
+  for (int tv=0;tv<Tv,tv++){
+  for (int tu=0;tu<Tu,tu++){
+  for (int tc=0;tn<Tc;tc++){
+  for (int j=0;j<J,j++){
+  for (int k=0;k<K,k++){
+    Y[l,tn,tv,tu] += X[l,tc,tv+j,tu+k] *
+            Theta[l,tn,tc,j,k];
   }}}}}}
   // DRAM: Store output tile
 }}}}
@@ -322,9 +340,10 @@ Y[l,tn,tv,tu] += X[l,tc,tv+j,tu+k] *
 \end{figure}
 
 Now if we look more closely on \emph{Quantisation} methods applied to FPGAs, the literature present several works:
+
 Colangelo et al. \cite{Colangelo2018} present a CNN mapping to a reconfigurable architecture in order to use sub 8-bit activation and weights. In order to use binary- or ternary-weighted neural networks, they cap their sizes to respectively 1 and 2-bits. Using this type of limited numeric precision can only be fully optimised with FPGAs and the authors show that they manage to get an optimisation of \guille{the bandwidth, memory, power and computation savings}.
 
-Zhao et al. \cite{Zhao2016} propose F-CNN, a framework to train CNNs on FPGAs. Their design makes available highly customisable modules that will be optimised to maximise performance under the constraints of bandwidth and hardware resources. The authors state that the introduction of mixed-precision will be the next step of optimisation of their design. Moreover, the use of they prove their design is more performant than CPUs and less expensive in terms of energy than GPUs.
+Zhao et al. \cite{Zhao2016} propose \emph{F-CNN}, a framework to train CNNs on FPGAs. Their design makes available highly customisable modules that will be optimised to maximise performance under the constraints of bandwidth and hardware resources. The authors state that the introduction of mixed-precision will be the next step of optimisation of their design. Moreover, the use of they prove their design is more performant than CPUs and less expensive in terms of energy than GPUs. \emph{F-CNN} reconfigures a streaming datapath at runtime to cover the training tasks for the various layers in a CNN.
 
 Jahanshahi et al. \cite{Jahanshahi2019} propose a CNN accelerator tool. It generates the hardware description for a CNN to be programmed on a target FPGA. The software uses an API the developer can use to enter the available resources. The software will then generate the hardware description and run a simulation to adjust the precision and minimise the classification error. The whole system is shown to be more performant on a half-precision fixed-point representation rather than using single-precision floating-point data: 3\% accuracy loss in exchange for 15.75x speedup.
 
@@ -337,15 +356,21 @@ The even more agressive vision of quantisation with binary parameters as set by 
 
 \subsection{FGPA Frameworks}
 
+In 2016, the same year \emph{QNNs} began to gain attraction and credibility, FPGA frameworks emerged to take advantage of the FPGAs' capabilities along with mixed-precision. The first works in the fiels are \emph{YodaNN} \cite{Andri2016} and \emph{F-CNN} \cite{Zhao2016}. \emph{YodaNN}
 YodaNN \cite{Andri2016}
 
-Improvements on state-of-the-art performance can come from either novel training methods or efficient hardware design. The diversity of FPGAs in terms of designs and manufacturers brought the focus on higher-level tools and frameworks. The field of CNN presents several frameworks to help the design and hardware implementation, automation in the selection of the precision of the parameters and neural network compression tools. They all result in more efficient hardware design and therefore better performance.
+Zhao et al. \cite{Zhao2016} designed F-CNN, the first FPGA framework to train CNNS. Later on, Wang et al. \cite{Wang2018} developed a design flow for extremely low-bit neural networks that focuses on quantisation in both training and FPGA deployment. They aimed at strict resources and power constraints in order to provide a design to the developer.
 
-FPGAs run against several bottlenecks such as limited bandwidth and on-chip memory. However, due to their flexible nature, CNNs can be adapted to be run on them. Qiu et al. \cite{Qiu2016} show in their state-of-the-art study that the Convolutional layers are computationally-centric and Fully-Connected layers are memory-centric. This means that using any of the two layers will have to bring a concern on the associated bottleneck it holds as well.
+fpgaConvNet \cite{Venieris2017} automates the mapping of CNNs on FPGAs using application-level needs (throughput, latency or multiobjective criteria).
 
-Those bottlenecks can be handled automatically using frameworks to generate hardware design and tailor needed precisions. Zhao et al. \cite{Zhao2016} designed F-CNN, the first FPGA framework to train CNNS. Later on, Wang et al. \cite{Wang2018} developed a design flow for extremely low-bit neural networks that focuses on quantisation in both training and FPGA deployment. They aimed at strict resources and power constraints in order to provide a design to the developer. Ding et al. \cite{Ding2019} propose a \guille{Resource-aware, efficient quantisation framework} for object detection on FPGAs. They present an extension and automation of the YOLO model used in the object detection field. Jahanshahi et al. \cite{Jahanshahi2019} present TinyCNN, a modular CNN framework using 16-bit fixed-point data . Zhao et al. \cite{Zhao2019} present Tomato, \guille{a framework designed to automate the process of generating efficient CNN accelerators}. Tomato uses different arithmetics and precisions within each Convolutional layer. This is the first multi-precision multi-arithmetic auto-generation framework for CNNs. fpgaConvNet \cite{Venieris2017} automates the mapping of CNNs on FPGAs using application-level needs (throughput, latency or multiobjective criteria).
+On the other hand, FINN \cite{Umuroglu2017} has been developed as an open-source framework by the FPGA manufacturer Xilinx. It works as a network compression tool especially tailored for FPGAs and have been actively under development with extensions to quantised networks \cite{Blott2018} or Long Short-Term Memory (LSTM) networks \cite{Rybalkin2018}.
 
-Another way to optimise the performance of Neural Networks is the use of compressions. Compressing a neural network results in lowering the precision of its parameters. Tools have been developed to automate the process on several hardware architecture. Distiller is an Intel product built as a Python package on a PyTorch environment. This package focuses more on GPUs. On the other hand, FINN \cite{Umuroglu2017} has been developed as an open-source framework by the FPGA manufacturer Xilinx. It works as a network compression tool especially tailored for FPGAs and have been actively under development with extensions to quantised networks \cite{Blott2018} or Long Short-Term Memory (LSTM) networks \cite{Rybalkin2018}.
+ Ding et al. \cite{Ding2019} propose a \guille{Resource-aware, efficient quantisation framework} for object detection on FPGAs. They present an extension and automation of the YOLO model used in the object detection field.
+
+ Jahanshahi et al. \cite{Jahanshahi2019} present TinyCNN, a modular CNN framework using 16-bit fixed-point data.
+
+ Zhao et al. \cite{Zhao2019} present Tomato, \guille{a framework designed to automate the process of generating efficient CNN accelerators}. Tomato uses different arithmetics and precisions within each Convolutional layer. This is the first multi-precision multi-arithmetic auto-generation framework for CNNs.
+
 
 %------------------------------------------------------
 %	SUBSECTION 3.4 - Takeaway from the Literature Review

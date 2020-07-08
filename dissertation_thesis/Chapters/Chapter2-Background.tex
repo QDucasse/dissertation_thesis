@@ -5,10 +5,10 @@
 \lhead{Chapter 2. \emph{Background}}
 
 %----------------------------------------------------------------------------------------
-%	SECTION 2.1 - Background - Number representation
+%	SECTION 2.1 - On Number representation
 %----------------------------------------------------------------------------------------
 
-\section{Background: On Number Representation}
+\section{On Number Representation}
 
 The question of the representation of numbers as we, humans, use them in a world of electronics has been central in the creation of computers and their associated arithmetics. Several problems are contained in the simple question of: How to translate our arithmetic and number operations in a piece of hardware?
 
@@ -164,10 +164,10 @@ The authors show the example of an FIR filter implementation in fixed-point repr
 In conclusion, customising type in an environment where costs are translated in terms of energy consumption, memory or bandwidth usage, will always come out as an improvement. This redirects the issue to a need to guarantee little to no loss in accuracy.
 
 %----------------------------------------------------------------------------------------
-%	SECTION 2.2 - Background - Machine Learning
+%	SECTION 2.2 - On Machine Learning
 %----------------------------------------------------------------------------------------
 
-\section{Background: On Machine Learning}
+\section{On Machine Learning}
 
 Machine Learning is one of the most promising asset of the recent years since it has proven to be reliable when tackling complex issues. Those tasks can either be recognizing a street sign, a disease in a radiography or classifying a piece of text under a sentiment. Text-to-speech, speech-to-text, image classification, object detection, etc. Those are all thedomains machine learning is suited for. This section will provide insight on the basic functions machine learning uses, present neural network architectures and development frameworks.
 
@@ -244,12 +244,14 @@ While there exists a wide range of applications for neural networks and machine 
   \item \emph{Classification}: This phase consists of flattening the output of the first phase and running it through several linear layers with varying number of neurons. The final linear layer will always have a number of neurons equal to the number of classes in the classification challenge.
 \end{itemize}
 
+The following figures are taken from \emph{Raimi Karim} work for \emph{Towards Data Science} in \cite{Karim2020}.
+
 Le Cun et al. \cite{LeCun1998} architecture chose to tackle the two phases by designing a neural network architecture called \emph{LeNet}. This architecture represents the feature extraction phase by using a succession of two $5 \times 5$ convolutions and $2 \times 2$ average pooling layers. Then, three linear layers (fully connected) perform the classification. Their respective size are 120, 84 and 10 (the number of classes in MNIST \cite{LeCun2010} case which it was designed for). The activation function used is hyperbolic tangent. This whole architecture is displayed on \emph{Figure} \ref{fig:LeNet-5} representing the version \emph{LeNet-5}.
 
 % LeNet-5 PRESENTATION
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=8cm]{Figures/LeNet-5.png}
+		\includegraphics[width=10cm]{Figures/LeNet-5.png}
 	\caption[LeNet-5]{Architecture of LeNet-5 as taken from \cite{LeCun1998}}
 	\label{fig:LeNet-5}
 \end{figure}
@@ -259,7 +261,7 @@ Krizhevsky et al. present \emph{AlexNet} \cite{Krizhevsky2012} in 2012, 14 years
 % AlexNet PRESENTATION
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=8cm]{Figures/AlexNet.png}
+		\includegraphics[width=12cm]{Figures/AlexNet.png}
 	\caption[AlexNet]{Architecture of AlexNet as taken from \cite{Krizhevsky2012}}
 	\label{fig:AlexNet}
 \end{figure}
@@ -270,7 +272,7 @@ Using the same idea that Krizhevsky et al. \cite{Krizhevsky2012} had in mind whe
 % VGG-16 PRESENTATION
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=8cm]{Figures/VGG-16.png}
+		\includegraphics[width=14cm]{Figures/VGG-16.png}
 	\caption[VGG-16]{Architecture of VGG-16 as taken from \cite{Simonyan2014}}
 	\label{fig:VGG-16}
 \end{figure}
@@ -280,7 +282,7 @@ From now on, extending the layer size and network depth does not seem to give be
 % ResNet-50 PRESENTATION
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=8cm]{Figures/ResNet-50.png}
+		\includegraphics[width=15cm]{Figures/ResNet-50.png}
 	\caption[ResNet-50]{Architecture of ResNet-50 as taken from \cite{He2015}}
 	\label{fig:ResNet-50}
 \end{figure}
@@ -379,10 +381,10 @@ In the end, choosing a framework depends on one's objectives and knowledge of th
 % TODO: INCLUDE Table comparing the different development frameworks
 
 %----------------------------------------------------------------------------------------
-%	SECTION 2.3 - Background Hardware Architecture
+%	SECTION 2.3 - Hardware Architecture
 %----------------------------------------------------------------------------------------
 
-\section{Background: On Hardware Architecture}
+\section{On Hardware Architecture}
 
 Moore's law \cite{Moore2006} predicted the evolution of hardware capacities in years to come when defined in 1965. It is an empirical relationship and in no means a physical or natural law but has shown to be exact for the thirty years following its creation. The Moore's law, when announced in 1965 said that \guille{the number of components per integrated circuit would double every year}. This law held for a decade and was then revised to \guille{doubling every two years} for the next decade. This law has been an industry guideline and helped produce long term business plans. However, the law is slowly coming to an end and has been shown to not fulfill the prophecy anymore due to physical limitations such as thermal restrictions. New architectures will have to take the lead as more computational power is still needed for the years to come. What are the new ways and architectures to increase performance even more?
 
@@ -433,8 +435,8 @@ FPGAs can help prototyping chips and perform system validation, including pre-si
 % FPGA/ASIC comparison
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=\textwidth]{Figures/EfficiencyVSFlexibility.png}
-	\caption[EfficiencyVSFlexibility]{Efficiency vs Flexibility, source: \emph{Bob Broderson, Berkeley Wireless Group}}
+		\includegraphics[width=10cm]{Figures/EfficiencyVSFlexibility.png}
+	\caption[EfficiencyVSFlexibility]{Efficiency vs Flexibility}
 	\label{fig:EfficiencyVSFlexibility}
 \end{figure}
 
@@ -443,7 +445,7 @@ One downside of FPGAs is the need for intrinsic knowledge of a Hardware Descript
 % FPGA Development Cycle
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=\textwidth]{Figures/FPGACycle.png}
+		\includegraphics[width=10cm]{Figures/FPGACycle.png}
 	\caption[FPGA Development Cycle]{FPGA Development Cycle \cite{XuanSang2014}}
 	\label{fig:FPGACycle}
 \end{figure}
