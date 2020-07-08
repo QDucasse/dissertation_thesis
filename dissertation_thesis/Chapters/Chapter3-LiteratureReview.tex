@@ -125,7 +125,7 @@ double fun( double x ) {
     d1 = 2.0 * d1;
     t1 = t1 + sin (d1 * x) / d1;
   }
-return t1;
+  return t1;
 }
 int main( int argc, char **argv) {
   int i, n = 1000000;
@@ -133,7 +133,7 @@ int main( int argc, char **argv) {
   long double s1;
   t1 = -1.0;
   dppi = acos(t1);
-   s1 = 0.0;
+  s1 = 0.0;
   t1 = 0.0;
   h = dppi / n;
   for( i = 1; i <= n; i++ ) {
@@ -351,10 +351,10 @@ The even more agressive vision of quantisation with binary parameters as set by 
 
 
 %--------------------------------------------------------
-%	SUBSECTION 3.3.3 - FGPA Frameworks
+%	SUBSECTION 3.3.3 - FPGA Frameworks
 %--------------------------------------------------------
 
-\subsection{FGPA Frameworks}
+\subsection{FPGA Frameworks}
 
 In 2016, the same year \emph{QNNs} began to gain attraction and credibility, FPGA frameworks emerged to take advantage of the FPGAs' capabilities along with mixed-precision. The first works in the fiels are \emph{YodaNN} \cite{Andri2016} and \emph{F-CNN} \cite{Zhao2016}. \emph{YodaNN}
 YodaNN \cite{Andri2016}
