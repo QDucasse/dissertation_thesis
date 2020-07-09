@@ -22,24 +22,16 @@ The aims and objectives defined at first are then translated into requirements u
 
 Taking from the \textbf{Aims} defined in Chapter \ref{Chapter1}, we derive the objectives and define the requirements for the project.
 
-\textbf{Aims}
-
-\begin{enumerate}
-  \item Determine the motivations behind mixed-precision.
-  \item Assess the impact of mixed-precision on state-to-the-art applications.
-  \item Present the methods to apply a mixed-precision mindset to a given application.
-  \item Look into the range of applications mixed-precision has in the literature.
-  \item Provide insight on the choice of architecture for mixed-precision applications.
-\end{enumerate}
-
 \textbf{Objectives}
 
 \begin{enumerate}
   \item Implement a CNN on an FPGA
   \begin{enumerate}
-    \item Hardware architectures: Digilent Nexys A7 and Zedboard Zynq 7000
-    \item Framework: FINN and Brevitas
-    \item Datasets: MNIST and CIFAR-10
+    \item Hardware architectures: PYNQ-Z1, Zedboard Zynq 7000 and Digilent Nexys A7
+    \item Development Framework: Brevitas over PyTorch
+    \item Acceleration Framework: FINN
+    \item Datasets: MNIST, CIFAR-10 and GTSRB
+    \item Network Architectures: Succession of FC layers, Simple ConvNet (similar to LeNet), MobilenetV1
   \end{enumerate}
   \item Determine the impact of the size of parameters linked to the application.
   \begin{enumerate}
@@ -50,18 +42,15 @@ Taking from the \textbf{Aims} defined in Chapter \ref{Chapter1}, we derive the o
   \item Measure the metrics of the associated application as compared to the literature.
   \begin{enumerate}
     \item Throughput
-    \item Latency
+    \item Accuracy
     \item Energy
+    \item Hardware Utilisation
     \item Compression Ratio
-    \item Robustness
   \end{enumerate}
   \item Confront the results to the state-of-the-art comparable experimental results.
-  \item Present how each parameter impacts the overall performance of the system.
-  \item In medium term, provide an insight on how security can be impacted when trying to deteriorate precision.
-  \item In medium term, present a set of rules to go against the potential security flaws.
 \end{enumerate}
 
-The above objectives consist of an extension of the \cite{Bacchus2020} article in order to benchmark the same setup with an extended framework (PyTorch with Brevitas), other hardware architectures (Digilent Nexys A7) and new datasets (CIFAR-10).
+The above objectives consist of an extension of the \cite{Bacchus2020} article in order to benchmark a similar setup with an extended framework, PyTorch's extension \emph{Brevitas}. These objectives roughly translate into the design and development of a benchmark tool that should be able to use \emph{Brevitas} in order to design and train \emph{QNNs}. Next, the benchmark tool should be able to export the desired network to the \emph{Intermediate Representation}. Finally the sequence of transformations and proper folding has to be set up through \emph{FINN} in order to complete the workflow and port the network to the FPGA board.
 
 %----------------------------------------------------------------------------------------
 %	SUBSECTION 4.1.2 - Requirements
@@ -69,42 +58,53 @@ The above objectives consist of an extension of the \cite{Bacchus2020} article i
 
 \subsection{Requirements}
 
-The baseline chosen to illustrate hardware acceleration is the implementation of a modular CNN on an FPGA. The system illustrates the use as well as impact of mixed-precision. The system should respect the following requirements.
+The above objectives translate into requirements for the actual final software.
 
 \textbf{Requirements Table} The table specifies the requirements that the developed system should fulfill. It does not give an indication of how the requirements will be met but instead explains the reasons of its existence. Each requirement has an identifier, a name, a priority rank (0 being the highest) and an explanation.
 
 % REWORK PRIORITIES
-\resizebox{\textwidth}{!}{
-  \begin{tabular}{ | c c c c c c | }
+\resizebox{15cm}{!}{
+  \begin{tabular}{ | c c c c c | }
     \hline
-    \textbf{ID}  & \textbf{Name}      & \textbf{Description} & \textbf{Type}  & \textbf{Priority} & \textbf{Justification} \\
+    \textbf{ID}  & \textbf{Name}      & \textbf{Description} & \textbf{Type}  & \textbf{Justification} \\
     \hline
-    \textbf{R0}  & \emph{LitParam}    & The system should tune parameters defined by the literature                             & Constraint & 0 &  Literature review \\
+    \textbf{R0}  & \emph{LitNetwork}       & The system should use network architectures comparable to the literature                            & Constraint &  Literature review \\
     \hline
-    \textbf{R2}  & \emph{LitInfOpt}   & The system should use inference optimisations taken from the literature                 & Constraint & 0 &  Literature review \\
+    \textbf{R1}  & \emph{LitDataset}       & The system should use datasets comparable to the literature                                         & Constraint &  Literature review \\
     \hline
-    \textbf{R3}  & \emph{LitHardDes}  & The system should use hardware design taken from the literature                         & Constraint & 1 &  Literature review \\
+    \textbf{R2}  & \emph{LitDevFramework}  & The system should use a development framework presented the literature                              & Constraint &  Literature review \\
     \hline
-    \textbf{R4}  & \emph{TestParam}   & The system should evaluate the impact of the tuning parameters                          & Constraint & 0 &  User requirement  \\
+    \textbf{R3}  & \emph{LitAccFramework}  & The system should use an acceleration framework presented the literature                            & Constraint &  Literature review \\
     \hline
-    \textbf{R5}  & \emph{TestOptMeth} & The system should evaluate the impact of the optimisation methods                       & Constraint & 0 &  User requirement  \\
+    \textbf{R4}  & \emph{LitArch}          & The system should use a known hardware architecture or at least equivalent to the literature        & Constraint &  Literature review \\
     \hline
-    \textbf{R6}  & \emph{TestHardDes} & The system should evaluate the impact of the hardware design                            & Constraint & 1 &  User requirement  \\
+    \textbf{R5}  & \emph{TestParam}        & The system should evaluate the impact of the tuning parameters                                      & Constraint &  User requirement  \\
     \hline
-    \textbf{R7}  & \emph{ExpSound}    & The system should lead the experiment through a sound process                           & Constraint & 0 &  Meaningful experimental process \\
+    \textbf{R6}  & \emph{TestOptMeth}      & The system should evaluate the impact of the optimisation methods                                   & Constraint &  User requirement  \\
     \hline
-    \textbf{R8}  & \emph{ExpConsist}  & The system should lead the experiment through a consistent and replicable process       & Constraint & 1 &  Meaningful experimental process \\
+    \textbf{R7}  & \emph{TestHardDes}      & The system should evaluate the impact of the hardware design                                        & Constraint &  User requirement  \\
     \hline
-    \textbf{R9}  & \emph{ResGuide}    & The system should help create guidelines with the results                               & Constraint & 1 &  Exploitable results \\
+    \textbf{R8}  & \emph{ExpTrain}         & The system should lead the experiment through a sound, consistent and replicable training process   & Constraint &  Meaningful experimental process \\
     \hline
-    \textbf{R10} & \emph{ResComp}     & The system should create results comparable to the literature                           & Constraint & 0 &  Exploitable results \\
+    \textbf{R9}  & \emph{ExpDeploy}        & The system should lead the experiment through a sound, consistent and replicable deployment process & Constraint &  Meaningful experimental process \\
     \hline
-    \textbf{R11} & \emph{ResFlaws}    & The system should identify its security flaws and define a set of rules to contain them & Constraint & 2 &  Exploitable results \\
+    \textbf{R10} & \emph{ResGuide}         & The system should help create guidelines with the results                                           & Constraint &  Exploitable results \\
+    \hline
+    \textbf{R11} & \emph{ResComp}          & The system should create results comparable to the literature                                       & Constraint &  Exploitable results \\
     \hline
   \end{tabular}
 }
 
-The projected deliverables for the \emph{Research Report} are this given report as well as the \emph{Ethics Forms}. The additional deliverables for the \emph{Dissertation Thesis} are the developed \emph{Software}, the \emph{Guidelines}, \emph{Discussion and Evaluation of the results}, as well as the final \emph{Dissertation Thesis} and \emph{Ethics Forms}.
+The projected counterparts to the first requirements are the following:
+\begin{itemize}
+  \item \textbf{R0}: \emph{TFC}, \emph{CNV}, \emph{LeNet5}, \emph{VGG} and/or \emph{MobilenetV1}
+  \item \textbf{R1}: \emph{MNIST}, \emph{CIFAR-10}, \emph{GTSRB} and/or \emph{SVHN}
+  \item \textbf{R2}: \emph{PyTorch}'s extension \emph{Brevitas}
+  \item \textbf{R3}: Xilinx acceleration framework \emph{FINN}
+  \item \textbf{R4}: \emph{PYNQ-Z1}, \emph{Zedboard z7000} and/or \emph{Diligent NexusA7}
+\end{itemize}
+
+The projected deliverables for the \emph{Dissertation Thesis} are this given report as well as the \emph{Ethics Forms}. Additionally, the developed \emph{Software} and obtained results are provided. The results go along with discussion, evaluation and a presentation of the future works that can extend the project.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 4.2 - Evaluation Methodology
@@ -120,7 +120,15 @@ This section will provide methods, criteria and metrics to evaluate the end prod
 
 \subsection{Comparison}
 
-The results of the study and the values obtained will be compared to state-of-the-art studies and methods. The main works used for the comparison will be similar CNNs applied on different parallel architectures, from GPUs \cite{Micikevicius2017, Jia2018, Kurth2018} to FPGAs \cite{Zhao2016, Colangelo2018, Jahanshahi2019, Bacchus2020}.
+The results of the study and the values obtained will be compared to state-of-the-art studies and methods. The main works used for the comparison will be similar CNNs applied on different parallel architectures, from GPUs \cite{Micikevicius2017, Jia2018, Kurth2018} to FPGAs \cite{Zhao2016, Colangelo2018, Jahanshahi2019, Bacchus2020}. The different works will be compared on the basis of:
+\begin{itemize}
+  \item \textbf{Quantisation} of the parameters
+  \item \textbf{Accuracy} of the network on the provided dataset
+  \item \textbf{Throughput} of the instances through the deployed network
+  \item \textbf{Energy} consumed by the inference
+  \item \textbf{Hardware Utilisation} of the network on the hardware architecture
+  \item \textbf{Compression Ratio} of the network
+\end{itemize}
 
 %----------------------------------------------------------------------------------------
 %	SUBSECTION 4.2.2 - Requirements
@@ -136,4 +144,4 @@ Each requirement from the table will be examined later on and run against the ac
 
 \subsection{Quality}
 
-The scientific process will be reviewed to check if it complies to good practices and sound methodology. The results have to be reproducible and performed under a sound experimental process. Any parameter or configuration that might have been overlooked will have to be stated as so and justified.
+The scientific process will be reviewed to check if it complies to good practices and sound methodology. The results have to be reproducible and performed under a sound experimental process. Any parameter or configuration that might have been overlooked will have to be stated as so and justified. This reproducibility comes through a well-defined training process and an equally well-defined deployment process.
