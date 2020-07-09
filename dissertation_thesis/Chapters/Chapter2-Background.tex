@@ -24,14 +24,13 @@ The first thing to note is that electronics can represent two states, a presence
 %-----------------------------------
 \subsubsection{Integer Representation}
 
-The representation of integers and especially unsigned integers is straightforward as it consists of a change form base 10 to base 2. This number representation can be done in 16-bits, 32-bits or 64-bits depending on its type, the supporting hardware and the space we need to contain it. Representing a number in base 2 from base 10 or vice versa is straightforward as it only demands simple and exact basic operations to be performed. As shown on \emph{Figure} \ref{fig:IntegerRepr}, $4576 = 2^5 + 2^6 + 2^7 + 2^8 + 2^12$.
+The representation of integers and especially unsigned integers is straightforward as it consists of a change form base 10 to base 2. This number representation can be done in 16-bits, 32-bits or 64-bits depending on its type, the supporting hardware and the space we need to contain it. Representing a number in base 2 from base 10 or vice versa is straightforward as it only demands simple and exact basic operations to be performed. As shown on \emph{Figure} \ref{fig:IntegerRepr}, $4576 = 2^5 + 2^6 + 2^7 + 2^8 + 2^{12}$.
 
 Now, if we want to represent a signed integer, we have to use a method called the \emph{two's complement} in order to bring the sign in. This method keeps the basic behaviour of the addition to work on numbers be they positive or negative. The method consists in changing the value of all the bits of a given number then adding one to the result. The representation of -4576 when doing the computation with 13 bits (1 sign bit and 12 mantissa bits) consists of:
-
 \begin{align}
-(01000111100000)^\text{two's complement} &= (01000111100000)^\text{one's complement} + 1
-                                           &= 10111000011111 + 1
-                                           &= 10111000100000
+(01000111100000)^\text{two's complement} &= (01000111100000)^\text{one's complement} + 1\\ \nonumber
+                                         &= 10111000011111 + 1\\ \nonumber
+                                         &= 10111000100000
 \end{align}
 
 The result for 32 and 64 bits can be seen on \emph{Figure} \ref{fig:IntegerRepr}.
