@@ -151,7 +151,8 @@
 	linewidth=\textwidth,
 	escapeinside={(\#}{\#)},
 	deletekeywords={},
-	morekeywords={cp, tar, ls},
+	morekeywords={long, tar, ls},
+	keywordstyle=\bfseries\color{green!60!black}, 
 }
 \lstset{
 	literate={é}{{\'e}}1
