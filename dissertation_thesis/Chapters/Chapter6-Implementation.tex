@@ -199,27 +199,26 @@ As extracted from their repository: \guille{\emph{Open Neural Network Exchange (
 \subsection{FINN}
 
 % FINN WHOLE FLOW
-% \begin{figure}[htbp]
-% 	\centering
-% 		\includegraphics[width=\textwidth]{Figures/InferenceOpt.png}
-% 	\caption[Inference Optimisations]{Methods to accelerate an FPGA implementation \cite{Abdelouahab2018}}
-% 	\label{fig:InferenceOpt}
-% \end{figure}
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=16cm]{Figures/FINNWholeFlow.png}
+	\caption[FINN whole flow]{FINN workflow from Brevitas import to FPGA deployment}
+	\label{fig:FINNWholeFlow}
+\end{figure}
 
-The last piece of the workflow is \emph{FINN}, described by Xilinx as allowing \guille{Fast, Scalable Quantized Neural Network Inference on FPGAs}. The \emph{FINN} compiler goes through three major steps to be able to port a neural network. First, \emph{Network Preparation} where \emph{FINN} uses different transformations on the \emph{ONNX} graph to simplify it or make it more convenient for the next steps. Then, \emph{IP Generation} where the \emph{Vivado} tool is called to generate a network of HLS layers with one IP block per layer and finally stitches all the blocks together. Finally, the network is deployed on an FPGA with a \emph{PYNQ} shell, an FPGA utility providing a Python environment on an FPGA. This deployment is made possible by creating a project and driver then transferring it on the board along with the bitfile.
+The last piece of the workflow is \emph{FINN}, described by Xilinx as allowing \guille{Fast, Scalable Quantized Neural Network Inference on FPGAs}. The \emph{FINN} compiler goes through three major steps to be able to port a neural network as shown on \emph{Figure} \ref{fig:FINNWholeFlow}. First, \emph{Network Preparation} where \emph{FINN} uses different transformations on the \emph{ONNX} graph to simplify it or make it more convenient for the next steps. Then, \emph{IP Generation} where the \emph{Vivado} tool is called to generate a network of HLS layers with one IP block per layer and finally stitches all the blocks together. Finally, the network is deployed on an FPGA with a \emph{PYNQ} shell, an FPGA utility providing a Python environment on an FPGA. This deployment is made possible by creating a project and driver then transferring it on the board along with the bitfile.
 
-% IMAGE OF FINN WHOLE FLOW
-% \begin{figure}[htbp]
-% 	\centering
-% 		\includegraphics[width=\textwidth]{Figures/InferenceOpt.png}
-% 	\caption[Inference Optimisations]{Methods to accelerate an FPGA implementation \cite{Abdelouahab2018}}
-% 	\label{fig:InferenceOpt}
-% \end{figure}
+% FINN TRANSFORMATIONS
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=\textwidth]{Figures/FINNTransformations.png}
+	\caption[FINN Transformations]{FINN Transformations}
+	\label{fig:FINNTransformations}
+\end{figure}
 
-The network preparation part is the one involving several transformations in the structure of the neural network graph. The transformations are separated in three categories: tidy-up,
- streamlining, HLS conversion and dataflow partition. All the different transformations, whether they are used for tidy-up or synthesis purposes, are applied on a \texttt{ModelWrapper}.
+The network preparation part is the one involving several transformations in the structure of the neural network graph. The transformations are separated in three categories: tidy-up, streamlining, HLS conversion and dataflow partition. All the different transformations, whether they are used for tidy-up or synthesis purposes, are applied on a \texttt{ModelWrapper}. The flow of transformations can be seen on \emph{Figure} \ref{fig:FINNTransformations}.
 
-\emph{Tidy-up Transformations} consist of renaming the nodes so they have unique names, checking the data type and shapes of the tensors used. Example of them are \texttt{GiveReadableTensorNames}, \texttt{GiveUniqueNodeNames} or \texttt{InferShapes}.
+\emph{Tidy-up Transformations} consist of renaming the nodes so they have unique names, checking the data type and shapes of the tensors used. Examples of these different transformations are \texttt{GiveReadableTensorNames}, \texttt{GiveUniqueNodeNames} or \texttt{InferShapes}.
 
 \emph{Streamline Transformations} consist of a way to remove floating-point operations from the graph. The streamlining process itself contains three steps:
 \begin{itemize}
@@ -264,10 +263,32 @@ class Streamline(Transformation):
       model = model.transform(InferDataTypes())
     return (model, False)
 \end{lstlisting}
-\caption[FINNStreamline]{FINN Streamline process as proposed in }
+\caption[FINN Streamline]{FINN Streamline process as proposed in }
 	\label{fig:FINNStreamline}
 \end{figure}
 
+
+Once the streamlining transformations are completed, \emph{FINN} will convert the different layers to their HLS counterpart if possible. This conversion is made possible by using \texttt{finn-hls}, a backend library developed by the same team to translate layers to HLS. The result of the transformation consists of a mixture of HLS and non-HLS layers. The \emph{HLS Conversion} completed, \emph{FINN} will then proceed to a \emph{Dataflow Partitioning}. This step will separate the whole network graph into a parent graph that will be executed through the \texttt{onnx-exec}. One of its child node contains all the different HLS layers and during the execution of the whole graph, \emph{FINN} delegates the execution of this child node to the FPGA board and gets the result before injecting it back in the graph execution flow.
+
+% FINN SYNTHESIS
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=8cm]{Figures/FINNSynthesis.png}
+	\caption[FINN Synthesis]{FINN Synthesis}
+	\label{fig:FINNSynthesis}
+\end{figure}
+
+Once the graph is separated into two distinct parts, the synthesis can begin using \emph{Vivado}. Each layer is converted to one \emph{IP block}, a logical unit, then they are all stitched together to form the whole partition that will be ported to the board, as presented on \emph{Figure} \ref{FINNSynthesis}. This part produces a \emph{bitfile} that defines the configuration of the FPGA.
+
+% PYNQ DEPLOYMENT
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=8cm]{Figures/FINNPYNQ.png}
+	\caption[FINN PYNQ Deployment]{FINN PYNQ Deployment}
+	\label{fig:FINNPYNQ}
+\end{figure}
+
+Finally, the default built-in way to deploy the bitfile and execute it is to use the Python shield image named \emph{PYNQ}. This shield provides a Python environment to interact with the board. \emph{FINN} therefore creates and deploys a PYNQ project that consists of the base modules needed, a project structure and a simple driver. Once the project bitfile is transferred on the board, the driver can feed it with the image to inference, collect the result and send it back to the \texttt{onnx-exec} process.
 
 %-------------------------------------------
 %	SUBSECTION 6.2.4 - Benchmark as extension
@@ -275,14 +296,71 @@ class Streamline(Transformation):
 
 \subsection{Benchmark as Extension}
 
+The workflow \emph{Brevitas} / \emph{ONNX} / \emph{FINN} presents an interesting straightforward way to port a neural network on an FPGA board. In order to design a benchmark of the framework and to assess the impact of quantisation, there is a need for another layer on top of \emph{Brevitas} that should be able to train, evaluate and export neural networks. While Xilinx developers provide several examples to train and export different networks, they do not respect a common API nor the same structure rules. They are bundled in separate projects with instructions on how to run the training again but no insight is provided on what do hardcoded values mean on several quantised layers.
+
+The different objectives of the benchmark are:
+\begin{itemize}
+  \item Present a common API to train neural networks, quantised or not.
+  \item Be able to resume the training at any point.
+  \item Log the different parts of the training.
+  \item Define well-known neural networks and their quantised counterparts.
+  \item Set an easy access to well-known datasets.
+  \item Provide a common API to evaluate neural networks.
+  \item Be able to export the trained neural network to \emph{ONNX}.
+\end{itemize}
+
+The project is structured as follows:
+\begin{itemize}
+  \item \textbf{\texttt{core}}: Core functionalities of the benchmark tool. This subpackage contains the \texttt{CLI}, \texttt{Trainer}, \texttt{Plotter}, \texttt{Logger} and \texttt{Exporter}. The \texttt{Trainer} is the main piece and is given all the arguments passed to the \texttt{CLI}. The \texttt{Logger} logs training routine, the \texttt{Plotter} allows to visualise instances of the dataset and the \texttt{Exporter} performs the export to \emph{ONNX}.
+  \item \textbf{\texttt{extensions}}: Extensions of PyTorch functionalities to perform with quantised networks. These extensions consist of a new dataset, \emph{GTSRB}, a new loss function that can be used with binary networks, \emph{Squared Hinge Loss}, and a helper layer that performs the norm of the tensor.
+  \item \textbf{\texttt{networks}}: Network architectures and their quantised counterpart. The defined networks consist of \texttt{TFC} -three \emph{FC} layers next to each other-, \texttt{CNV} -a simple CNN-, \texttt{LeNet5}, \texttt{VGG11}, \texttt{VGG13}, \texttt{VGG16}, \texttt{VGG19} and \texttt{MobilenetV1}. All the different architectures answer to the same API and can be created by passing the number of \emph{classes}, number of \emph{in-channels} and the different quantisations if using a quantised network. The creation of a simple network and its quantised counterpart can be seen on \emph{Figure} \ref{fig:NetworkCreation}.
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\begin{lstlisting}[language=Python]
+from nn_benchmark.networks import LeNet5, QuantLeNet5
+
+# To train a classic PyTorch network on MNIST for example
+# (10 classes and black and white images)
+lenet5 = LeNet5(n_classes = 10, in_channels = 1)
+
+# To train a quantised Brevitas network on CIFAR-10 for example
+# (10 classes and RGB images) with quantisations of 2 bits for the
+# weights, 2 bits for the activations and 4 bits for the first layer
+quant_lenet5 = QuantLeNet5(n_classes = 10, in_channels = 3,
+                           weight_bit_width = 2,
+                           act_bit_width    = 2,
+                           in_bit_width     = 4)
+\end{lstlisting}
+\caption[NetworkCreation]{Network Creation with the benchmark tool}
+	\label{fig:NetworkCreation}
+\end{figure}
+
+% BENCHMARK CLI
+% \begin{figure}[htbp]
+% 	\centering
+% 		\includegraphics[width=8cm]{Figures/BenchCLI.png}
+% 	\caption[Benchmark CLI]{Benchmark Command Line Interface}
+% 	\label{fig:BenchCLI}
+% \end{figure}
+
+The training routine is wrapped up by the \texttt{Trainer} class and can be tuned through the command line. The \texttt{CLI} class holds a large number of parameters that can be used to customise the training phase. An example of a run can be seen on \emph{Figure} \ref{fig:BenchCLI}.
+
+% TODO PRESENT THE ARGUMENTS PASSED TO THE CLI IN THE EXAMPLE
+
+The programs in \texttt{quant\_utils\/} present helper methods to create the different quantised layers. Those helpers work as both a simplification of the quantised layers API but also as controllers of the homogeneity of the layers functionalities. This homogeneity is crucial as, for now, \emph{FINN} can only handle a subset of what \emph{Brevitas} is able to design and train. 
+
 %----------------------------------------------------------------------------------------
 %	SECTION 6.3 - Methodology and Setup
 %----------------------------------------------------------------------------------------
 
 \section{Methodology and Setup}
 
+This section will present the setup and methodology of the different experiments run. This is important for reproducibility purposes and to present results comparable to the literature. Those results aim at being extended in the future. \emph{FINN} and \emph{Brevitas} are not released yet and are still in development. The API of both tools is subject to change and results will need to be reassessed. However, the training part of the benchmark should not be subject to change as it uses a subset of the \emph{Brevitas} functionalities. While \emph{Brevitas} allows extensive tuning and customisation of both networks and training routine, \emph{FINN} can only (for now) handle a subset of those customisations.
+
 %-----------------------------------
-%	SUBSECTION 6.3.1 - Motivations
+%	SUBSECTION 6.3.1 - Experiments
 %-----------------------------------
 
 \subsection{Experiments}

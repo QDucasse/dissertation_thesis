@@ -42,6 +42,8 @@ The result for 32 and 64 bits can be seen on \emph{Figure} \ref{fig:IntegerRepr}
 	\label{fig:IntegerRepr}
 \end{figure}
 
+% TODO CORRECT FIGURE
+
 Those two representations allow a complete mapping of integers up to a certain range: signed 32-bit integers can represent numbers between -2,147,483,648 and 2,147,483,647 while unsigned integers can represent numbers between 0 and 4,294,967,295.
 
 %-----------------------------------
@@ -78,6 +80,8 @@ When referring to single-precision floating-point representation we are talking 
 	\label{fig:FP32}
 \end{figure}
 
+% TODO CORRECT FIGURE
+
 Referring to double precision floating-point representation means looking at 64-bit long memory representation, mapped as follows and as shown in \emph{Figure} \ref{fig:FP64}:
 \begin{itemize}
   \item Sign bit: 1 bit
@@ -93,6 +97,8 @@ Referring to double precision floating-point representation means looking at 64-
 	\caption[Double-precision float representation]{Example of the representation of a float in double-precision}
 	\label{fig:FP64}
 \end{figure}
+
+% TODO CORRECT FIGURE
 
 Along these representations, IEEE-754 introduces representations of special numbers. Positive and negative infinities are encoded with all 1s exponents and a fraction equal to zero. Zero is encoded with an all-0s exponent and fraction. Moreover, it adds methods to round floating-point numbers to positive or negative infinity, zero or to the nearest value.
 
@@ -224,6 +230,8 @@ Several layers are used and allow to perform different operations on images. The
 \end{itemize}
 
 Layers take as input a set of data, known as a \emph{Feature Map} and output a new set of feature maps with higher-level semantics. Those layers then compose a CNN architecture and can be trained on a bank of images to adjust the different bias and weights for each layers and their corresponding neurons. Finally, once the network is trained, it can deduce the class of a given image. Those two steps are called \emph{Training} and \emph{Inference}, the training will work on a set of annotated data samples to create a model \guille{which semantics extrapolate outside the training set, [with a] \emph{modelling power}} \cite{Abdelouahab2018}. Once this step is completed, the \emph{Inference} phase can start and the network will have to classify new data instances. The training phase is extremely consuming in terms of time, energy and hardware resources. However, it only needs to be performed once. On the other hand, the inference has to be run each time a new instance is provided to the system. Therefore, if literature focus on accelerating both phases, an emphasis is put on inference as it will be needed to embark trained networks in lighter architectures.
+
+% TODO ADD PARAGRAPH FORWARD BACKWARD PROPAGATION
 
 %-------------------------------------------------
 %	SUBSECTION 2.2.2 - Tools for Classification

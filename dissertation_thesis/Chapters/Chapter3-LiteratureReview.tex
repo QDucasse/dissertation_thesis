@@ -150,6 +150,8 @@ int main( int argc, char **argv) {
 	\label{fig:Tuning}
 \end{figure}
 
+% TODO PRESENT QUANTISATION APPLICATIONS THEN COMPARE THEM TO QNN METHODS
+
 %---------------------------------------------------------
 %	SECTION 3.2 - Quantised Networks and Quantisation Methods
 %---------------------------------------------------------
@@ -283,7 +285,7 @@ Next, the literature presents several optimisations strategies that will help th
 	\label{fig:InferenceOpt}
 \end{figure}
 
-The main strategies specific to FPGAs are linked to \emph{Hardware Generation} and \emph{Data-path optimisations}. The first one, \emph{Hardware Generation}, depends on the way the configurable hardware will be used and tuned. As shown in \emph{Figure} \ref{fig:InferenceOpt}, several methods exist to reconfigure an FPGA. Some use \emph{High Level Synthesis} through either OpenCL or Vivado. These different frameworks and accelerators will be the focus of the next subsection. On the other side, the \emph{Data-path optimisations} mainly revolve around the idea of loop optimisation. Several methods can be applied to the execution of nested loops to perform better on an FPGA. Loop optimisation comes in two different shapes: \emph{loop unrolling} and \emph{loop tiling}. 
+The main strategies specific to FPGAs are linked to \emph{Hardware Generation} and \emph{Data-path optimisations}. The first one, \emph{Hardware Generation}, depends on the way the configurable hardware will be used and tuned. As shown in \emph{Figure} \ref{fig:InferenceOpt}, several methods exist to reconfigure an FPGA. Some use \emph{High Level Synthesis} through either OpenCL or Vivado. These different frameworks and accelerators will be the focus of the next subsection. On the other side, the \emph{Data-path optimisations} mainly revolve around the idea of loop optimisation. Several methods can be applied to the execution of nested loops to perform better on an FPGA. Loop optimisation comes in two different shapes: \emph{loop unrolling} and \emph{loop tiling}.
 
 Unrolling a loop accelerates its execution at the cost of resource utilisation. Loop tiling consists of modifying the order of the different embedded loops in order to have the most expensive operations come all-together. These operations are \emph{DRAM (external memory)} accesses where the weights are stored since the FPGA cannot store them all with on-chip memory. An example of loop tiling can be seen on \emph{Figure} \ref{fig:LoopTiling}.
 

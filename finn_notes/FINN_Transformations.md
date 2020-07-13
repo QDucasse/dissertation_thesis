@@ -38,17 +38,17 @@ The first type of transformations consists of simple operations to tidy up the n
 
 The `Streamline` transformation consists of a succession of transformations to transform any Quantized Neural Network layer into integer-only operations. The *streamlining* process consists of three steps:
 
-- *Quantization as successive thresholding* : Given a set of threshold values, the successive thresholding function maps any real number `x` to an integer corresponding to the number of thresholds `x` is greater or equal to. This way, any uniform quantifier can be expressed as successive thresholding followed by a linear transformation: 
+- *Quantization as successive thresholding* : Given a set of threshold values, the successive thresholding function maps any real number `x` to an integer corresponding to the number of thresholds `x` is greater or equal to. This way, any uniform quantifier can be expressed as successive thresholding followed by a linear transformation:
   $$
   Q(x) = a*T(x) + b
   $$
-  
 
-- *Moving and collapsing linear transformations* : All *floating point* linear operations are positioned between the quantized matrix operation and the activation quantization. Any sequence of linear transformation can be collapsed in a single linear transformation. 
 
-- *Absorbing linear operations into thresholds* : Updating the threshold with the changes in the linear transformations removes any linear transformation from the graph. 
+- *Moving and collapsing linear transformations* : All *floating point* linear operations are positioned between the quantized matrix operation and the activation quantization. Any sequence of linear transformation can be collapsed in a single linear transformation.
 
-The final operations remaining are **successive thresholding** and **bipolar matrix multiplication**. 
+- *Absorbing linear operations into thresholds* : Updating the threshold with the changes in the linear transformations removes any linear transformation from the graph.
+
+The final operations remaining are **successive thresholding** and **bipolar matrix multiplication**.
 
 *Finn* implements the `Streamline` transformation as follows:
 
@@ -83,7 +83,7 @@ class Streamline(Transformation):
             model = model.transform(GiveReadableTensorNames())
             model = model.transform(InferDataTypes())
         return (model, False)
-```
+```     
 
 The `Streamline` operations are divided in:
 
@@ -91,10 +91,10 @@ The `Streamline` operations are divided in:
 - Conversion of the `Sign` nodes to an addition of a zero threshold in a `MultiThreshold` layer.
 - Reordering of the nodes with `MoveScalarAddPastMatMul`, `MoveScalarAddPastConv`, `MoveScalarMulPastMatMul`, etc. These transformations unites the different linear transformations.
 - Collapse of successive linear transformations with `CollapseRepeatedAdd` and `CollapseRepeatedMul`.
-- Absorption of linear transformations into other layers (`MatMul`, `Conv` or `Thresholds`). This is done through `AbsorbAddIntoMultiThreshold`, `FactorOutMulSignMagnitude`, `FactorOutMulSignMagnitude`. 
+- Absorption of linear transformations into other layers (`MatMul`, `Conv` or `Thresholds`). This is done through `AbsorbAddIntoMultiThreshold`, `FactorOutMulSignMagnitude`, `FactorOutMulSignMagnitude`.
 - Threshold values are rounded to the nearest integer to perform the layer pass on integers only. This is done with `RoundAndClipThresholds`.
 
-Note that between each of these transformation, a succession of `GiveUniqueNodeNames`, `GiveReadableTensorNames` and `InferDataTypes` is used. 
+Note that between each of these transformation, a succession of `GiveUniqueNodeNames`, `GiveReadableTensorNames` and `InferDataTypes` is used.
 
 #### FPGA Flow Transformations
 
