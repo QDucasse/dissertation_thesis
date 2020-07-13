@@ -26,6 +26,7 @@ deploy:
   file: ./dissertation_thesis/dissertation_thesis.pdf
   on:
     repo: QDucasse/dissertation_thesis
+    tags: 'true'
   skip_cleanup: 'true'
 notifications:
-  email: false
+  email: 'false'
