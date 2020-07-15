@@ -211,6 +211,10 @@ The neuron performs a simple dot product of all the inputs along with their weig
 
 Neural networks perform the simple operations of reducing the inputs, adding a bias and passing it through a non-linear function. However, it is possible to set up several layers where the first one is called the \emph{input layer}, the last one the \emph{output layer} and all the layers in-between the \emph{hidden layers}. These layers go one after each other as shown in \emph{Figure} \ref{fig:NN}. While having hidden neurons is useful to better comprehend the data fed to the network, having too much of them can lead to overfitting, including noise and outliers into the pattern recognition.
 
+% TODO ADD FIGURE FOR FORWARD PROP BACK PROP AND
+
+A neural network \guille{learns} by tuning its parameters. The tuning occurs in two phases: a \emph{forward} and \emph{backward} propagation. The \emph{forward} propagation consists of running an instance through the whole network. The \emph{backward} propagation defines a cost function that will measure how good the neural network performs. This cost can be obtained for an instance and the corresponding output the network. The network adjusts the parameters by using partial differentiates on the cost function. This cost is determined by the \emph{loss function}. Another important piece of the workflow is the optimiser. If the \emph{loss function} can determine how wrong the predictions are, the optimiser is the actual function modifying the parameters. It can adopt different strategies, the most well-known being \emph{Gradient Descent}. The \guille{amount of change} the optimiser is able to add depends on a hyper-parameter, the \emph{learning rate}.
+
 Neural networks perform well in machine learning, but the fields where the architecture is mostly used are image and speech recognition. An extension of neural networks is used when the data is known to be of a certain type. For example, if the data is known to be images, Convolutional Neural Networks (CNN) are the best choice as they are tailored with the goal of handling images. They are a special type of neural networks in the sense that they use 3D layers and transformations on images. This choice of 3D layers comes from the fact that images are usually encoded in three channels, RGB (Red, Green and Blue). CNNs can be used for image classification, object detection, image segmentation or speech recognition. We will focus on image recognition here as this field provides well-known metrics and network layouts due to the popularity of the ImageNet Project for example \cite{ImageNet2009}. This popularity has attracted literature focus and allows comparisons and benchmarks to be made.
 
 % NEURAL NETWORK PRESENTATION
@@ -230,8 +234,6 @@ Several layers are used and allow to perform different operations on images. The
 \end{itemize}
 
 Layers take as input a set of data, known as a \emph{Feature Map} and output a new set of feature maps with higher-level semantics. Those layers then compose a CNN architecture and can be trained on a bank of images to adjust the different bias and weights for each layers and their corresponding neurons. Finally, once the network is trained, it can deduce the class of a given image. Those two steps are called \emph{Training} and \emph{Inference}, the training will work on a set of annotated data samples to create a model \guille{which semantics extrapolate outside the training set, [with a] \emph{modelling power}} \cite{Abdelouahab2018}. Once this step is completed, the \emph{Inference} phase can start and the network will have to classify new data instances. The training phase is extremely consuming in terms of time, energy and hardware resources. However, it only needs to be performed once. On the other hand, the inference has to be run each time a new instance is provided to the system. Therefore, if literature focus on accelerating both phases, an emphasis is put on inference as it will be needed to embark trained networks in lighter architectures.
-
-% TODO ADD PARAGRAPH FORWARD BACKWARD PROPAGATION
 
 %-------------------------------------------------
 %	SUBSECTION 2.2.2 - Tools for Classification
@@ -306,7 +308,30 @@ Google came into place by proposing the \emph{MobileNet} \cite{Howard2017} archi
 
 Many other networks exist and are still being developed actively. New techniques (e.g. batch normalisation \cite{Ioffe2015}) are getting incorporated in state-of-the-art architectures to get an even better result out of them. This list is in no way exhaustive but presents the milestones and wishes to translate the mindset operating in the machine learning community.
 
-% TODO Table simplifying the different networks -> number of parameters, year, methodology, etc.
+\emph{Table} \ref{tab:CNNTable} summarizes the different network architectures. It provides both the network\'s name, year, paper it has been extracted from as well as its number of parameters. Moreover, the \emph{top-1} accuracy of the network on the ImageNet \cite{ImageNet2009} dataset is provided. We can see, as said earlier, that extending the network\'s number of parameters has been the focus of state-of-the-art architectures until 2014. Next, the
+
+\begin{table}[!]
+  \centering
+  \resizebox{\textwidth}{!}{
+  \begin{tabular}{ | c | c | c | c | c | }
+    \hline
+    \textbf{Name}          & \textbf{Year} &    \textbf{Paper}     & \textbf{Number of Parameters} & \textbf{Top-1 Accuracy} \\
+    \hline
+    \textbf{LeNet}         &     1998      &  \cite{LeCun1998}     &         0.6 M                 &           X             \\
+    \hline
+    \textbf{AlexNet}       &     2012      & \cite{Krizhevsky2012} &          60 M                 &         63.3\%          \\
+    \hline
+    \textbf{VGGNet (16)}   &     2014      & \cite{Simonyan2014}   &         138 M                 &         74.4\%          \\
+    \hline
+    \textbf{ResNet (50)}   &     2015      & \cite{He2015}         &          26 M                 &         81.2\%          \\
+    \hline
+    \textbf{MobileNet}     &     2017      & \cite{Howard2017}     &         4.2 M                 &         72.56\%         \\
+    \hline
+  \end{tabular}
+  }
+\caption[CNNTable]{Convolutional Neural Network Architectures}
+\label{tab:CNNTable}
+\end{table}
 
 %----------------------------------
 %	SUBSUBSECTION 2.2.2.2 - Datasets
@@ -326,7 +351,7 @@ The architectures presented earlier are well-known and are still getting better 
   	\label{fig:MNIST}
   \end{figure}
 
-  \item \emph{CIFAR-10} are labelled subset from the \emph{Tiny Images} dataset \cite{Krizhevsky2009}. It has been created in 2009 as collected and labelled automatically, supervised by three researchers from the MIT. This dataset is composed of tiny ($32 \times 32$) colored (3 channels) images of ten different classes: airplane, automobile, bird, cat, deer, dog, frog, horse, ship and truck. Instances taken from this dataset can be seen on \emph{Figure} \ref{fig:CIFAR-10} A more complicated dataset has been created in the same way. It is called \emph{CIFAR-100}, and as its name might suggest, contains a hundred different classes.
+  \item \emph{CIFAR-10} are labelled subset from the \emph{Tiny Images} dataset \cite{Krizhevsky2009}. It has been created in 2009 as collected and labeled automatically, supervised by three researchers from the MIT. This dataset is composed of tiny ($32 \times 32$) colored (3 channels) images of ten different classes: airplane, automobile, bird, cat, deer, dog, frog, horse, ship and truck. Instances taken from this dataset can be seen on \emph{Figure} \ref{fig:CIFAR-10} A more complicated dataset has been created in the same way. It is called \emph{CIFAR-100}, and as its name might suggest, contains a hundred different classes.
 
   % CIFAR-10 PRESENTATION
   \begin{figure}[htbp]
@@ -367,6 +392,37 @@ The architectures presented earlier are well-known and are still getting better 
 \end{itemize}
 
 % TODO: INCLUDE Table simplifying the different datasets
+
+\begin{table}[!]
+  \centering
+  \resizebox{\textwidth}{!}{
+  \begin{tabular}{ | c | c | c | c | c | c | c | }
+    \hline
+    \textbf{Name}            & \textbf{Year} &    \textbf{Paper}     & \textbf{Channels} & \textbf{Image Size} & \textbf{Instances}  & \textbf{Number of Classes} \\
+    \hline
+    \textbf{MNIST}           &     1998      &  \cite{LeCun1998}     &  1 (Grayscale)    &   $28 \times 28$    &  60,000 / 10,000    &    10     \\
+    \hline
+    \textbf{FashionMNIST}    &     2017      & \cite{Xiao2017}       &  1 (Grayscale)    &   $28 \times 28$    &  50,000 / 10,000    &    10     \\
+    \hline
+    \textbf{Kuzushiji-MNIST} &     2018      & \cite{Clanuwat2018}   &  1 (Grayscale)    &   $28 \times 28$    &  60,000 / 10,000    &    10     \\
+    \hline
+    \textbf{MNIST-MIX}       &     2020      & \cite{Jiang2020}      &  1 (Grayscale)    &   $28 \times 28$    & 397,440 / 99,360    &   100     \\
+    \hline
+    \textbf{CIFAR-10}        &     2009      & \cite{Krizhevsky2009} &  3 (RGB)          &   $32 \times 32$    &  50,000 / 10,000    &    10     \\
+    \hline
+    \textbf{CIFAR-100}       &     2009      & \cite{Krizhevsky2009} &  3 (RGB)          &   $32 \times 32$    &  50,000 / 10,000    &   100     \\
+    \hline
+    \textbf{SVHN}            &     2011      & \cite{Netzer2011}     &  3 (RGB)          &   $32 \times 32$    &  73,260 / 26,000    &    10     \\
+    \hline
+    \textbf{GTSRB}           &     2012      & \cite{Stallkamp2012}  &  3 (RGB)          &   $15 \times 15$ to $250 \times 250$      &    50,000 / 10,000   &    43     \\
+    \hline
+    \textbf{ImageNet}        &     2009      & \cite{ImageNet2009}   &  3 (RGB)          &  $224 \times 224$   &   14M / 50,000      &  1000     \\
+    \hline
+  \end{tabular}
+  }
+\caption[DatasetTable]{Datasets}
+\label{tab:DatasetTable}
+\end{table}
 
 %-----------------------------------------------------
 %	SUBSUBSECTION 2.2.2.3 - Development Frameworks
