@@ -175,6 +175,8 @@ Once the neural network is defined and trained, \emph{Brevitas} provides a way t
 
 As extracted from their repository: \guille{\emph{Open Neural Network Exchange (ONNX)} is an open ecosystem that empowers AI developers to choose the right tool for their project}. \emph{ONNX} provides an open-source format for artificial intelligence and machine learning models. This is done by defining an extensible computation graph model, as well as definitions of operators and data types. \emph{ONNX} is widely supported in different frameworks or tools. The main goal behind its design and development was to \guille{enable interoperability between different frameworks to streamline the path between research and production}.
 
+% TODO ONNX BEFORE AND AFTER TRANSFORMATIONS
+
 % LENET ONNX THROUGH NETRON
 % \begin{figure}[htbp]
 % 	\centering
@@ -263,7 +265,7 @@ class Streamline(Transformation):
       model = model.transform(InferDataTypes())
     return (model, False)
 \end{lstlisting}
-\caption[FINN Streamline]{FINN Streamline process as proposed in }
+\caption[FINN Streamline]{FINN Streamline process as proposed in \cite{Blott2018}}
 	\label{fig:FINNStreamline}
 \end{figure}
 
@@ -316,6 +318,15 @@ The project is structured as follows:
   \item \textbf{\texttt{networks}}: Network architectures and their quantised counterpart. The defined networks consist of \texttt{TFC} -three \emph{FC} layers next to each other-, \texttt{CNV} -a simple CNN-, \texttt{LeNet5}, \texttt{VGG11}, \texttt{VGG13}, \texttt{VGG16}, \texttt{VGG19} and \texttt{MobilenetV1}. All the different architectures answer to the same API and can be created by passing the number of \emph{classes}, number of \emph{in-channels} and the different quantisations if using a quantised network. The creation of a simple network and its quantised counterpart can be seen on \emph{Figure} \ref{fig:NetworkCreation}.
 \end{itemize}
 
+% PROJECT UML
+% \begin{figure}[htbp]
+% 	\centering
+% 		\includegraphics[width=8cm]{Figures/BenchCLI.png}
+% 	\caption[Benchmark CLI]{Benchmark Command Line Interface}
+% 	\label{fig:BenchCLI}
+% \end{figure}
+
+
 \begin{figure}[htbp]
 \centering
 \begin{lstlisting}[language=Python]
@@ -349,7 +360,7 @@ The training routine is wrapped up by the \texttt{Trainer} class and can be tune
 
 % TODO PRESENT THE ARGUMENTS PASSED TO THE CLI IN THE EXAMPLE
 
-The programs in \texttt{quant\_utils\/} present helper methods to create the different quantised layers. Those helpers work as both a simplification of the quantised layers API but also as controllers of the homogeneity of the layers functionalities. This homogeneity is crucial as, for now, \emph{FINN} can only handle a subset of what \emph{Brevitas} is able to design and train. 
+The programs in \texttt{quant\_utils\/} present helper methods to create the different quantised layers. Those helpers work as both a simplification of the quantised layers API but also as controllers of the homogeneity of the layers functionalities. This homogeneity is crucial as, for now, \emph{FINN} can only handle a subset of what \emph{Brevitas} is able to design and train.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 6.3 - Methodology and Setup
@@ -365,14 +376,113 @@ This section will present the setup and methodology of the different experiments
 
 \subsection{Experiments}
 
+In order to assess the impact of quantisation, the objective is to deploy a neural network with varying precision for its weights and activations. The different metrics that will be taken in consideration are the following:
+
+\begin{itemize}
+  \item \textbf{Weight Bitwidth}: The number of bits in the weight precision.
+  \item \textbf{Activation Bitwidth}: The number of bits in the activation precision.
+  \item \textbf{Network Accuracy}: The final accuracy of the trained network on the test set.
+  \item \textbf{Training Time}: Number of epochs the network was trained for.
+  \item \textbf{Hardware Utilisation}: Look-up tables (LUT), flip-flops (FF) and BRAM usage.
+  \item \textbf{Throughput}: Number of image the deployed network can process per second.
+\end{itemize}
+
+The initial objective was to train three different neural networks and their according datasets, the three being:
+\begin{itemize}
+  \item \textbf{TFC} for \textbf{Fashion-MNIST}: A simple neural network containing three fully-connected layers to train on a variation of the handwritten digits dataset, \emph{Fashion-MNIST} using small grayscale images of garments.
+  \item \textbf{CNV} for \textbf{CIFAR-10}: A simple convolutional neural network to run on a classic 3-channels dataset, CIFAR-10.
+  \item \textbf{MobilenetV1} for \textbf{GTSRB}: This network is interesting due to the fact it has been designed with portability in mind, coupling it with a street signs dataset makes it an interesting combination in an autonomous driving context.
+\end{itemize}
+
 %--------------------------------------
 %	SUBSECTION 6.3.2 - Training
 %--------------------------------------
 
 \subsection{Training}
 
+% TODO Specify missing refs
+
+The training of the different networks is made with the following parameters and hyper-parameters:
+\begin{itemize}
+  \item \textbf{Epochs}: 40
+  \item \textbf{Momentum}: 0.9
+  \item \textbf{Learning Rate}: 0.01
+  \item \textbf{Scheduler}: Multi-step scheduler, the learning rate is divided by 10 on epochs 34 and 37 as done in \cite{}.
+  \item \textbf{Batch size}: 100 instances per batch.
+  \item \textbf{Loss function}: The loss function used is \emph{Cross Entropy}.
+  \item \textbf{Optimiser}: The optimiser use dis the \emph{ADAM} optimiser as it has been shown it is the most performing one when dealing with reduced precision \cite{}.
+\end{itemize}
+
+Along with those parameters, the bitwidths of weights and activations are taken from 2 to 32 bits. There are no differences here between the weights and activations. While \cite{Bacchus2020} differentiates the bitwidths, this functionality is still not fully supported in \emph{Brevitas} / \emph{FINN}. The inputs are either 8 bits (for sub-8bits weights and activations) or 32 bits (for 16 and 32-bits weights and activations). A summary of the bitwidths used follows:
+\begin{itemize}
+  \item \textbf{weights}: 2, 4, 8, 16, 32
+  \item \textbf{activations}: 2, 4, 8, 16, 32
+  \item \textbf{inputs}: 8, 8, 8, 32, 32
+\end{itemize}
+
+Rather than using the \emph{CLI} to specify the training configuration for each one of the neural networks as in \emph{Figure} \ref{fig:BenchCLI}, a running script is provided as presented in \emph{Figure} \ref{fig:TrainingScript}. This script emulates the \emph{CLI} by passing the specified parameters and hyper-parameters presented earlier but varying both the network architecture, dataset and the different bitwidths.
+
+\begin{figure}[htbp]
+\centering
+\begin{lstlisting}[language=Python]
+import sys
+from nn_benchmark.core import ObjDict, Trainer
+from nn_benchmark.networks import QuantTFC, QuantCNV, QuantMobilenetV1
+
+if __name__ == "__main__":
+    acq_list = [2, 4, 8, 16, 32]
+    weq_list = [2, 4, 8, 16, 32]
+    inq_list = [8, 8, 8, 32, 32]
+
+    args = {'datadir': './data/', 'experiments': './experiments', 'dry_run': False,
+            'log_freq': 10, 'evaluate': False, 'resume': None, 'detect_nan': False,
+            'num_workers': 4, 'gpus': '0', 'batch_size': 100, 'lr': 0.01, 'optim': 'ADAM',
+            'loss': 'CrossEntropy', 'scheduler': 'STEP', 'milestones': '34,37',
+            'momentum': 0.9, 'weight_decay': 0, 'epochs': 40, 'random_seed': 1,
+            'network': None, 'pretrained': False, 'dataset': None,
+            'visualize': False, 'acq': None, 'weq': None, 'inq': None, 'onnx': False}
+    args = ObjDict(args)
+
+    # QuantTFC on Fashion-MNIST
+    args.network = "QuantTFC"
+    args.dataset = "FASHION-MNIST"
+    for acq, weq, inq in zip(acq_list, weq_list, inq_list):
+        args.acq = acq
+        args.weq = weq
+        args.inq = inq
+        trainer_tfc = Trainer(args)
+        trainer_tfc.train_model()
+
+    # QuantCNV on CIFAR-10
+    args.network = "QuantCNV"
+    args.dataset = "CIFAR10"
+    for acq, weq, inq in zip(acq_list, weq_list, inq_list):
+        args.acq = acq
+        args.weq = weq
+        args.inq = inq
+        trainer_cnv = Trainer(args)
+        trainer_cnv.train_model()
+
+    # QuantMobilenetV1 on GTSRB
+    args.network = "QuantMobilenetV1"
+    args.dataset = "GTSRB"
+    for acq, weq, inq in zip(acq_list, weq_list, inq_list):
+        args.acq = acq
+        args.weq = weq
+        args.inq = inq
+        trainer_mobilenet = Trainer(args)
+        trainer_mobilenet.train_model()
+\end{lstlisting}
+\caption[Training Script]{Training Script to train all three networks}
+	\label{fig:TrainingScript}
+\end{figure}
+
 %--------------------------------------
 %	SUBSECTION 6.3.3 - Deployment
 %--------------------------------------
 
 \subsection{Deployment}
+
+The deployment step is performed through the different \emph{FINN} transformations. The target architecture is a \emph{PYNQ-Z1}, a Python shell over a circuit from the \emph{Zynq} family. The \emph{Zynq} circuits are composed of an \guille{Ap SoC} (All Programmable System-on-Chip) that contains a dual-core ARM Cortex-A9.
+
+While the target here is the base shell holder\emph{PYNQ-Z1}, the Python shell can be ported to other architectures. For now, the official supported architectures are \emph{PYNQ-Z1} or \emph{PYNQ-Z2} from Digilent and \emph{ZCU104} or \emph{ZCU111} from Xilinx. However, instructions to create your own image are available and several community \emph{PYNQ} images are available (\emph{Avnet Ultra96} for example).
