@@ -213,7 +213,7 @@ The last piece of the workflow is \emph{FINN}, described by Xilinx as allowing \
 % FINN TRANSFORMATIONS
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=10cm]{Figures/FINNTransformations.png}
+		\includegraphics[width=\textwidth]{Figures/FINNTransformations.png}
 	\caption[FINN Transformations]{FINN Transformations}
 	\label{fig:FINNTransformations}
 \end{figure}
@@ -275,7 +275,7 @@ Once the streamlining transformations are completed, \emph{FINN} will convert th
 % FINN SYNTHESIS
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=10cm]{Figures/FINNSynthesis.png}
+		\includegraphics[width=8cm]{Figures/FINNSynthesis.png}
 	\caption[FINN Synthesis]{FINN Synthesis}
 	\label{fig:FINNSynthesis}
 \end{figure}
@@ -285,7 +285,7 @@ Once the graph is separated into two distinct parts, the synthesis can begin usi
 % PYNQ DEPLOYMENT
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=10cm]{Figures/FINNPYNQ.png}
+		\includegraphics[width=8cm]{Figures/FINNPYNQ.png}
 	\caption[FINN PYNQ Deployment]{FINN PYNQ Deployment}
 	\label{fig:FINNPYNQ}
 \end{figure}
@@ -486,3 +486,131 @@ if __name__ == "__main__":
 The deployment step is performed through the different \emph{FINN} transformations. The target architecture is a \emph{PYNQ-Z1}, a Python shell over a circuit from the \emph{Zynq} family. The \emph{Zynq} circuits are composed of an \guille{Ap SoC} (All Programmable System-on-Chip) that contains a dual-core ARM Cortex-A9.
 
 While the target here is the base shell holder\emph{PYNQ-Z1}, the Python shell can be ported to other architectures. For now, the official supported architectures are \emph{PYNQ-Z1} or \emph{PYNQ-Z2} from Digilent and \emph{ZCU104} or \emph{ZCU111} from Xilinx. However, instructions to create your own image are available and several community \emph{PYNQ} images are available (\emph{Avnet Ultra96} for example).
+
+Looking through the transformations steps presented earlier, here are the transformations used:
+\begin{itemize}
+  \item \textbf{Tidy-up}: This first step calls different transformations to simplify the graph. The transformations used here are \texttt{DoubleToSingleFloat}, \texttt{InferShapes}, \texttt{FoldConstants}, \texttt{GiveUniqueNodeNames}, \texttt{GiveReadableTensorNames} and \texttt{InferDataTypes}.
+  \item \textbf{Streamline}: The streamline process described earlier is resumed to the \texttt{Streamline} transformation.
+  \item \textbf{HLS Conversion}: The conversion consists of changing the layers to their HLS counterpart. In the case of quantised FC layers, the transformation is \texttt{InferQuantizedStreamingFCLayer}.
+  \item \textbf{Dataflow Partition}: The separation is contained in the \texttt{CreateDataflowPartition} transformation.
+  \item \textbf{Folding}: The tuning operates on the child containing the HLS layers of the previously created partition. This folding is an empiric process for now but can be guided using \guille{folding factors}. Here, the folding factor used was 32. Each image consists of 1024 pixels ($32 \times 32$) and the PE and SIMD determines the number of simultaneous operations that can be processed in order to process the full image. The higher the folding factor, the higher number of passes are needed but the fewer hardware resources used. The \emph{PYNQ} being a relatively small FPGA, a folding factor of 16 was too much to handle and therefore 32 is chosen. The folding process can be seen on \emph{Figure} \ref{fig:FoldingProcess}. After selecting the PE and SIMD, the transformations \texttt{InsertDWC} \texttt{InsertFIFO} and \texttt{InsertTLastMarker} can be used.
+
+  \begin{figure}[htbp]
+  \centering
+  \begin{lstlisting}[language=Python]
+  fc_layers = model.get_nodes_by_op_type("StreamingFCLayer_Batch")
+  # (PE, SIMD, in_fifo_depth, out_fifo_depth, ramstyle) for each layer
+  # Test Divided by two the PE and in_fifo_depth
+  config = [
+      (16, 64, 16, 64, "block"),
+      (8, 8, 64, 64, "auto"),
+      (8, 8, 64, 64, "auto"),
+      (10, 8, 64, 10, "distributed"),
+  ]
+  for fcl, (pe, simd, ififo, ofifo, ramstyle) in zip(fc_layers, config):
+      fcl_inst = getCustomOp(fcl)
+      fcl_inst.set_nodeattr("PE", pe)
+      fcl_inst.set_nodeattr("SIMD", simd)
+      fcl_inst.set_nodeattr("inFIFODepth", ififo)
+      fcl_inst.set_nodeattr("outFIFODepth", ofifo)
+      fcl_inst.set_nodeattr("ram_style", ramstyle)
+  \end{lstlisting}
+  \caption[Folding Process]{Folding process on the different layers}
+  	\label{fig:FoldingProcess}
+  \end{figure}
+  \item \textbf{IP Synthesis}: The IP are synthesised using \texttt{PrepareIP}, \texttt{HLSSynthIP}, \texttt{ReplaceVerilogRelPaths} and \texttt{CreateStitchedIP}. The result is a stitched IP consisting of one IP per layer succeeding one another.
+  \item \textbf{PYNQ deployment}: The PYNQ driver and project are created with \texttt{MakePYNQProject}, \texttt{SynthPYNQProject} and \texttt{MakePYNQDriver} and deployed with \texttt{DeployToPYNQ}.
+\end{itemize}
+
+% TODO: FIGURES VIVADO AND PYNQ
+
+These steps create a \emph{Vivado} project, perform the synthesis and transfer the bitfile to the \emph{PYNQ-Z1}. An overview of the \emph{Vivado} block design can be seen on \emph{Figure} \ref{fig:VivadoBlockDesign}. A picture of the \emph{PYNQ-Z1} can be seen on \emph{Figure} \ref{fig:PYNQ-Z1}.
+
+% VIVADO PROJECT
+% \begin{figure}[htbp]
+% 	\centering
+% 		\includegraphics[width=8cm]{Figures/BenchCLI.png}
+% 	\caption[Benchmark CLI]{Benchmark Command Line Interface}
+% 	\label{fig:BenchCLI}
+% \end{figure}
+
+% PYNQ PHOTO
+% \begin{figure}[htbp]
+% 	\centering
+% 		\includegraphics[width=8cm]{Figures/BenchCLI.png}
+% 	\caption[Benchmark CLI]{Benchmark Command Line Interface}
+% 	\label{fig:BenchCLI}
+% \end{figure}
+
+
+In the end, it is possible to provide an image to the deployed network as presented on \emph{Figure} \ref{fig:DeployedInference}. Moreover, \emph{FINN} provides a way to conduct a throughput test as presented on \emph{Figure} \ref{fig:ThroughputTest}.
+
+\begin{figure}[htbp]
+\centering
+\begin{lstlisting}[language=Python]
+import numpy as np
+from finn.core.onnx_exec import execute_onnx
+# Loading the image
+image = Image.open('/workspace/finn/onnx_experiments/img_MNIST.png')
+x = TF.to_tensor(image)
+x.unsqueeze_(0)
+# Loading the parent model of the partition
+parent_model = load("dataflow_parent")
+sdp_node = parent_model.graph.node[2]
+remote_exec_model = build_dir + "tfc_deploy.onnx"
+getCustomOp(sdp_node).set_nodeattr("model", remote_exec_model)
+save(parent_model,"dataflow_parent_with_remote_bitfile_exec")
+# Running the model, the deployed part will go to the FPGA once the node is reached
+iname = parent_model.graph.input[0].name
+oname = parent_model.graph.output[0].name
+ishape = parent_model.get_tensor_shape(iname)
+input_dict = {iname: x.numpy()[0].reshape(ishape)}
+ret = execute_onnx(parent_model, input_dict, True)
+# Definition of the softmax function
+def softmax(x):
+    """Compute softmax values for each sets of scores in x."""
+    e_x = np.exp(x - np.max(x))
+    return e_x / e_x.sum()
+logits = ret[oname].flatten()
+prob = softmax(logits)
+# Presentation of the probabilities for the given image
+plt.bar(np.arange(10), prob)
+\end{lstlisting}
+\caption[Deployed Inference]{Inference on the deployed network}
+  \label{fig:DeployedInference}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{lstlisting}[language=Python]
+import numpy as np
+from finn.core.onnx_exec import execute_onnx
+# Loading the image
+image = Image.open('/workspace/finn/onnx_experiments/img_MNIST_grayscale.png')
+x = TF.to_tensor(image)
+x.unsqueeze_(0)
+# Loading the parent model of the partition
+parent_model = load("dataflow_parent")
+sdp_node = parent_model.graph.node[2]
+remote_exec_model = build_dir + "tfc_deploy.onnx"
+getCustomOp(sdp_node).set_nodeattr("model", remote_exec_model)
+save(parent_model,"dataflow_parent_with_remote_bitfile_exec")
+# Running the model, the deployed part will go to the FPGA once the node is reached
+iname = parent_model.graph.input[0].name
+oname = parent_model.graph.output[0].name
+ishape = parent_model.get_tensor_shape(iname)
+input_dict = {iname: x.numpy()[0].reshape(ishape)}
+ret = execute_onnx(parent_model, input_dict, True)
+# Definition of the softmax function
+def softmax(x):
+    """Compute softmax values for each sets of scores in x."""
+    e_x = np.exp(x - np.max(x))
+    return e_x / e_x.sum()
+logits = ret[oname].flatten()
+prob = softmax(logits)
+# Presentation of the probabilities for the given image
+plt.bar(np.arange(10), prob)
+\end{lstlisting}
+\caption[Throughput Test]{Throughput test method}
+  \label{fig:ThroughputTest}
+\end{figure}
