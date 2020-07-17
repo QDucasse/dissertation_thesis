@@ -309,36 +309,114 @@ The three metrics presented in the next graphs are: \emph{throughput}, the numbe
   \end{figure}
 \end{itemize}
 
+
 %----------------------------------------------------------------------------------------
 %	SUBSECTION 7.1.2 - Results Tables
 %----------------------------------------------------------------------------------------
-
+\newpage
 \subsection{Results Tables}
 
-This section presents the data used to plot the different graphs from earlier but
-% \begin{table}[!]
-%   \centering
-%   \resizebox{\textwidth}{!}{
-%   \begin{tabular}{ | c | c | c | c | c | }
-%     \hline
-%     \textbf{Experiment Name} & \textbf{Year} &    \textbf{Paper}     & \textbf{Number of Parameters} & \textbf{Top-1 Accuracy} \\
-%     \hline
-%     \textbf{A2W2I8}          &     1998      &  \cite{LeCun1998}     &         0.6 M                 &           X             \\
-%     \hline
-%     \textbf{A4W4I8}          &     2012      & \cite{Krizhevsky2012} &          60 M                 &         63.3\%          \\
-%     \hline
-%     \textbf{A8W8I8}          &     2014      & \cite{Simonyan2014}   &         138 M                 &         74.4\%          \\
-%     \hline
-%     \textbf{A16W16I32}       &     2015      & \cite{He2015}         &          26 M                 &         81.2\%          \\
-%     \hline
-%     \textbf{A32W32I32}       &     2017      & \cite{Howard2017}     &         4.2 M                 &         72.56\%         \\
-%     \hline
-%   \end{tabular}
-%   }
-% \caption[Zebi]{Convolutional Neural Network Architectures}
-% \label{tab:Zebi}
-% \end{table}
+This section presents the data used to plot the different graphs from earlier as well as other metrics that have been gathered from the Vivado implementation. The first two tables, \emph{Table} \ref{tab:TFCAccuracyTable} and \emph{Table} \ref{tab:CNVAccuracyTable}, present the accuracy obtained when training \emph{TFC} and \emph{CNV} for 40 epochs, using a checkpoint every 10 epochs. For the \emph{TFC} example in \emph{Table} \ref{tab:TFCAccuracyTable}, there is a difference in accuracy of 1.13\% between the 2-bits and 32-bits after 40 epochs of training. Moreover, there is only a difference of 0.9\% between the 2-bits version after 40 epochs and the 32-bits version after 20 epochs. While lower bits representations need more time to train, they can achieve similar result to a certain extent.
 
+\begin{table}[!htb]
+  \centering
+  \resizebox{16cm}{!}{
+  \begin{tabular}{ | c | c | c | c | c | }
+    \hline
+    \textbf{Experiment Name} & \textbf{Accuracy after 10 epochs} & \textbf{Accuracy after 10 epochs} & \textbf{Accuracy after 10 epochs} & \textbf{Accuracy after 10 epochs} \\
+    \hline
+    \textbf{A2W2I8}          & 84.960 & 85.540 & 86.380 & 87.150 \\
+    \hline
+    \textbf{A4W4I8}          & 86.340 & 86.670 & 87.320 & 87.760 \\
+    \hline
+    \textbf{A8W8I8}          & 86.010 & 87.020 & 87.460 & 87.710 \\
+    \hline
+    \textbf{A16W16I32}       & 86.140 & 87.330 & 87.710 & 88.440 \\
+    \hline
+    \textbf{A32W32I32}       & 86.010 & 87.340 & 87.690 & 88.280 \\
+    \hline
+  \end{tabular}
+  }
+\caption[TFC Accuracy Table]{TFC accuracy for different training times}
+\label{tab:TFCAccuracyTable}
+\end{table}
+
+The \emph{CNV} case in \emph{Table} \ref{tab:CNVAccuracyTable} presents the same conclusions. While there is a difference of 7.84\% between the 2-bits and 32-bits accuracy after 10 epochs of training, this difference lowers to 4.3\% after 40 epochs for both. Moreover, if we compare the 2-bits accuracy after 40 epochs and the 32-bits accuracy after 30 epochs, there is on 0.44\% of difference in accuracy.
+
+\begin{table}[!htb]
+  \centering
+  \resizebox{16cm}{!}{
+  \begin{tabular}{ | c | c | c | c | c | }
+    \hline
+    \textbf{Experiment Name} & \textbf{Accuracy after 10 epochs} & \textbf{Accuracy after 10 epochs} & \textbf{Accuracy after 10 epochs} & \textbf{Accuracy after 10 epochs} \\
+    \hline
+    \textbf{A2W2I8}          & 65.130 & 68.710 & 76.970 & 82.360 \\
+    \hline
+    \textbf{A4W4I8}          & 70.780 & 79.140 & 81.300 & 85.560 \\
+    \hline
+    \textbf{A8W8I8}          & 75.450 & 81.620 & 82.760 & 85.720 \\
+    \hline
+    \textbf{A16W16I32}       & 75.360 & 79.520 & 81.980 & 86.110 \\
+    \hline
+    \textbf{A32W32I32}       & 72.970 & 80.760 & 82.800 & 86.050 \\
+    \hline
+  \end{tabular}
+  }
+\caption[CNV Accuracy Table]{CNV accuracy for different training times}
+\label{tab:CNVAccuracyTable}
+\end{table}
+
+The other metrics include several I/O mechanics when looking at the DRAM in/out bandwith and the underlying throughput. Those three metrics are presented in \emph{Table} \ref{tab:TFCIOTable}. From this table, we can see that, with an exception to A32W32, the lower the bitwidth the higher the throughput and DRAM i/o bandwidth. However, A32W32 is coming third on the throughput test, DRAM in bandwidth and fourth on the DRAM out bandwidth.
+
+\begin{table}[!htb]
+  \centering
+  \resizebox{11cm}{!}{
+  \begin{tabular}{ | c | c | c | c | c | }
+    \hline
+    \textbf{Experiment Name} & \textbf{Throughput} & \textbf{DRAM in bandwidth} & \textbf{DRAM out bandwidth} \\
+    \hline
+    \textbf{A2W2I8}          & 281951 [img/s]  & 283.18 [Mb/s] & 11.28 [Mb/s] \\
+    \hline
+    \textbf{A4W4I8}          & 282483 [img/s]  & 289.26 [Mb/s] & 11.30 [Mb/s] \\
+    \hline
+    \textbf{A8W8I8}          & 267732 [img/s]  & 274.16 [Mb/s] & 10.71 [Mb/s] \\
+    \hline
+    \textbf{A16W16I32}       & 236205 [img/s]  & 241.87 [Mb/s] &  9.45 [Mb/s] \\
+    \hline
+    \textbf{A32W32I32}       & 276541 [img/s]  & 283.18 [Mb/s] & 11.06 [Mb/s] \\
+    \hline
+  \end{tabular}
+  }
+\caption[TFC IO Table]{TFC I/O metrics}
+\label{tab:TFCIOTable}
+\end{table}
+
+
+Finally, hardware resources are available in \emph{Table} \ref{tab:TFCHardwareTable}. They present both the power needed to run the bitfile, the number of \emph{Look-Up Tables (LUT)} needed to synthesise the design and the number of \emph{Flip-Flops (FF)}. In terms of power, A8W8 consumes the less with 2.07W and S2W2 as well as A4W4 consume more (2.14W and 2.151 respectively) than A16W16 at 2.136W. A32W32 is well on top with 2.159W consumed. In terms of \emph{LUTs} and \emph{FFs}, A32W32 is the representation using the less \emph{LUTs} while A8W8 is the representation using the less \emph{FFs}. On the other hand, A4W4 uses the most \emph{LUTs} and \emph{FFs}.
+
+
+\begin{table}[!htb]
+  \centering
+  \resizebox{9cm}{!}{
+  \begin{tabular}{ | c | c | c | c | c | }
+    \hline
+    \textbf{Experiment Name} & \textbf{Power} & \textbf{Look-Up Tables} & \textbf{Flip-Flops} \\
+    \hline
+    \textbf{A2W2I8}          & 2.140 [W]  & 30618 & 27704 \\
+    \hline
+    \textbf{A4W4I8}          & 2.151 [W]  & 30644 & 27760 \\
+    \hline
+    \textbf{A8W8I8}          & 2.070 [W]  & 30617 & 27660 \\
+    \hline
+    \textbf{A16W16I32}       & 2.136 [W]  & 30610 & 27717 \\
+    \hline
+    \textbf{A32W32I32}       & 2.159 [W]  & 30586 & 27670 \\
+    \hline
+  \end{tabular}
+  }
+\caption[TFC Hardware Utilisation Table]{TFC Hardware Utilisation}
+\label{tab:TFCHardwareTable}
+\end{table}
 
 % TFC
 % Results for            Throughput | DRAM in bandwidth | DRAM out bandwidth:
@@ -369,3 +447,9 @@ This section presents the data used to plot the different graphs from earlier bu
 %----------------------------------------------------------------------------------------
 
 \subsection{Results Conclusion}
+
+These results show several interesting insights on the representations. First of all, those results confirm that the workflow of \emph{Benchmark}, \emph{Brevitas}, \emph{ONNX}, \emph{FINN} is working and can allow one to port its neural networks on an FPGA board. The results on accuracy correspond to the intuition one might have on the idea of \guille{the higher the bitwidth of weights and activations, the higher the overall accuracy of the network}. However, it highlights a small difference in accuracy between 2-bits and 32-bits representations, and even a more negligible difference between 32-bits and 40bits or 8-bits representations.
+
+An unsettling result is the performance of the 32-bits representation in terms of I/O metrics. This representation outperforms several other contenders in terms of throughput and DRAM i/o bandwidth. This is while the 16-bits representation arrives last with an important difference in both throughput (40 thousands images when compared to the 2-bits representation) or DRAM bandwidth (40 Mb/s for the in bandwidth and 2 Mb/s for the out bandwidth).
+
+On the same way, the hardware utilisation metrics show a similar usage of \emph{LUTs} between the representations, the 32-bits representation being the one using the less of them and nearly being the one using the less of \emph{FFs}. This is counter-intuitive as one would expect the \guille{biggest} representation to use the most hardware resources. However, the power consumption is the highest when dealing with this 32-bits representation.
