@@ -134,6 +134,7 @@
 \setcounter{totalnumber}{20}
 \setcounter{dbltopnumber}{9}
 \usepackage{graphicx}
+\usepackage{pgfplots}
 \usepackage{epstopdf}
 \usepackage{booktabs}
 \usepackage{rotating}
