@@ -50,7 +50,7 @@ Taking from the \textbf{Aims} defined in Chapter \ref{Chapter1}, we derive the o
   \item Confront the results to the state-of-the-art comparable experimental results.
 \end{enumerate}
 
-The above objectives consist of an extension of the \cite{Bacchus2020} article in order to benchmark a similar setup with an extended framework, PyTorch's extension \emph{Brevitas}. These objectives roughly translate into the design and development of a benchmark tool that should be able to use \emph{Brevitas} in order to design and train \emph{QNNs}. Next, the benchmark tool should be able to export the desired network to the \emph{Intermediate Representation}. Finally the sequence of transformations and proper folding has to be set up through \emph{FINN} in order to complete the workflow and port the network to the FPGA board.
+The above objectives consist of an extension of the \cite{Bacchus2020} article in order to benchmark a similar setup with an extended framework, PyTorch extension \emph{Brevitas}. These objectives roughly translate into the design and development of a benchmark tool that should be able to use \emph{Brevitas} in order to design and train \emph{QNNs}. Next, the benchmark tool should be able to export the desired network to the \emph{Intermediate Representation}. Finally the sequence of transformations and proper folding has to be set up through \emph{FINN} in order to complete the workflow and port the network to the FPGA board.
 
 %----------------------------------------------------------------------------------------
 %	SUBSECTION 4.1.2 - Requirements
@@ -99,7 +99,7 @@ The projected counterparts to the first requirements are the following:
 \begin{itemize}
   \item \textbf{R0}: \emph{TFC}, \emph{CNV}, \emph{LeNet5}, \emph{VGG} and/or \emph{MobilenetV1}
   \item \textbf{R1}: \emph{MNIST}, \emph{CIFAR-10}, \emph{GTSRB} and/or \emph{SVHN}
-  \item \textbf{R2}: \emph{PyTorch}'s extension \emph{Brevitas}
+  \item \textbf{R2}: \emph{PyTorch} extension \emph{Brevitas}
   \item \textbf{R3}: Xilinx acceleration framework \emph{FINN}
   \item \textbf{R4}: \emph{PYNQ-Z1}, \emph{Zedboard z7000} and/or \emph{Diligent NexusA7}
 \end{itemize}

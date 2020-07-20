@@ -51,7 +51,7 @@ Those two representations allow a complete mapping of integers up to a certain r
 %-----------------------------------
 \subsubsection{Floating-Point Representation}
 
-Representing floating-point numbers has been a concern since the 1980's and the industrial development of several computing modules and interfaces. The need for a consensus in this domain and particular applications has been answered by the IEEE-754 standard \cite{Ieee754_1985} in 1985. This standard defines both the floating-point number representations and exceptions conditions along with their default handling. This norm was reviewed fundamentally in 2008 \cite{Ieee754_2008}, extending it to 64-bits and 128-bits length. The last dated revision of the norm is from 2019 \cite{Ieee754_2019}.
+Representing floating-point numbers has been a concern since the 1980s and the industrial development of several computing modules and interfaces. The need for a consensus in this domain and particular applications has been answered by the IEEE-754 standard \cite{Ieee754_1985} in 1985. This standard defines both the floating-point number representations and exceptions conditions along with their default handling. This norm was reviewed fundamentally in 2008 \cite{Ieee754_2008}, extending it to 64-bits and 128-bits length. The last dated revision of the norm is from 2019 \cite{Ieee754_2019}.
 
 Floating-point numbers following this representation are composed of three distinct elements:
 \begin{enumerate}
@@ -308,7 +308,7 @@ Google came into place by proposing the \emph{MobileNet} \cite{Howard2017} archi
 
 Many other networks exist and are still being developed actively. New techniques (e.g. batch normalisation \cite{Ioffe2015}) are getting incorporated in state-of-the-art architectures to get an even better result out of them. This list is in no way exhaustive but presents the milestones and wishes to translate the mindset operating in the machine learning community.
 
-\emph{Table} \ref{tab:CNNTable} summarizes the different network architectures. It provides both the network\'s name, year, paper it has been extracted from as well as its number of parameters. Moreover, the \emph{top-1} accuracy of the network on the ImageNet \cite{ImageNet2009} dataset is provided. We can see, as said earlier, that extending the network\'s number of parameters has been the focus of state-of-the-art architectures until 2014. Next, the
+\emph{Table} \ref{tab:CNNTable} summarizes the different network architectures. It provides both the network name, year, paper it has been extracted from as well as its number of parameters. Moreover, the \emph{top-1} accuracy of the network on the ImageNet \cite{ImageNet2009} dataset is provided. We can see, as said earlier, that extending the network number of parameters has been the focus of state-of-the-art architectures until 2014. Next, the
 
 \begin{table}[!]
   \centering
@@ -480,7 +480,7 @@ GPUs represent a fair part of the marketshare due to their various usages. They 
 
 \subsection{FPGA}
 
-On the other hand, the 1990's have seen the birth of a new type of architecture: reconfigurable hardware. They allow to create application-specific hardware and are mixed-precision by default. Xilinx, one of the most famous FPGA manufacturer describes them as consisting of \guille{up to two million logic cells that can be configured to implement a variety of software algorithms} \cite{Xilinx2017}. Those logic cells can be dynamically reconfigured and this is the strength of this architecture.
+On the other hand, the 1990s have seen the birth of a new type of architecture: reconfigurable hardware. They allow to create application-specific hardware and are mixed-precision by default. Xilinx, one of the most famous FPGA manufacturer describes them as consisting of \guille{up to two million logic cells that can be configured to implement a variety of software algorithms} \cite{Xilinx2017}. Those logic cells can be dynamically reconfigured and this is the strength of this architecture.
 
 Modern FPGAs contain components that are specialised for specific functions as well as more general purpose configurable logic. The combination of specific components with the configurable logic has allowed for architectures that consume less power and perform more efficiently.
 \begin{itemize}
@@ -503,7 +503,7 @@ FPGAs can help prototyping chips and perform system validation, including pre-si
 	\label{fig:EfficiencyVSFlexibility}
 \end{figure}
 
-The whole development cycle shown in \emph{Figure} \ref{fig:FPGACycle} can be controlled using a high-level development language such as \emph{Xilinx's Vivado} GUI or Smalltalk as in \cite{XuanSang2014}. In the end, programming an FPGA consists of testing a design all the way through the process (with testbenchs and simulations) while performing a synthesis of the different components and deploying the resulting \emph{bitfile} on the hardware architecture.
+The whole development cycle shown in \emph{Figure} \ref{fig:FPGACycle} can be controlled using a high-level development language such as \emph{Xilinx Vivado} GUI or Smalltalk as in \cite{XuanSang2014}. In the end, programming an FPGA consists of testing a design all the way through the process (with testbenchs and simulations) while performing a synthesis of the different components and deploying the resulting \emph{bitfile} on the hardware architecture.
 
 % FPGA Development Cycle
 \begin{figure}[htbp]
