@@ -51,7 +51,7 @@ Those two representations allow a complete mapping of integers up to a certain r
 %-----------------------------------
 \subsubsection{Floating-Point Representation}
 
-Representing floating-point numbers has been a concern since the 1980s and the industrial development of several computing modules and interfaces. The need for a consensus in this domain and particular applications has been answered by the IEEE-754 standard \cite{Ieee754_1985} in 1985. This standard defines both the floating-point number representations and exceptions conditions along with their default handling. This norm was reviewed fundamentally in 2008 \cite{Ieee754_2008}, extending it to 64-bits and 128-bits length. The last dated revision of the norm is from 2019 \cite{Ieee754_2019}.
+Representing floating-point numbers has been a concern since the 1980s and the industrial development of several computing modules and interfaces. The need for a consensus in this domain and particular applications has been answered by the IEEE-754 standard \cite{Ieee754_1985} in 1985. This standard defines both the floating-point number representations and exceptions conditions along with their default handling. This norm was reviewed fundamentally in 2008 \cite{Ieee754_2008}, extending it to 64-bits and 128-bits length. The last dated revision of the norm, at the time of writing, is from 2019 \cite{Ieee754_2019}.
 
 Floating-point numbers following this representation are composed of three distinct elements:
 \begin{enumerate}
@@ -114,7 +114,7 @@ Another way to look at the decimals is to fix the radix point to be at a certain
   \item Another integer corresponding to the size of the fractional part
 \end{enumerate}
 
-Representing a number with this representation can be done by simply concatenating the base 2 representation of each side of the radix point. This means the integer part will be represented with positive powers of two ($2^0$,$2^1$,$2^2$,...) while the fractional part is represented with negative powers of two ($2^{-1}$, $2^{-2}$,...).
+Representing a number with this representation can be done by simply concatenating the base 2 representation of each side of the radix point. This means the integer part will be represented with positive powers of two ($2^0$, $2^1$, $2^2$$\ldots$) while the fractional part is represented with negative powers of two ($2^{-1}$, $2^{-2}$\ldots).
 
 % FIXED POINT EXAMPLE
 \begin{figure}[htbp]
@@ -174,7 +174,7 @@ In conclusion, customising type in an environment where costs are translated in 
 
 \section{On Machine Learning}
 
-Machine Learning is one of the most promising asset of the recent years since it has proven to be reliable when tackling complex issues. Those tasks can either be recognizing a street sign, a disease in a radiography or classifying a piece of text under a sentiment. Text-to-speech, speech-to-text, image classification, object detection, etc. Those are all thedomains machine learning is suited for. This section will provide insight on the basic functions machine learning uses, present neural network architectures and development frameworks.
+Machine Learning is one of the most promising asset of the recent years since it has proven to be reliable when tackling complex issues. Those tasks can either be recognizing a street sign, a disease in a radiography or classifying a piece of text under a sentiment. Text-to-speech, speech-to-text, image classification, object detection, etc: those are all the domains machine learning is suited for. This section will provide insight on the basic functions machine learning uses, present neural network architectures and development frameworks.
 
 %-----------------------------------------------
 %	SUBSECTION 2.2.1 - Neurons and Neural Networks
@@ -202,7 +202,7 @@ Each neuron receives several inputs from other previous neurons and performs an 
 	\label{fig:NN}
 \end{figure}
 
-The neuron performs a simple dot product of all the inputs along with their weights, adds a bias to the sum and applies a given non-linear activation function. The weight will give importance to some of the inputs while hiding others. Throughout the training, some of the inputs will be shown to be more useful than others and their weight will be changed accordingly. The function used by the neuron (dot-product here) depends on the type of the layer the neuron is part of. The activation function models the \guille{firing rate of the neuron which [...] represents the frequency of the spikes along the axoms}. It is often a simple non-linear function that will help a network have an answer against non-linear problems. The XOR function for example can be learned by a network composed of as little as two layers. Several choices of non-linear functions can be made for your neurons:
+The neuron performs a simple dot product of all the inputs along with their weights, adds a bias to the sum and applies a given non-linear activation function. The weight will give importance to some of the inputs while hiding others. Throughout the training, some of the inputs will be shown to be more useful than others and their weight will be changed accordingly. The function used by the neuron (dot-product here) depends on the type of the layer the neuron is part of. The activation function models the \guille{firing rate of the neuron which [$\ldots$] represents the frequency of the spikes along the axoms}. It is often a simple non-linear function that will help a network have an answer against non-linear problems. The XOR function for example can be learned by a network composed of as little as two layers. Several choices of non-linear functions can be made for your neurons:
 \begin{itemize}
   \item Sigmoid function: $\sigma(x) = \frac{1}{(1+e^{-x})}$
   \item Tanh: $tanh(x) = 2\sigma(2x) - 1$
@@ -233,7 +233,7 @@ Several layers are used and allow to perform different operations on images. The
   \item Fully-Connected (FC): Computation of the class scores. \emph{This layer consists of a reduce operation and allows to compute the class scores.}
 \end{itemize}
 
-Layers take as input a set of data, known as a \emph{Feature Map} and output a new set of feature maps with higher-level semantics. Those layers then compose a CNN architecture and can be trained on a bank of images to adjust the different bias and weights for each layers and their corresponding neurons. Finally, once the network is trained, it can deduce the class of a given image. Those two steps are called \emph{Training} and \emph{Inference}, the training will work on a set of annotated data samples to create a model \guille{which semantics extrapolate outside the training set, [with a] \emph{modelling power}} \cite{Abdelouahab2018}. Once this step is completed, the \emph{Inference} phase can start and the network will have to classify new data instances. The training phase is extremely consuming in terms of time, energy and hardware resources. However, it only needs to be performed once. On the other hand, the inference has to be run each time a new instance is provided to the system. Therefore, if literature focus on accelerating both phases, an emphasis is put on inference as it will be needed to embark trained networks in lighter architectures.
+Layers take as input a set of data, known as a \emph{Feature Map} and output a new set of feature maps with higher-level semantics. Those layers then compose a CNN architecture and can be trained on a bank of images to adjust the different bias and weights for each layers and their corresponding neurons. Finally, once the network is trained, it can deduce the class of a given image. Those two steps are called \emph{Training} and \emph{Inference}, the training will work on a set of annotated data samples to create a model \guille{which semantics extrapolate outside the training set, [with a] \emph{modelling power}} \cite{Abdelouahab2018}. Once this step is completed, the \emph{Inference} phase can start and the network will have to classify new data instances. The training phase is extremely consuming in terms of time, energy and hardware resources. However, it only needs to be performed once. On the other hand, the inference has to be run each time a new instance is provided to the system. Therefore, if literature focus on accelerating both phases, an emphasis is put on inference as it will be needed to embed trained networks in lighter architectures.
 
 %-------------------------------------------------
 %	SUBSECTION 2.2.2 - Tools for Classification
@@ -296,7 +296,7 @@ From now on, extending the layer size and network depth does not seem to give be
 	\label{fig:ResNet-50}
 \end{figure}
 
-Google came into place by proposing the \emph{MobileNet} \cite{Howard2017} architecture. This architecture, as its name shows, aims at being embarked in many mobile or light hardware architectures. Its emphasis is put on the size of the network and should allow the developer to tailor it to the needs of his aimed hardware architecture. The number of parameters is reduced by using a \guille{\emph{separable depthwise convolution}} that separates the usual $3 \times 3$ convolution into two parts. The first one applies the filter on the inputs and the second (a $1 \times 1$ filter called \guille{\emph{pointwise convolution}}) combine the outputs. Overall, this technique allows to reduce the number of parameters and operations while keeping state-of-the-art.
+Google came into place by proposing the \emph{MobileNet} \cite{Howard2017} architecture. This architecture, as its name shows, aims at being implemented in many mobile or light hardware architectures. Its emphasis is put on the size of the network and should allow the developer to tailor it to the needs of his aimed hardware architecture. The number of parameters is reduced by using a \guille{\emph{separable depthwise convolution}} that separates the usual $3 \times 3$ convolution into two parts. The first one applies the filter on the inputs and the second (a $1 \times 1$ filter called \guille{\emph{pointwise convolution}}) combine the outputs. Overall, this technique allows to reduce the number of parameters and operations while keeping state-of-the-art.
 
 % % MobileNet PRESENTATION
 % \begin{figure}[htbp]
@@ -312,23 +312,15 @@ Many other networks exist and are still being developed actively. New techniques
 
 \begin{table}[!]
   \centering
-  \resizebox{\textwidth}{!}{
-  \begin{tabular}{ | c | c | c | c | c | }
+  \begin{tabular}{ | c c | c | c | c | }
     \hline
-    \textbf{Name}          & \textbf{Year} &    \textbf{Paper}     & \textbf{Number of Parameters} & \textbf{Top-1 Accuracy} \\
-    \hline
-    \textbf{LeNet}         &     1998      &  \cite{LeCun1998}     &         0.6 M                 &           X             \\
-    \hline
-    \textbf{AlexNet}       &     2012      & \cite{Krizhevsky2012} &          60 M                 &         63.3\%          \\
-    \hline
-    \textbf{VGGNet (16)}   &     2014      & \cite{Simonyan2014}   &         138 M                 &         74.4\%          \\
-    \hline
-    \textbf{ResNet (50)}   &     2015      & \cite{He2015}         &          26 M                 &         81.2\%          \\
-    \hline
-    \textbf{MobileNet}     &     2017      & \cite{Howard2017}     &         4.2 M                 &         72.56\%         \\
-    \hline
+    \multicolumn{2}{|c|}{\textbf{Architecture}}  & \textbf{Year} & \textbf{Number of Parameters} & \textbf{Top-1 Accuracy} \\ \hline
+    \textbf{LeNet}       & \cite{LeCun1998}      &     1998      &         0.6 M                 &           X             \\ \hline
+    \textbf{AlexNet}     & \cite{Krizhevsky2012} &     2012      &          60 M                 &         63.3\%          \\ \hline
+    \textbf{VGGNet (16)} & \cite{Simonyan2014}   &     2014      &         138 M                 &         74.4\%          \\ \hline
+    \textbf{ResNet (50)} & \cite{He2015}         &     2015      &          26 M                 &         81.2\%          \\ \hline
+    \textbf{MobileNet}   & \cite{Howard2017}     &     2017      &         4.2 M                 &         72.56\%         \\ \hline
   \end{tabular}
-  }
 \caption[CNNTable]{Convolutional Neural Network Architectures}
 \label{tab:CNNTable}
 \end{table}
@@ -338,8 +330,7 @@ Many other networks exist and are still being developed actively. New techniques
 %----------------------------------
 
 \subsubsection{Datasets}
-
-The architectures presented earlier are well-known and are still getting better with version iterations and the discovery of new techniques (batch normalisation, depth-wise convolution, residuals, etc.). On the other side, datasets have evolved to present each time a new and harder challenge for different architectures to perform on. Well-known datasets consist of the following:
+Architectures presented earlier are well-known and are still getting better with version iterations and the discovery of new techniques (batch normalisation, depth-wise convolution, residuals, etc.). On the other side, datasets have evolved to present each time a new and harder challenge for different architectures to perform on. Well-known datasets consist of the following:
 \begin{itemize}
   \item \emph{MNIST} is the historical dataset, considered as the machine learning version of a classic \guille{\emph{hello world}}. It was implemented along with the \emph{LeNet} architecture and has been the default first dataset to train a network architecture on ever since. Several extensions to this dataset have been created since the dataset is juged to be \guille{too easy} to be a challenge to modern neuron architectures. Very simple CNN can achieve less than 3\% error on this dataset. Several drop-in replacements have been developed such as \emph{Fashion-MNIST} \cite{Xiao2017} - set up by Zalando with simple images of garnments -, \emph{Kuzushiji-MNIST} \cite{Clanuwat2018} - three versions on the recognition of Japanese characters - or even \emph{MNIST-MIX} \cite{Jiang2020} - a mix of handwritten digits from different languages -. All the instances of the MNIST dataset and its variations are images with only one channel (grey levels) and sized 28 pixels by 28 pixels. Those images are labelled in 10 different classes (digits from 0 to 9).
 
@@ -396,28 +387,18 @@ The architectures presented earlier are well-known and are still getting better 
 \begin{table}[!]
   \centering
   \resizebox{\textwidth}{!}{
-  \begin{tabular}{ | c | c | c | c | c | c | c | }
+  \begin{tabular}{ | c c | c | c | c | c | c | }
     \hline
-    \textbf{Name}            & \textbf{Year} &    \textbf{Paper}     & \textbf{Channels} & \textbf{Image Size} & \textbf{Instances}  & \textbf{Number of Classes} \\
-    \hline
-    \textbf{MNIST}           &     1998      &  \cite{LeCun1998}     &  1 (Grayscale)    &   $28 \times 28$    &  60,000 / 10,000    &    10     \\
-    \hline
-    \textbf{FashionMNIST}    &     2017      & \cite{Xiao2017}       &  1 (Grayscale)    &   $28 \times 28$    &  50,000 / 10,000    &    10     \\
-    \hline
-    \textbf{Kuzushiji-MNIST} &     2018      & \cite{Clanuwat2018}   &  1 (Grayscale)    &   $28 \times 28$    &  60,000 / 10,000    &    10     \\
-    \hline
-    \textbf{MNIST-MIX}       &     2020      & \cite{Jiang2020}      &  1 (Grayscale)    &   $28 \times 28$    & 397,440 / 99,360    &   100     \\
-    \hline
-    \textbf{CIFAR-10}        &     2009      & \cite{Krizhevsky2009} &  3 (RGB)          &   $32 \times 32$    &  50,000 / 10,000    &    10     \\
-    \hline
-    \textbf{CIFAR-100}       &     2009      & \cite{Krizhevsky2009} &  3 (RGB)          &   $32 \times 32$    &  50,000 / 10,000    &   100     \\
-    \hline
-    \textbf{SVHN}            &     2011      & \cite{Netzer2011}     &  3 (RGB)          &   $32 \times 32$    &  73,260 / 26,000    &    10     \\
-    \hline
-    \textbf{GTSRB}           &     2012      & \cite{Stallkamp2012}  &  3 (RGB)          &   $15 \times 15$ to $250 \times 250$      &    50,000 / 10,000   &    43     \\
-    \hline
-    \textbf{ImageNet}        &     2009      & \cite{ImageNet2009}   &  3 (RGB)          &  $224 \times 224$   &   14M / 50,000      &  1000     \\
-    \hline
+    \multicolumn{2}{|c|}{\textbf{Name}}              & \textbf{Year} & \textbf{Channels} & \textbf{Image Size} & \textbf{Instances}  & \textbf{Number of Classes} \\ \hline
+    \textbf{MNIST}           & \cite{LeCun1998}      &     1998      &  1 (Grayscale)    &   $28 \times 28$    &  60,000 / 10,000    &    10     \\ \hline
+    \textbf{FashionMNIST}    & \cite{Xiao2017}       &     2017      &  1 (Grayscale)    &   $28 \times 28$    &  50,000 / 10,000    &    10     \\ \hline
+    \textbf{Kuzushiji-MNIST} & \cite{Clanuwat2018}   &     2018      &  1 (Grayscale)    &   $28 \times 28$    &  60,000 / 10,000    &    10     \\ \hline
+    \textbf{MNIST-MIX}       & \cite{Jiang2020}      &     2020      &  1 (Grayscale)    &   $28 \times 28$    & 397,440 / 99,360    &   100     \\ \hline
+    \textbf{CIFAR-10}        & \cite{Krizhevsky2009} &     2009      &  3 (RGB)          &   $32 \times 32$    &  50,000 / 10,000    &    10     \\ \hline
+    \textbf{CIFAR-100}       & \cite{Krizhevsky2009} &     2009      &  3 (RGB)          &   $32 \times 32$    &  50,000 / 10,000    &   100     \\ \hline
+    \textbf{SVHN}            & \cite{Netzer2011}     &     2011      &  3 (RGB)          &   $32 \times 32$    &  73,260 / 26,000    &    10     \\ \hline
+    \textbf{GTSRB}           & \cite{Stallkamp2012}  &     2012      &  3 (RGB)          &   $15 \times 15$ to $250 \times 250$      &    50,000 / 10,000   &    43     \\ \hline
+    \textbf{ImageNet}        & \cite{ImageNet2009}   &     2009      &  3 (RGB)          &  $224 \times 224$   &   14M / 50,000      &  1000     \\ \hline
   \end{tabular}
   }
 \caption[DatasetTable]{Datasets}
@@ -439,7 +420,7 @@ As research in the field of machine learning keeps growing and attracting more a
   \emph{Torch} is a Lua-based framework that was created in 2002. It is not in active development anymore since 2018 but \emph{PyTorch}, a Python implementation of the same underlying logic is in active development with a specific focus on the research community. \emph{Pytorch} aims at rapid prototyping and flexible architectures.
 \end{itemize}
 
-In the end, choosing a framework depends on one's objectives and knowledge of the language used. Benchmarks are getting released with, for example, Luo et al. \cite{Luo2020} that present a mobile implementation of several network architectures (\emph{ResNet, Inception, DenseNet, etc.}) implemented in \emph{TensorFlow Lite, Caffe2 and PyTorch Mobile}. The benchmark the authors propose is named \emph{AIoTBench} and focuses on computer vision. Few other initiatives have been published. The choice is purely personal for now.
+In the end, choosing a framework depends on one's objectives and knowledge of the language used. Benchmarks are getting released with, for example, Luo et al. \cite{Luo2020} that present a mobile implementation of several network architectures (\emph{ResNet, Inception, DenseNet, etc.}) implemented in \emph{TensorFlow Lite, Caffe2 and PyTorch Mobile}. The benchmark the authors propose is named \emph{AIoTBench} and focuses on computer vision.
 
 % TODO: INCLUDE Table comparing the different development frameworks
 

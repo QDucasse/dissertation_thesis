@@ -5,7 +5,7 @@
 \lhead{Chapter 4. \emph{Requirements Analysis}}
 
 
-This chapter looks over the aims and objectives set in the \emph{Introduction} and translates them into requirements and use cases in the first part. The second part is centred around the methodology the project will be evaluated with. The third and final part will enumerate the needed deliverables.
+This chapter looks over the aims and objectives set in the \emph{Introduction} and translates them into requirements and use cases in the first part. The second part is centered around the methodology the project will be evaluated with. The third and final part will enumerate the needed deliverables.
 %----------------------------------------------------------------------------------------
 %	SECTION 4.1 - Project Goals
 %----------------------------------------------------------------------------------------
@@ -63,36 +63,35 @@ The above objectives translate into requirements for the actual final software.
 \textbf{Requirements Table} The table specifies the requirements that the developed system should fulfill. It does not give an indication of how the requirements will be met but instead explains the reasons of its existence. Each requirement has an identifier, a name, a priority rank (0 being the highest) and an explanation.
 
 % REWORK PRIORITIES
-\resizebox{15cm}{!}{
-  \begin{tabular}{ | c c c c c | }
-    \hline
-    \textbf{ID}  & \textbf{Name}      & \textbf{Description} & \textbf{Type}  & \textbf{Justification} \\
-    \hline
-    \textbf{R0}  & \emph{LitNetwork}       & The system should use network architectures comparable to the literature                            & Constraint &  Literature review \\
-    \hline
-    \textbf{R1}  & \emph{LitDataset}       & The system should use datasets comparable to the literature                                         & Constraint &  Literature review \\
-    \hline
-    \textbf{R2}  & \emph{LitDevFramework}  & The system should use a development framework presented the literature                              & Constraint &  Literature review \\
-    \hline
-    \textbf{R3}  & \emph{LitAccFramework}  & The system should use an acceleration framework presented the literature                            & Constraint &  Literature review \\
-    \hline
-    \textbf{R4}  & \emph{LitArch}          & The system should use a known hardware architecture or at least equivalent to the literature        & Constraint &  Literature review \\
-    \hline
-    \textbf{R5}  & \emph{TestParam}        & The system should evaluate the impact of the tuning parameters                                      & Constraint &  User requirement  \\
-    \hline
-    \textbf{R6}  & \emph{TestOptMeth}      & The system should evaluate the impact of the optimisation methods                                   & Constraint &  User requirement  \\
-    \hline
-    \textbf{R7}  & \emph{TestHardDes}      & The system should evaluate the impact of the hardware design                                        & Constraint &  User requirement  \\
-    \hline
-    \textbf{R8}  & \emph{ExpTrain}         & The system should lead the experiment through a sound, consistent and replicable training process   & Constraint &  Meaningful experimental process \\
-    \hline
-    \textbf{R9}  & \emph{ExpDeploy}        & The system should lead the experiment through a sound, consistent and replicable deployment process & Constraint &  Meaningful experimental process \\
-    \hline
-    \textbf{R10} & \emph{ResGuide}         & The system should help create guidelines with the results                                           & Constraint &  Exploitable results \\
-    \hline
-    \textbf{R11} & \emph{ResComp}          & The system should create results comparable to the literature                                       & Constraint &  Exploitable results \\
-    \hline
-  \end{tabular}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{| c c l c c |}
+\hline
+\textbf{ID}                   & \textbf{Name}                           & \textbf{Description}                                                   & \textbf{Type}               & \textbf{Justification} \\ \hline
+\multirow{2}{*}{\textbf{R0}}  & \multirow{2}{*}{\emph{LitNetwork}}      & The system should use                                                  & \multirow{2}{*}{Constraint} & \multirow{2}{*}{Literature review} \\
+                              &                                         & network architectures comparable to the literature                     &                             & \\ \hline
+\multirow{2}{*}{\textbf{R1}}  & \multirow{2}{*}{\emph{LitDataset}}      & The system should use                                                  & \multirow{2}{*}{Constraint} & \multirow{2}{*}{Literature review} \\
+                              &                                         & datasets comparable to the literature                                  &                             & \\ \hline
+\multirow{2}{*}{\textbf{R2}}  & \multirow{2}{*}{\emph{LitDevFramework}} & The system should use                                                  & \multirow{2}{*}{Constraint} & \multirow{2}{*}{Literature review} \\
+                              &                                         & a development framework presented the literature                       &                             & \\ \hline
+\multirow{2}{*}{\textbf{R3}}  & \multirow{2}{*}{\emph{LitAccFramework}} & The system should use                                                  & \multirow{2}{*}{Constraint} & \multirow{2}{*}{Literature review} \\
+                              &                                         & an acceleration framework presented the literature                     &                             & \\ \hline
+\multirow{2}{*}{\textbf{R4}}  & \multirow{2}{*}{\emph{LitArch}}         & The system should use a known hardware architecture                    & \multirow{2}{*}{Constraint} & \multirow{2}{*}{Literature review} \\
+                              &                                         & or at least equivalent to the literature &                             & \\ \hline
+\multirow{2}{*}{\textbf{R5}}  & \multirow{2}{*}{\emph{TestParam}}       & The system should evaluate                                             & \multirow{2}{*}{Constraint} & \multirow{2}{*}{User requirement} \\
+                              &                                         & the impact of the tuning parameters                                    &                             & \\ \hline
+\multirow{2}{*}{\textbf{R6}}  & \multirow{2}{*}{\emph{TestOptMeth}}     & The system should evaluate                                             & \multirow{2}{*}{Constraint} & \multirow{2}{*}{User requirement} \\
+                              &                                         & the impact of the optimisation methods                                 &                             & \\ \hline
+\multirow{2}{*}{\textbf{R7}}  & \multirow{2}{*}{\emph{TestHardDes}}     & The system should evaluate                                             & \multirow{2}{*}{Constraint} & \multirow{2}{*}{User requirement} \\
+                              &                                         & the impact of the hardware design                                      &                             & \\ \hline
+\multirow{2}{*}{\textbf{R8}}  & \multirow{2}{*}{\emph{ExpTrain}}        & The system should lead the experiment through a sound,                 & \multirow{2}{*}{Constraint} & Meaningful \\ 
+                              &                                         & consistent and replicable training process                             &                             & experimental process\\\hline
+\multirow{2}{*}{\textbf{R9}}  & \multirow{2}{*}{\emph{ExpDeploy}}       & The system should lead the experiment through a sound,                 & \multirow{2}{*}{Constraint} & Meaningful \\ 
+                              &                                         & consistent and replicable deployment process                           &                             & experimental process\\ \hline
+\multirow{2}{*}{\textbf{R10}} & \multirow{2}{*}{\emph{ResGuide}}        & The system should help                                                 & \multirow{2}{*}{Constraint} & \multirow{2}{*}{Exploitable results}\\
+                              &                                         & create guidelines with the results                                     &                             & \\ \hline
+\multirow{2}{*}{\textbf{R11}} & \multirow{2}{*}{\emph{ResComp}}         & The system should create                                               & \multirow{2}{*}{Constraint} & \multirow{2}{*}{Exploitable results}\\
+                              &                                         & results comparable to the literature                                   &                             & \\ \hline
+\end{tabular}
 }
 
 The projected counterparts to the first requirements are the following:
@@ -101,7 +100,7 @@ The projected counterparts to the first requirements are the following:
   \item \textbf{R1}: \emph{MNIST}, \emph{CIFAR-10}, \emph{GTSRB} and/or \emph{SVHN}
   \item \textbf{R2}: \emph{PyTorch} extension \emph{Brevitas}
   \item \textbf{R3}: Xilinx acceleration framework \emph{FINN}
-  \item \textbf{R4}: \emph{PYNQ-Z1}, \emph{Zedboard z7000} and/or \emph{Diligent NexusA7}
+  \item \textbf{R4}: \emph{PYNQ-Z1}, \emph{Zedboard Zynq-7000} and/or \emph{Diligent Nexys-A7}
 \end{itemize}
 
 The projected deliverables for the \emph{Dissertation Thesis} are this given report as well as the \emph{Ethics Forms}. Additionally, the developed \emph{Software} and obtained results are provided. The results go along with discussion, evaluation and a presentation of the future works that can extend the project.
