@@ -21,7 +21,7 @@ The term \guille{mixed precision} comes from the idea of using different precisi
 
 However, if lower-precision is acceptable, using mixed-precision can increase the capacity of smaller systems and subsystems as it will increase the overall performance and resources usage. This goal is targeted when you are aiming for the most performant processor, being given a size and type of usage. Moreover, this can be used when you know exactly the tasks your system will perform as well as their needed size. Yates \cite{Yates2007} presents several rules allowing  to determine the required size of any operation performed in fixed-point arithmetic. This arithmetic allows to tailor the type size to one's needs. Reconfigurable hardware can take advantage of this as well by using the exact required size for an operation. Such architecture will be looked upon in the next sections.
 
-Scientific computations often require the highest available precision and the reduced precision induced by the lower-precision components is unacceptable. In order to still take advantage of the several gains lower-precision provides, a compromise has to be found about how and when to use lower-precision. Ideas on the usage have been looked upon since the 1950's and the first methods to correctly implement them in the early 1960's.
+Scientific computations often require the highest available precision and the reduced precision induced by the lower-precision components is unacceptable. In order to still take advantage of the several gains lower-precision provides, a compromise has to be found about how and when to use lower-precision. Ideas on the usage have been looked upon since the 1950s and the first methods to correctly implement them in the early 1960s.
 
 In any case, the developer has to know and keep in mind:
 \begin{itemize}
@@ -50,7 +50,7 @@ Several methods to actually implement a mixed precision algorithm have been deve
 
 \subsubsection{Iterative Refinement}
 
-Since the early 1960's, literature has studied the effects and ways to implement mixed precision. The first reported works to implement such methods are James H. Wilkinson \cite{Wilkinson1994} and Cleve Moler \cite{Moler1967}. The method presented by both is named \guille{iterative refinement} and uses a combination of accumulative inner products along with a linear solver. This solution is directed towards the resolution of a system in the form of $Ax=b$ for a quadratic $N*N$ matrix $A$. The main idea is to use a residual between the wanted result and the result obtained by the last iteration. This residual is computed using high precision and accumulated using high-precision as well while the resolution of the equation is done in low-precision.
+Since the early 1960s, literature has studied the effects and ways to implement mixed precision. The first reported works to implement such methods are James H. Wilkinson \cite{Wilkinson1994} and Cleve Moler \cite{Moler1967}. The method presented by both is named \guille{iterative refinement} and uses a combination of accumulative inner products along with a linear solver. This solution is directed towards the resolution of a system in the form of $Ax=b$ for a quadratic $N*N$ matrix $A$. The main idea is to use a residual between the wanted result and the result obtained by the last iteration. This residual is computed using high precision and accumulated using high-precision as well while the resolution of the equation is done in low-precision.
 
 % Iterative Refinement Example
 \begin{figure}[htbp]
@@ -79,7 +79,7 @@ The mixed-precision approach can apply from a different perspective when using a
 
 Those two tools have been brought together in \cite{Darulova2018} under the \guille{first fully automated and sound technique and tool for optimising the performance of floating-point and fixed-point kernels}. This tool combines rewriting and mixed-precision tuning where rewriting goes over several evaluation orders and picks the one that minimises the round-off error without runtime costs. In the meantime, mixed-precision tuning assigns the correct finite-precision variables and operations. The overall tool provides finer-grain control over the program and better performance than each of the method taken alone.
 % TUNING EXAMPLE
-\begin{figure}[htbp]
+\begin{mylisting}[htbp]
 \centering
 \begin{minipage}{.48\textwidth}
 \begin{lstlisting}[style=CInputStyle]
@@ -148,7 +148,7 @@ int main( int argc, char **argv) {
 \end{minipage}
 \caption[Tuning]{Tuning Example \cite{Rubio2013}}
 	\label{fig:Tuning}
-\end{figure}
+\end{mylisting}
 
 % TODO PRESENT QUANTISATION APPLICATIONS THEN COMPARE THEM TO QNN METHODS
 
@@ -165,11 +165,11 @@ Machine learning can also benefit from mixed-precision since it is heavily relyi
 
 \subsection{Introducing Mixed Precision}
 
-Training a neural network is the longest process, among mandatory ones, to make the most out of the architecture. However, mixed-precision mindset offers ways to accelerate the training of the network by decreasing the precision of some operations. The ImageNet Project \cite{ImageNet2009} presented earlier is a large database designed to be used in visual object recognition softwares. While accuracy is the main factor to determine the winner of the \emph{ILSRVC}, deep learning real-world issues often have to take in account the network's training phase and its time and resource-consuming necessities. Moreover, inference is a critical spot of a machine learning application workflow and has to be taken in consideration when establishing requirements.
+Training a neural network is the longest process, among mandatory ones, to make the most out of the architecture. However, mixed-precision mindset offers ways to accelerate the training of the network by decreasing the precision of some operations. The ImageNet Project \cite{ImageNet2009} presented earlier is a large database designed to be used in visual object recognition softwares. While accuracy is the main factor to determine the winner of the \emph{ILSRVC}, deep learning real-world issues often have to take in account the network training phase and its time and resource-consuming necessities. Moreover, inference is a critical spot of a machine learning application workflow and has to be taken in consideration when establishing requirements.
 
 Neural networks would benefit from mixed-precision by reducing the precision of its different parameters. Reducing the precision of all the \emph{weights} of a network would have a significant impact because each parameter of the network would be impacted, therefore reducing the overall size taken by the \emph{weights}. Along with the \emph{weights}, the other parameter that can be impacted by reduced precision are the \emph{activations}, the precision of the activation function when applying a non-linear function to the result of a layer. Several questions rise, is the training of a reduced-precision CNN identical to a full precision one? What is the impact of a precision reduction for weights? And for activations? Will the reduction on those parameters transfer inherent mixed-precision gains in energy and memory? All of these questions have been the focus of the literature since 2016 and the rise of the first implementations of \emph{Quantised Neural Networks}. Ever since, articles either present novel methods of training and inference for \emph{Quantised Neural Networks} or benchmarks to answer the previous questions.
 
-Many researchers have been looking into the issue with mixed-precision in mind. As shown by Bacchus et al. \cite{Bacchus2020}, there is a fundamental underlying trade-off between accuracy, network training time and hardware efficiency when choosing precision for activations and weights.. Research looked upon ways to reduce the size taken by weights and activations. Mixed-precision is the natural extent of neural networks due to the fact that mixed-precision methods help reducing computation time and resources. Its application to neural networks comes through the presented precision vectors: \emph{weights} and \emph{activations}.
+Many researchers have been looking into the issue with mixed-precision in mind. As shown by Bacchus et al. \cite{Bacchus2020}, there is a fundamental underlying trade-off between accuracy, network training time and hardware efficiency when choosing precision for activations and weights. Research looked upon ways to reduce the size taken by weights and activations. Mixed-precision is the natural extent of neural networks due to the fact that mixed-precision methods help reducing computation time and resources. Its application to neural networks comes through the presented precision vectors: \emph{weights} and \emph{activations}.
 
 In order to determine the impact of reduced precision on neural network, the benchmarks in this field use several metrics in order to quantify and qualify the networks and their implementations.
 \begin{itemize}
@@ -190,7 +190,7 @@ The year 2016, along with these different works, sets the milestone for new neur
 
 \subsection{Optimisation Methods}
 
-Running a neural network on low-power devices is often a challenge and is inefficient due to the number of \emph{multiply-accumulate (MACs)} operations needed. Those \emph{MACs} operations are required to compute the weighted sums of the neurons' inputs. If training is often performed on several GPUs, the inference part cannot possibly be run on the same equipment and needs to run on low-power, low-space hardware architectures.
+Running a neural network on low-power devices is often a challenge and is inefficient due to the number of \emph{multiply-accumulate (MACs)} operations needed. Those \emph{MACs} operations are required to compute the weighted sums of the neurons inputs. If training is often performed on several GPUs, the inference part cannot possibly be run on the same equipment and needs to run on low-power, low-space hardware architectures.
 
 Optimisations of neural networks may come in many different shapes. A field that is \emph{not} in the scope of this study is the algorithmic optimisation. The objective in this field is to optimise the most performed operations (matrix multiplication for example). Work in this field refer to several transformation. The \emph{GEMM (General Matrix Multiply) transformation} is optimised in \cite{Cong2014, Chellapilla2006}, the \emph{Winograd transformation} is optimised in \cite{Aydonat2017} or the \emph{Fast Fourier transformation} used in \cite{Ko2017}.
 
@@ -213,7 +213,7 @@ Techniques have been presented the same year by Miyashita et al. \cite{Miyashita
 % LOG REPRESENTATION
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=10cm]{Figures/DotProdLog.png}
+		\includegraphics[width=12cm]{Figures/DotProdLog.png}
 	\caption[Logarithmic Dot Product]{The Logarithmic way to perform Dot-Product \cite{Miyashita2016}}
 	\label{fig:DotProdLog}
 \end{figure}
@@ -285,7 +285,7 @@ Next, the literature presents several optimisations strategies that will help th
 	\label{fig:InferenceOpt}
 \end{figure}
 
-The main strategies specific to FPGAs are linked to \emph{Hardware Generation} and \emph{Data-path optimisations}. The first one, \emph{Hardware Generation}, depends on the way the configurable hardware will be used and tuned. As shown in \emph{Figure} \ref{fig:InferenceOpt}, several methods exist to reconfigure an FPGA. Some use \emph{High Level Synthesis} through either OpenCL or Vivado. These different frameworks and accelerators will be the focus of the next subsection. On the other side, the \emph{Data-path optimisations} mainly revolve around the idea of loop optimisation. Several methods can be applied to the execution of nested loops to perform better on an FPGA. Loop optimisation comes in two different shapes: \emph{loop unrolling} and \emph{loop tiling}.
+The main strategies specific to FPGAs are linked to \emph{Hardware Generation} and \emph{Data-path optimisations}. The first one, \emph{Hardware Generation}, depends on the way the configurable hardware will be used and tuned. As shown in \emph{Figure} \ref{fig:InferenceOpt}, several methods exist to reconfigure an FPGA. Some use \emph{High Level Synthesis} through either OpenCL or Vivado. These different frameworks and accelerators will be the focus of subsection \ref{fpga_framework}. On the other side, the \emph{Data-path optimisations} mainly revolve around the idea of loop optimisation. Several methods can be applied to the execution of nested loops to perform better on an FPGA. Loop optimisation comes in two different shapes: \emph{loop unrolling} and \emph{loop tiling}.
 
 Unrolling a loop accelerates its execution at the cost of resource utilisation. Loop tiling consists of modifying the order of the different embedded loops in order to have the most expensive operations come all-together. These operations are \emph{DRAM (external memory)} accesses where the weights are stored since the FPGA cannot store them all with on-chip memory. An example of loop tiling can be seen on \emph{Figure} \ref{fig:LoopTiling}.
 
@@ -348,7 +348,7 @@ for (int c=0;n<C;c+=Tc){
 Now if we look more closely on \emph{Quantisation} methods applied to FPGAs, the literature present several works:
 
 Colangelo et al. \cite{Colangelo2018} present a CNN mapping to a reconfigurable architecture in order to use sub 8-bit activation and weights. In order to use binary- or ternary-weighted neural networks, they cap their sizes to respectively 1 and 2-bits. Using this type of limited numeric precision can only be fully optimised with FPGAs and the authors show that they manage to get an optimisation of \guille{the bandwidth, memory, power and computation savings}.
-
+uning 
 Zhao et al. \cite{Zhao2016} propose \emph{F-CNN}, a framework to train CNNs on FPGAs. Their design makes available highly customisable modules that will be optimised to maximise performance under the constraints of bandwidth and hardware resources. The authors state that the introduction of mixed-precision will be the next step of optimisation of their design. Moreover, the use of they prove their design is more performant than CPUs and less expensive in terms of energy than GPUs. \emph{F-CNN} reconfigures a streaming datapath at runtime to cover the training tasks for the various layers in a CNN.
 
 Jahanshahi et al. \cite{Jahanshahi2019} propose a CNN accelerator tool. It generates the hardware description for a CNN to be programmed on a target FPGA. The software uses an API the developer can use to enter the available resources. The software will then generate the hardware description and run a simulation to adjust the precision and minimise the classification error. The whole system is shown to be more performant on a half-precision fixed-point representation rather than using single-precision floating-point data: 3\% accuracy loss in exchange for 15.75x speedup.
@@ -360,9 +360,9 @@ The even more agressive vision of quantisation with binary parameters as set by 
 %	SUBSECTION 3.3.3 - FPGA Frameworks
 %--------------------------------------------------------
 
-\subsection{FPGA Frameworks}
+\subsection{FPGA Frameworks}\label{fpga_framework}
 
-In 2016, the same year \emph{QNNs} began to gain attraction and credibility, FPGA frameworks emerged to take advantage of the FPGAs' capabilities along with mixed-precision. The first works in the fiels are \emph{YodaNN} \cite{Andri2016} and \emph{F-CNN} \cite{Zhao2016}. Andri et al. set up \emph{YodaNN}, an accelerator optimised for \emph{BNNs} and one of the first implementations. Zhao et al. \cite{Zhao2016} designed F-CNN, the first FPGA framework to train CNNS. Later on, Wang et al. \cite{Wang2018} developed a design flow for extremely low-bit neural networks that focuses on quantisation in both training and FPGA deployment. They aimed at strict resources and power constraints in order to provide a design to the developer.
+In 2016, the same year \emph{QNNs} began to gain attraction and credibility, FPGA frameworks emerged to take advantage of FPGA capabilities along with mixed-precision. The first works in the fiels are \emph{YodaNN} \cite{Andri2016} and \emph{F-CNN} \cite{Zhao2016}. Andri et al. set up \emph{YodaNN}, an accelerator optimised for \emph{BNNs} and one of the first implementations. Zhao et al. \cite{Zhao2016} designed F-CNN, the first FPGA framework to train CNNS. Later on, Wang et al. \cite{Wang2018} developed a design flow for extremely low-bit neural networks that focuses on quantisation in both training and FPGA deployment. They aimed at strict resources and power constraints in order to provide a design to the developer.
 
 The next year, two initiatives are launched in order to perform an automatic mapping of a CNN down to its hardware counterpart on an actual hardware architecture. \emph{fpgaConvNet} is created by Venieris et al. \cite{Venieris2017}. It automates the mapping of CNNs on FPGAs using application-level needs (throughput, latency or multiobjective criteria). It uses a paradigm called \emph{Synchronous Dataflow (SDF)} and defines a set of \emph{SDF} transformations in order to efficiently explore the design space. \emph{fpgaConvNet} implements four different transformations the network will be run through: \guille{\emph{graph partitioning}with reconfiguration, coarse-grain \emph{folding}, fine-grained \emph{folding} and weights \emph{reloading}}. Those four different transformations can be seen on \emph{Figure} \ref{fig:fpgaConvNetTransformations} respectively (a), (b), (b) and (c).
 
@@ -376,7 +376,7 @@ The next year, two initiatives are launched in order to perform an automatic map
 
 The tool will separate the CNN into different subgraphs that will be tailored specifically to the target architecture. The execution of each subgraph requires a reconfiguration of the FPGA and \emph{fpgaConvNet} performs a batch-processing of the subgraph in order to amortise reconfiguration times. This transformation is called \emph{graph partitioning}. Next, \emph{coarse-grain folding} enables the tuning of the number of coarse units for each layer. It spans a fully parallel implementation down to a single, time-shared unit. Then, \emph{fine-grained folding} allows the configuration of the dot-product implementation in the convolutional units of a layer. It spans a fully parallel implementation down to a single , time-shared multiply-accumulate unit. Finally, the \emph{weights reloading} is similar to the first transformation in the sense that it will separate the network in several parts but will this time single flexible reference to all the weights of the network. This allows a layer to use the weights of the last layer without reloading them in memory.
 
-In the other hand, \emph{FINN} \cite{Umuroglu2017a} has been developed as an open-source framework by the FPGA manufacturer Xilinx. It works as a network compression tool especially tailored for FPGAs and have been actively under development with extensions to quantised networks \cite{Blott2018} or Long Short-Term Memory (LSTM) networks \cite{Rybalkin2018}. It has been developed in order to propose a complete workflow to its users. First, another tool developed by Xilinx can be used in order to train quantised networks, \emph{Brevitas}. This tool produces a network in an intermediate representation with annotation for the FPGA framework. \emph{FINN} loads this intermediate representation and, in the same way \emph{fpgaConvNet} would do, runs the network through a series of different transformations. \emph{Figure} \ref{fig:FINNWorflow} presents the whole workflow.
+In the other hand, \emph{FINN} \cite{Umuroglu2017a} has been developed as an open-source framework by the FPGA manufacturer Xilinx. It works as a network compression tool especially tailored for FPGAs and have been actively under development with extensions to quantised networks \cite{Blott2018} or Long Short-Term Memory (LSTM) networks \cite{Rybalkin2018}. It has been developed in order to propose a complete workflow to its users. First, another tool developed by Xilinx can be used in order to train quantised networks, \emph{Brevitas}. This tool produces a network in an intermediate representation with annotation for the FPGA framework. \emph{FINN} loads this intermediate representation and, in the same way \emph{fpgaConvNet} would do, runs the network through a series of different transformations. \emph{Figure} \ref{fig:FinnWorkflow} presents the whole workflow.
 
 \begin{figure}[htbp]
 	\centering
@@ -391,7 +391,7 @@ An interesting difference between the two frameworks is the \emph{FINN} ability 
 
 In 2019, Ding et al. \cite{Ding2019} propose a \guille{Resource-aware, efficient quantisation framework} for object detection on FPGAs. They present an extension and automation of the YOLO model used in the object detection field. Jahanshahi et al. \cite{Jahanshahi2019} present TinyCNN, a modular CNN framework using 16-bit fixed-point data. Zhao et al. \cite{Zhao2019} present Tomato, \guille{a framework designed to automate the process of generating efficient CNN accelerators}. Tomato uses different arithmetics and precisions within each Convolutional layer. This is the first multi-precision multi-arithmetic auto-generation framework for CNNs.
 
-Between all these different frameworks, \emph{FINN} seems to be the one that encounter a growing community. This may be due to the fact that the initiative is pushed by a well-known FPGA manufacturer, Xilinx. Their tools provide interconnection, whether it is between their boards and FINN or the integration with their GUI \emph{Vivado} and \emph{Vitis}.
+Between all these different frameworks, \emph{FINN} seems to be the one that encounter a growing community. This may be due to the fact that the initiative is pushed by Xilinx, a well-known FPGA manufacturer. Their tools provide interconnection, whether it is between their boards and FINN or the integration with their GUI \emph{Vivado} and \emph{Vitis}.
 
 %------------------------------------------------------
 %	SUBSECTION 3.4 - Takeaway from the Literature Review
