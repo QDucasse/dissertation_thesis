@@ -1,6 +1,6 @@
 \chapter{Implementation} % Main chapter title
 
-\label{Chapters} % For referencing this chapter elsewhere, use \ref{Chapters}
+\label{Chapter6} % For referencing this chapter elsewhere, use \ref{Chapters}
 
 \lhead{Chapter 6. \emph{Implementation}}
 
@@ -33,7 +33,7 @@ The main motivations taken in consideration when setting up the \emph{Brevitas} 
 \subsection{About Perspective}
 
 % TODO ADD PAPERS THAT PROPOSE TRAINING ON FPGA
-Several papers present methods to \emph{train} networks on FPGAs. However, while \emph{Brevitas} allows the training of \emph{QNNs}, it does not map the network on FPGAs at training time. It is expected to train the network on another hardware architecture (CPU(s) or GPU(s)) as PyTorch would expect and can handle. On the other hand, both \emph{Brevitas} and \emph{FINN} are in active development and in early phases of their development cycle. Version 0.3 of both tools has been released in late May this year.
+Several papers present methods to \emph{train} networks on FPGAs \cite{}. However, while \emph{Brevitas} allows the training of \emph{QNNs}, it does not map the network on FPGAs at training time. It is expected to train the network on another hardware architecture (CPU(s) or GPU(s)) as PyTorch would expect and can handle. On the other hand, both \emph{Brevitas} and \emph{FINN} are in active development and in early phases of their development cycle. Version 0.3 of both tools has been released in late May this year.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 6.2 - Workflow
@@ -49,7 +49,7 @@ This section will present the whole workflow \emph{Brevitas} / \emph{FINN} put i
 
 \subsection{Brevitas}
 
-Brevitas has been developed with the idea of corresponding to a \guille{drop-in} replacement of PyTorch. This means that it ensures that PyTorch functionalities will be kept, even when working with reduced-precision layers. Brevitas implements a set of building blocks to model a reduced precision hardware data-path at training time. While partially biased towards modelling dataflow-style, very low-precision implementations, the building blocks can be parametrized and assembled together to target all sorts of reduced precision hardware.
+Brevitas has been developed with the idea of corresponding to a \guille{drop-in} replacement of PyTorch. This means that it ensures that PyTorch functionalities will be kept, even when working with reduced-precision layers. Brevitas implements a set of building blocks to model a reduced precision hardware data-path at training time. While partially biased towards modelling dataflow-style, very low-precision implementations, the building blocks can be parametrised and assembled together to target all sorts of reduced precision hardware.
 
 The implementation sets up several design principles: idiomatic PyTorch if possible, modularity first at the cost of some verbosity and a focus on easy extendability. Brevitas features many different ideas such as extracted from its presentation:
 \begin{itemize}
