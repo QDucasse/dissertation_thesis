@@ -175,30 +175,27 @@ Once the neural network is defined and trained, \emph{Brevitas} provides a way t
 
 As extracted from their repository: \guille{\emph{Open Neural Network Exchange (ONNX)} is an open ecosystem that empowers AI developers to choose the right tool for their project}. \emph{ONNX} provides an open-source format for artificial intelligence and machine learning models. This is done by defining an extensible computation graph model, as well as definitions of operators and data types. \emph{ONNX} is widely supported in different frameworks or tools. The main goal behind its design and development was to \guille{enable interoperability between different frameworks to streamline the path between research and production}.
 
-% TODO ONNX BEFORE AND AFTER TRANSFORMATIONS
+\emph{Figure} \ref{fig:ONNXBeginning} presents the ONNX representation of a network architecture called \emph{TFC} and corresponding to three fully-connected layers put one after each other. This ONNX representation is obtained through the export modules in Brevitas, and particularly \texttt{brevitas.onnx}. This module is still under active development by the Xilinx team. The visualisation is made possible through the \emph{Netron} tool.
 
-% LENET ONNX THROUGH NETRON
-% \begin{figure}[htbp]
-% 	\centering
-% 		\includegraphics[width=\textwidth]{Figures/InferenceOpt.png}
-% 	\caption[Inference Optimisations]{Methods to accelerate an FPGA implementation \cite{Abdelouahab2018}}
-% 	\label{fig:InferenceOpt}
-% \end{figure}
+% TODO CITE GITHUB BREVITAS FINN ONNX NETRON NN_BENCHMARK
 
+% TFC ONNX THROUGH NETRON
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=12cm]{Figures/ONNXBeginning.png}
+	\caption[TFC ONNX representation]{TFC ONNX Representation}
+	\label{fig:ONNXBeginning}
+\end{figure}
 
-% QUANTISED LENET THROUGH NETRON
-% \begin{figure}[htbp]
-% 	\centering
-% 		\includegraphics[width=\textwidth]{Figures/InferenceOpt.png}
-% 	\caption[Inference Optimisations]{Methods to accelerate an FPGA implementation \cite{Abdelouahab2018}}
-% 	\label{fig:InferenceOpt}
-% \end{figure}
+\newpage
 
 %-------------------------
 %	SUBSECTION 6.2.3 - FINN
 %-------------------------
 
 \subsection{FINN}
+
+The last piece of the workflow is \emph{FINN}, described by Xilinx as allowing \guille{Fast, Scalable Quantized Neural Network Inference on FPGAs}. The \emph{FINN} compiler goes through three major steps to be able to port a neural network as shown on \emph{Figure} \ref{fig:FINNWholeFlow}. First, \emph{Network Preparation} where \emph{FINN} uses different transformations on the \emph{ONNX} graph to simplify it or make it more convenient for the next steps. Then, \emph{IP Generation} where the \emph{Vivado} tool is called to generate a network of HLS layers with one IP block per layer and finally stitches all the blocks together. Finally, the network is deployed on an FPGA with a \emph{PYNQ} shell, an FPGA utility providing a Python environment on an FPGA. This deployment is made possible by creating a project and driver then transferring it on the board along with the bitfile.
 
 % FINN WHOLE FLOW
 \begin{figure}[htbp]
@@ -208,12 +205,10 @@ As extracted from their repository: \guille{\emph{Open Neural Network Exchange (
 	\label{fig:FINNWholeFlow}
 \end{figure}
 
-The last piece of the workflow is \emph{FINN}, described by Xilinx as allowing \guille{Fast, Scalable Quantized Neural Network Inference on FPGAs}. The \emph{FINN} compiler goes through three major steps to be able to port a neural network as shown on \emph{Figure} \ref{fig:FINNWholeFlow}. First, \emph{Network Preparation} where \emph{FINN} uses different transformations on the \emph{ONNX} graph to simplify it or make it more convenient for the next steps. Then, \emph{IP Generation} where the \emph{Vivado} tool is called to generate a network of HLS layers with one IP block per layer and finally stitches all the blocks together. Finally, the network is deployed on an FPGA with a \emph{PYNQ} shell, an FPGA utility providing a Python environment on an FPGA. This deployment is made possible by creating a project and driver then transferring it on the board along with the bitfile.
-
 % FINN TRANSFORMATIONS
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=\textwidth]{Figures/FINNTransformations.png}
+		\includegraphics[width=8cm]{Figures/FINNTransformations.png}
 	\caption[FINN Transformations]{FINN Transformations}
 	\label{fig:FINNTransformations}
 \end{figure}
@@ -269,28 +264,39 @@ class Streamline(Transformation):
 	\label{fig:FINNStreamline}
 \end{figure}
 
+\newpage
 
-Once the streamlining transformations are completed, \emph{FINN} will convert the different layers to their HLS counterpart if possible. This conversion is made possible by using \texttt{finn-hls}, a backend library developed by the same team to translate layers to HLS. The result of the transformation consists of a mixture of HLS and non-HLS layers. The \emph{HLS Conversion} completed, \emph{FINN} will then proceed to a \emph{Dataflow Partitioning}. This step will separate the whole network graph into a parent graph that will be executed through the \texttt{onnx-exec}. One of its child node contains all the different HLS layers and during the execution of the whole graph, \emph{FINN} delegates the execution of this child node to the FPGA board and gets the result before injecting it back in the graph execution flow.
+Once the streamlining transformations are completed, \emph{FINN} will convert the different layers to their HLS counterpart if possible. This conversion is made possible by using \texttt{finn-hls}, a backend library developed by the same team to translate layers to HLS. The result of the transformation consists of a mixture of HLS and non-HLS layers. The \emph{HLS Conversion} completed, \emph{FINN} will then proceed to a \emph{Dataflow Partitioning}. This step will separate the whole network graph into a parent graph that will be executed through the \texttt{onnx-exec}. One of its child node contains all the different HLS layers and during the execution of the whole graph, \emph{FINN} delegates the execution of this child node to the FPGA board and gets the result before injecting it back in the graph execution flow. The resulting ONNX representation can be seen on \emph{Figure} \ref{fig:ONNXEnd} where the network and its ONNX representation (presented earlier on \emph{Figure} \ref{fig:ONNXBeginning}) now corresponds to few basic operations followed by a \texttt{StreamingDataflowPartition} layer that contains the layers that need to be deployed.
 
-% FINN SYNTHESIS
+\newpage
+
+% END TFC ONNX THROUGH NETRON
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=8cm]{Figures/FINNSynthesis.png}
-	\caption[FINN Synthesis]{FINN Synthesis}
-	\label{fig:FINNSynthesis}
+		\includegraphics[width=6cm]{Figures/ONNXEND.png}
+	\caption[Transformed TFC ONNX representation]{Transformed TFC ONNX Representation}
+	\label{fig:ONNXEnd}
 \end{figure}
 
 Once the graph is separated into two distinct parts, the synthesis can begin using \emph{Vivado}. Each layer is converted to one \emph{IP block}, a logical unit, then they are all stitched together to form the whole partition that will be ported to the board, as presented on \emph{Figure} \ref{fig:FINNSynthesis}. This part produces a \emph{bitfile} that defines the configuration of the FPGA.
 
+% FINN SYNTHESIS
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=10cm]{Figures/FINNSynthesis.png}
+	\caption[FINN Synthesis]{FINN Synthesis}
+	\label{fig:FINNSynthesis}
+\end{figure}
+
+Finally, the default built-in way to deploy the bitfile and execute it is to use the Python shield image named \emph{PYNQ}. This shield provides a Python environment to interact with the board. \emph{FINN} therefore creates and deploys a PYNQ project that consists of the base modules needed, a project structure and a simple driver. Once the project bitfile is transferred on the board, the driver can feed it with the image to inference, collect the result and send it back to the \texttt{onnx-exec} process. These different parts are summarised on \emph{Figure} \ref{fig:FINNPYNQ}.
+
 % PYNQ DEPLOYMENT
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=8cm]{Figures/FINNPYNQ.png}
+		\includegraphics[width=10cm]{Figures/FINNPYNQ.png}
 	\caption[FINN PYNQ Deployment]{FINN PYNQ Deployment}
 	\label{fig:FINNPYNQ}
 \end{figure}
-
-Finally, the default built-in way to deploy the bitfile and execute it is to use the Python shield image named \emph{PYNQ}. This shield provides a Python environment to interact with the board. \emph{FINN} therefore creates and deploys a PYNQ project that consists of the base modules needed, a project structure and a simple driver. Once the project bitfile is transferred on the board, the driver can feed it with the image to inference, collect the result and send it back to the \texttt{onnx-exec} process.
 
 %-------------------------------------------
 %	SUBSECTION 6.2.4 - Benchmark as extension
@@ -348,22 +354,28 @@ quant_lenet5 = QuantLeNet5(n_classes = 10, in_channels = 3,
 	\label{fig:NetworkCreation}
 \end{figure}
 
-% BENCHMARK CLI
-% \begin{figure}[htbp]
-% 	\centering
-% 		\includegraphics[width=8cm]{Figures/BenchCLI.png}
-% 	\caption[Benchmark CLI]{Benchmark Command Line Interface}
-% 	\label{fig:BenchCLI}
-% \end{figure}
+The training routine is wrapped up by the \texttt{Trainer} class and can be tuned through the command line. The \texttt{CLI} class holds a large number of parameters that can be used to customise the training phase. An example of a run can be seen on \emph{Figure} \ref{fig:BenchCLI}. The example presented on the figure will launch the training for the network \texttt{QuantTFC}, the Brevitas version of the \emph{TFC} network (three successive fully-connected layers). This training will be run on the \texttt{FashionMNIST} dataset for 100 epochs. It will be overlooked by the \texttt{ADAM} optimiser and \texttt{CrossEntropy} loss function. The hyperparameters are tuned to a learning rate of 0.01 and a momentum of 0.9. The learning rate will change according to the scheduler, here a \texttt{MultiStepScheduler}. This scheduler will divide by 10 the learning rate after the epochs specified as milestones, here 34 and 37. Finally, the \emph{activation quantisation} is set to 2 bit, same for the \emph{weight quantisation} and the \emph{input quantisation} is set to 8 bits. The input quantisation is used for the first layer only. This often outputs better results due to the avoided harsh precision reduction. The first layers impact end accuracy a lot more than the last ones and the quantisation has to be delayed.
 
-The training routine is wrapped up by the \texttt{Trainer} class and can be tuned through the command line. The \texttt{CLI} class holds a large number of parameters that can be used to customise the training phase. An example of a run can be seen on \emph{Figure} \ref{fig:BenchCLI}.
+% TODO REFERENCE INPUT QUANT
 
-% TODO PRESENT THE ARGUMENTS PASSED TO THE CLI IN THE EXAMPLE
 \begin{figure}[htbp]
-	\centering
-	\begin{lstlisting}[language=Python]
-print("TODO")\end{lstlisting}
-	\caption[Exemple]{Code qui sera complété plus tard}
+\centering
+\begin{lstlisting}[language=bash]
+PYTORCH_JIT=1 python nn_benchmark/main.py \
+--network    QuantTFC     \
+--dataset    FashionMNIST \
+--epochs     100          \
+--optimiser  ADAM         \
+--loss       CrossEntropy \
+--lr         0.01         \
+--momentum   0.9          \
+--scheduler  STEP         \
+--milestones 34,37        \
+--acq        2            \
+--weq        2            \
+--inq        8
+\end{lstlisting}
+\caption[Command Line Interface]{Command Line Interface arguments}
 	\label{fig:BenchCLI}
 \end{figure}
 
@@ -499,7 +511,7 @@ Looking through the transformations steps presented earlier, here are the transf
   \item \textbf{Tidy-up}: This first step calls different transformations to simplify the graph. The transformations used here are \texttt{DoubleToSingleFloat}, \texttt{InferShapes}, \texttt{FoldConstants}, \texttt{GiveUniqueNodeNames}, \texttt{GiveReadableTensorNames} and \texttt{InferDataTypes}.
   \item \textbf{Streamline}: The streamline process described earlier is resumed to the \texttt{Streamline} transformation.
   \item \textbf{HLS Conversion}: The conversion consists of changing the layers to their HLS counterpart. In the case of quantised FC layers, the transformation is \texttt{Infer} \texttt{QuantizedStreamingFCLayer}.
-  \item \textbf{Dataflow Partition}: The separation is contained in the \texttt{CreateDataflowPartition} transformation.
+  \item \textbf{Dataflow Partition}: The separation is contained in the \texttt{CreateDataflowParti-} \texttt{tion} transformation.
   \item \textbf{Folding}: The tuning operates on the child containing the HLS layers of the previously created partition. This folding is an empiric process for now but can be guided using \guille{folding factors}. Here, the folding factor used was 32. Each image consists of 1024 pixels ($32 \times 32$) and the PE and SIMD determines the number of simultaneous operations that can be processed in order to process the full image. The higher the folding factor, the higher number of passes are needed but the fewer hardware resources used. The \emph{PYNQ} being a relatively small FPGA, a folding factor of 16 was too much to handle and therefore 32 is chosen. The folding process can be seen on \emph{Figure} \ref{fig:FoldingProcess}. After selecting the PE and SIMD, the transformations \texttt{InsertDWC} \texttt{InsertFIFO} and \texttt{InsertTLastMarker} can be used.
 
   \begin{figure}[htbp]
@@ -525,33 +537,43 @@ Looking through the transformations steps presented earlier, here are the transf
   \caption[Folding Process]{Folding process on the different layers}
   	\label{fig:FoldingProcess}
   \end{figure}
-  \item \textbf{IP Synthesis}: The IP are synthesised using \texttt{PrepareIP}, \texttt{HLSSynthIP}, \texttt{ReplaceVerilogRelPaths} and \texttt{CreateStitchedIP}. The result is a stitched IP consisting of one IP per layer succeeding one another.
-  \item \textbf{PYNQ deployment}: The PYNQ driver and project are created with \texttt{MakePYNQProject}, \texttt{SynthPYNQProject} and \texttt{MakePYNQDriver} and deployed with \texttt{DeployToPYNQ}.
+  \item \textbf{IP Synthesis}: The IP are synthesised using \texttt{PrepareIP}, \texttt{HLSSynthIP}, \texttt{ReplaceVeri-} \texttt{logRelPaths} and \texttt{CreateStitchedIP}. The result is a stitched IP consisting of one IP per layer succeeding one another. The resulting block design is presented on \emph{Figure} \ref{fig:StitchedBlockDesign} and displays successive \texttt{StreamingFIFO} and \texttt{StreamingFCLayer\_Batch}.
+
+  \newpage
+
+  % VIVADO STITCHED PROJECT
+  \begin{figure}[htbp]
+  	\centering
+  		\includegraphics[width=\textwidth]{Figures/StitchedBlockDesign.png}
+  	\caption[StitchedBlockDesign]{Block Design of the stitched IP layers}
+  	\label{fig:StitchedBlockDesign}
+  \end{figure}
+
+  \item \textbf{PYNQ deployment}: The PYNQ driver and project are created with \texttt{Make-} \texttt{PYNQProject}, \texttt{SynthPYNQProject} and \texttt{MakePYNQDriver} and deployed with \texttt{DeployToPYNQ}.
 \end{itemize}
 
-% TODO: FIGURES VIVADO AND PYNQ
+These steps create a final \emph{Vivado} project, perform the synthesis and transfer the bitfile to the \emph{PYNQ-Z1}. An overview of the \emph{Vivado} block design can be seen on \emph{Figure} \ref{fig:ProjectBlockDesign}. The highlighted portion corresponds to the actual neural network part. The other components are links to the processing unit or external memory. A picture of the \emph{PYNQ-Z1} can be seen on \emph{Figure} \ref{fig:PYNQ-Z1}.
 
-
-These steps create a \emph{Vivado} project, perform the synthesis and transfer the bitfile to the \emph{PYNQ-Z1}. An overview of the \emph{Vivado} block design can be seen on \emph{Figure} \ref{fig:VivadoBlockDesign}. A picture of the \emph{PYNQ-Z1} can be seen on \emph{Figure} \ref{fig:PYNQ-Z1}.
-
-% VIVADO PROJECT
+% FINAL VIVADO BLOCK DESIGN
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=2cm]{Figures/Default.png}
-	\caption[ToDo]{\`A compléter}
-	\label{fig:VivadoBlockDesign}
+		\includegraphics[width=\textwidth]{Figures/ProjectBlockDesign.png}
+	\caption[ProjectBlockDesign]{Final Vivado Block Design}
+	\label{fig:ProjectBlockDesign}
 \end{figure}
 
 % PYNQ PHOTO
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=2cm]{Figures/Default.png}
-	\caption[ToDo]{\`A compléter}
+		\includegraphics[width=\textwidth]{Figures/PYNQ.png}
+	\caption[PYNQ-Z1]{PYNQ-Z1 with a neural network deployed}
 	\label{fig:PYNQ-Z1}
 \end{figure}
 
 
-In the end, it is possible to provide an image to the deployed network as presented on \emph{Figure} \ref{fig:DeployedInference}. Moreover, \emph{FINN} provides a way to conduct a throughput test as presented on \emph{Figure} \ref{fig:ThroughputTest}.
+\newpage
+
+In the end, it is possible to provide an image to the deployed network as presented on \emph{Figure} \ref{fig:DeployedInference}. This figure presents a script to first load the image and convert it to a tensor. Then, the trained transformed network is loaded and \texttt{onnx-exec} is used to run the image through the network. The result is then interpreted through the \texttt{softmax} function that outputs the different probabilities of each class for the provided picture.
 
 \begin{figure}[htbp]
 \centering
@@ -588,36 +610,18 @@ plt.bar(np.arange(10), prob)
   \label{fig:DeployedInference}
 \end{figure}
 
+Moreover, \emph{FINN} provides a way to conduct a throughput test as presented on \emph{Figure} \ref{fig:ThroughputTest}. The test takes advantage of \emph{FINN} function \texttt{throughput\_test} that outputs both the throughput and other i/o metrics such as the DRAM bandwidth for example.
+
 \begin{figure}[htbp]
 \centering
 \begin{lstlisting}[language=Python]
-import numpy as np
-from finn.core.onnx_exec import execute_onnx
-# Loading the image
-image = Image.open('/workspace/finn/onnx_experiments/img_MNIST_grayscale.png')
-x = TF.to_tensor(image)
-x.unsqueeze_(0)
-# Loading the parent model of the partition
-parent_model = load("dataflow_parent")
-sdp_node = parent_model.graph.node[2]
-remote_exec_model = build_dir + "tfc_deploy.onnx"
-getCustomOp(sdp_node).set_nodeattr("model", remote_exec_model)
-save(parent_model,"dataflow_parent_with_remote_bitfile_exec")
-# Running the model, the deployed part will go to the FPGA once the node is reached
-iname = parent_model.graph.input[0].name
-oname = parent_model.graph.output[0].name
-ishape = parent_model.get_tensor_shape(iname)
-input_dict = {iname: x.numpy()[0].reshape(ishape)}
-ret = execute_onnx(parent_model, input_dict, True)
-# Definition of the softmax function
-def softmax(x):
-    """Compute softmax values for each sets of scores in x."""
-    e_x = np.exp(x - np.max(x))
-    return e_x / e_x.sum()
-logits = ret[oname].flatten()
-prob = softmax(logits)
-# Presentation of the probabilities for the given image
-plt.bar(np.arange(10), prob)
+from finn.core.throughput_test import throughput_test
+
+child_model = ModelWrapper(getCustomOp(sdp_node).get_nodeattr("model"))
+res = throughput_test(child_model)
+print("Network metrics:")
+for key in res:
+    print(str(key) + ": " + str(res[key]))
 \end{lstlisting}
 \caption[Throughput Test]{Throughput test method}
   \label{fig:ThroughputTest}

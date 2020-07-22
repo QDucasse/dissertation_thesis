@@ -30,7 +30,7 @@ Taking from the \textbf{Aims} defined in Chapter \ref{Chapter1}, we derive the o
     \item Hardware architectures: PYNQ-Z1, Zedboard Zynq 7000 and Digilent Nexys A7
     \item Development Framework: Brevitas over PyTorch
     \item Acceleration Framework: FINN
-    \item Datasets: MNIST, CIFAR-10 and GTSRB
+    \item Datasets: MNIST (or similar), CIFAR-10 and GTSRB
     \item Network Architectures: Succession of FC layers, Simple ConvNet (similar to LeNet), MobilenetV1
   \end{enumerate}
   \item Determine the impact of the size of parameters linked to the application.
@@ -83,9 +83,9 @@ The above objectives translate into requirements for the actual final software.
                               &                                         & the impact of the optimisation methods                                 &                             & \\ \hline
 \multirow{2}{*}{\textbf{R7}}  & \multirow{2}{*}{\emph{TestHardDes}}     & The system should evaluate                                             & \multirow{2}{*}{Constraint} & \multirow{2}{*}{User requirement} \\
                               &                                         & the impact of the hardware design                                      &                             & \\ \hline
-\multirow{2}{*}{\textbf{R8}}  & \multirow{2}{*}{\emph{ExpTrain}}        & The system should lead the experiment through a sound,                 & \multirow{2}{*}{Constraint} & Meaningful \\ 
+\multirow{2}{*}{\textbf{R8}}  & \multirow{2}{*}{\emph{ExpTrain}}        & The system should lead the experiment through a sound,                 & \multirow{2}{*}{Constraint} & Meaningful \\
                               &                                         & consistent and replicable training process                             &                             & experimental process\\\hline
-\multirow{2}{*}{\textbf{R9}}  & \multirow{2}{*}{\emph{ExpDeploy}}       & The system should lead the experiment through a sound,                 & \multirow{2}{*}{Constraint} & Meaningful \\ 
+\multirow{2}{*}{\textbf{R9}}  & \multirow{2}{*}{\emph{ExpDeploy}}       & The system should lead the experiment through a sound,                 & \multirow{2}{*}{Constraint} & Meaningful \\
                               &                                         & consistent and replicable deployment process                           &                             & experimental process\\ \hline
 \multirow{2}{*}{\textbf{R10}} & \multirow{2}{*}{\emph{ResGuide}}        & The system should help                                                 & \multirow{2}{*}{Constraint} & \multirow{2}{*}{Exploitable results}\\
                               &                                         & create guidelines with the results                                     &                             & \\ \hline
@@ -97,7 +97,7 @@ The above objectives translate into requirements for the actual final software.
 The projected counterparts to the first requirements are the following:
 \begin{itemize}
   \item \textbf{R0}: \emph{TFC}, \emph{CNV}, \emph{LeNet5}, \emph{VGG} and/or \emph{MobilenetV1}
-  \item \textbf{R1}: \emph{MNIST}, \emph{CIFAR-10}, \emph{GTSRB} and/or \emph{SVHN}
+  \item \textbf{R1}: \emph{MNIST (or similar)}, \emph{CIFAR-10}, \emph{GTSRB} and/or \emph{SVHN}
   \item \textbf{R2}: \emph{PyTorch} extension \emph{Brevitas}
   \item \textbf{R3}: Xilinx acceleration framework \emph{FINN}
   \item \textbf{R4}: \emph{PYNQ-Z1}, \emph{Zedboard Zynq-7000} and/or \emph{Diligent Nexys-A7}
