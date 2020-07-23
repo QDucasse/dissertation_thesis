@@ -33,7 +33,7 @@ In any case, the developer has to know and keep in mind:
 Mixed precision methods consist of doing a large part of the computation in low-precision components and only a small part in high-precision. As presented in the survey paper \cite{Goddeke2007} using different formats in the same algorithm can have several beneficial properties such as:
 \begin{itemize}
   \item Accuracy: Same accuracy when up to 99\% of the operations is performed in the low format
-  \item Computation: Low precision operations require less transistors and can translate in more paralellism
+  \item Computation: Low precision operations require less transistors and can translate in more parallelism
   \item Memory: Reduction in size in memory influences the efficiency and bandwidth requirements positively
 \end{itemize}
 
@@ -73,7 +73,7 @@ This method has later been reused and extended. Baboulin et al. \cite{Baboulin20
 
 \subsubsection{Analysis and Rewriting}
 
-When creating a new application or system, any developer tends to use the highest available (or one of the highest) to represent the numbers he will need. However, the space and operations performed on higher-precision types are, as shown earlier, not the most performant. A simple, yet effective way to choose the correct type is to analyse the code and rewrite types that can be represented by lower precision ones. This idea has been implemented in the code analysis tool Precimonious \cite{Rubio2013} for floating-point representations. This analysis tool can go over the code and determines parts of it where lower precision can apply.
+When creating a new application or system, any developer tends to use the highest available (or one of the highest) to represent the numbers he will need. However, the space and operations performed on higher-precision types are, as shown earlier, not the most performant. A simple, yet effective way to choose the correct type is to analyse the code and rewrite types that can be represented by lower precision ones. This idea has been implemented in the code analysis tool \emph{Precimonious} \cite{Rubio2013} for floating-point representations. This analysis tool can go over the code and determines parts of it where lower precision can apply.
 
 The mixed-precision approach can apply from a different perspective when using a fixed-precision representation. Darulova et al. \cite{Darulova2013} show that several polynomial expressions over the reals are cast over fixed-point arithmetic without being optimised, leading approximations of the real values. The tool they present allows to determine the best fixed-point implementation of a real number thanks to genetic programming. Then, as the order of operations is impactful when dealing with fixed-point arithmetic (distributivity and associativity are not respected), the tool reorder the operations to optimise the error and accuracy.
 
@@ -146,7 +146,7 @@ int main( int argc, char **argv) {
 }
 \end{lstlisting}
 \end{minipage}
-\caption[Tuning]{Tuning Example \cite{Rubio2013}}
+\caption[Tuning Example]{Tuning Example \cite{Rubio2013}}
 	\label{fig:Tuning}
 \end{mylisting}
 
@@ -194,13 +194,13 @@ Optimisations of neural networks may come in many different shapes. A field that
 
 The most common approach to \guille{port} a network on a small architecture is to \emph{compress} a full-precision trained network. Following this particular idea, Chen et al. \cite{Chen2015} designed \emph{HashNets} that reduce model sizes by using a hash function to randomly group connection weights and force them to share a single parameter value.  Gong et al. \cite{Gong2014} compressed deep \emph{CNNs} by using vector quantisation. They present different quantisation methods (binarisation, \emph{k-means}, product quantisation or residual quantisation). The different methods shown a loss of 1\% accuracy while compressing the network more than 20 times. Tools have been developed to automate the process on several hardware architecture. \emph{Distiller} \cite{Nzmora2019} is an Intel product built as a Python package over a \emph{PyTorch} environment. The compression takes the idea of \emph{Rewriting} and performs directly on a neural network.
 
-Another approach is to \emph{prune} the weights of a network to only keep the most important ones. Molchanov et al. \cite{Molchanov2016} present pruning as a \emph{backward filter} that would alternate pruning least important neurons and fine tuning. The pruning stops when the target trade-off between accuracy and pruning objective (e.g. floating point operations number or memory utilisation) is reached. \emph{Figure} \ref{fig:PruningMethod} Fujii et al. \cite{Fujii2017} present their pruning method adapted to FPGAs. Authors state that \guille{In the convolution layer, the multiply accumulation is a bottleneck, while in the fully-connected layer, the memory access is the bottleneck}. Their method present number of neurons reduced by 89.3\% while keeping a 99\% accuracy on a \emph{VGG-11} network architecture. They both present a pruning method occuring in the \emph{Fully-Connected layers}, and in those only. Han et al. \cite{Han2015} present their pruning method that allows to reduce the number of parameters of an order of magnitude.
+Another approach is to \emph{prune} the weights of a network to only keep the most important ones. Molchanov et al. \cite{Molchanov2016} present pruning as a \emph{backward filter} that would alternate pruning least important neurons and fine tuning. The pruning stops when the target trade-off between accuracy and pruning objective (e.g. floating point operations number or memory utilisation) is reached. \emph{Figure} \ref{fig:PruningMethod} Fujii et al. \cite{Fujii2017} present their pruning method adapted to FPGAs. Authors state that \guille{In the convolution layer, the multiply accumulation is a bottleneck, while in the fully-connected layer, the memory access is the bottleneck}. Their method present number of neurons reduced by 89.3\% while keeping a 99\% accuracy on a \emph{VGG-11} network architecture. They both present a pruning method occurring in the \emph{Fully-Connected layers}, and in those only. Han et al. \cite{Han2015} present their pruning method that allows to reduce the number of parameters of an order of magnitude.
 
 % PRUNING AS A BACKWARD OPERATOR
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=4cm]{Figures/PruningMethod.png}
-	\caption[Inference Optimisations]{Pruning method as a backward operator, presented in \cite{Molchanov2016}}
+	\caption[Pruning Method]{Pruning method as a backward operator, presented in \cite{Molchanov2016}}
 	\label{fig:PruningMethod}
 \end{figure}
 
@@ -222,7 +222,7 @@ Using yet another data representation, Micikevicius et al. \cite{Micikevicius201
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=10cm]{Figures/HPTraining.png}
-	\caption[HPTraining]{Half-Precision Training  \cite{Micikevicius2017}}
+	\caption[Half-Precision Training]{Half-Precision Training \cite{Micikevicius2017}}
 	\label{fig:HPTraining}
 \end{figure}
 
@@ -339,19 +339,19 @@ for (int c=0;n<C;c+=Tc){
 }}}}
 \end{lstlisting}
 \end{minipage}
-\caption[LoopTiling]{Loop Tiling Example \cite{Abdelouahab2018}}
+\caption[Loop Tiling]{Loop Tiling Example \cite{Abdelouahab2018}}
 	\label{fig:LoopTiling}
 \end{figure}
 
 Now if we look more closely on \emph{Quantisation} methods applied to FPGAs, the literature present several works:
 
 Colangelo et al. \cite{Colangelo2018} present a CNN mapping to a reconfigurable architecture in order to use sub 8-bit activation and weights. In order to use binary- or ternary-weighted neural networks, they cap their sizes to respectively 1 and 2-bits. Using this type of limited numeric precision can only be fully optimised with FPGAs and the authors show that they manage to get an optimisation of \guille{the bandwidth, memory, power and computation savings}.
-uning
-Zhao et al. \cite{Zhao2016} propose \emph{F-CNN}, a framework to train CNNs on FPGAs. Their design makes available highly customisable modules that will be optimised to maximise performance under the constraints of bandwidth and hardware resources. The authors state that the introduction of mixed-precision will be the next step of optimisation of their design. Moreover, the use of they prove their design is more performant than CPUs and less expensive in terms of energy than GPUs. \emph{F-CNN} reconfigures a streaming datapath at runtime to cover the training tasks for the various layers in a CNN.
+
+Zhao et al. \cite{Zhao2016} propose \emph{F-CNN}, a framework to train CNNs on FPGAs. Their design makes available highly customisable modules that will be optimised to maximise performance under the constraints of bandwidth and hardware resources. The authors state that the introduction of mixed-precision will be the next step of optimisation of their design. Moreover, the use of they prove their design is more performant than CPUs and less expensive in terms of energy than GPUs. \emph{F-CNN} reconfigures a streaming data-path at runtime to cover the training tasks for the various layers in a CNN.
 
 Jahanshahi et al. \cite{Jahanshahi2019} propose a CNN accelerator tool. It generates the hardware description for a CNN to be programmed on a target FPGA. The software uses an API the developer can use to enter the available resources. The software will then generate the hardware description and run a simulation to adjust the precision and minimise the classification error. The whole system is shown to be more performant on a half-precision fixed-point representation rather than using single-precision floating-point data: 3\% accuracy loss in exchange for 15.75x speedup.
 
-The even more agressive vision of quantisation with binary parameters as set by Courbariaux et al. \cite{Courbariaux2016} was conducted on GPUs but their FPGA counterpart have been developed later on. Liang et al. \cite{Liang2017} present a BNN implemented on an FPGA and the benchmarked results show an improvement in speed and energy efficiency over other computing platforms.
+The even more aggressive vision of quantisation with binary parameters as set by Courbariaux et al. \cite{Courbariaux2016} was conducted on GPUs but their FPGA counterpart have been developed later on. Liang et al. \cite{Liang2017} present a BNN implemented on an FPGA and the benchmarked results show an improvement in speed and energy efficiency over other computing platforms.
 
 
 %--------------------------------------------------------
@@ -367,7 +367,7 @@ The next year, two initiatives are launched in order to perform an automatic map
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=\textwidth]{Figures/fpgaConvNetTransformations.png}
-	\caption[Inference Optimisations]{Different transformations used by \emph{fpgaConvNet} \cite{Venieris2017}}
+	\caption[fpgaConvNet Transformations]{Different transformations used by \emph{fpgaConvNet} \cite{Venieris2017}}
 	\label{fig:fpgaConvNetTransformations}
 \end{figure}
 
@@ -379,7 +379,7 @@ In the other hand, \emph{FINN} \cite{Umuroglu2017a} has been developed as an ope
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=\textwidth]{Figures/FinnWorkflow.png}
-	\caption[Inference Optimisations]{FINN workflow as presented in \cite{Umuroglu2017a, Blott2018}}
+	\caption[FINN Workflow]{FINN workflow as presented in \cite{Umuroglu2017a, Blott2018}}
 	\label{fig:FinnWorkflow}
 \end{figure}
 
@@ -396,6 +396,7 @@ Between all these different frameworks, \emph{FINN} seems to be the one that enc
 %------------------------------------------------------
 
 \section{Takeaway from the Literature Review}
+
 In this \emph{Background} and \emph{Literature Review}, the focus went from the background of number representation, machine learning and hardware architectures to the underlying link between them, mixed-precision. The next part showed the different ways to both use mixed-precision in serious scientific computations and apply it to practical machine learning. The final parts present the works made to optimise both training and inference for neural network on different architectures. The final point was to present the existing tools to port a mixed-precision network to a \guille{by-default} mixed-precision architecture, FPGAs.
 
 Benchmarking and optimisation are extremely important topics in the field of machine learning when it comes to evaluation of a new set up, architecture or optimisation methods. Extensive benchmarking has been done on well-known network architectures or datasets and this provides an easy insight on what went better and what went worse. However, very few effort has been put together to compare development frameworks implementation between them. This translates in a lack of answers from industrials or companies to choose concretely for a solution before running into an artificial intelligence or machine learning project. For now, the question is \guille{Which company from the GAFA would you like to support by using their framework?} rather than actual performance. The difference also comes from the tools developed on top of these frameworks.
