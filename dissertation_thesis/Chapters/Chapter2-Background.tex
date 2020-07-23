@@ -74,7 +74,7 @@ When referring to single-precision floating-point representation we are talking 
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=.8\textwidth]{Figures/FP32.png}
-	\caption[Single-precision float representation]{Example of the representation of a float in single-precision}
+	\caption[Single-precision Float Representation]{Example of the representation of a float in single-precision}
 	\label{fig:FP32}
 \end{figure}
 
@@ -90,7 +90,7 @@ Referring to double precision floating-point representation means looking at 64-
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=.8\textwidth]{Figures/FP64.png}
-	\caption[Double-precision float representation]{Example of the representation of a float in double-precision}
+	\caption[Double-precision Float Representation]{Example of the representation of a float in double-precision}
 	\label{fig:FP64}
 \end{figure}
 
@@ -151,7 +151,7 @@ The operations performed in floating-point are expensive in terms of bandwidth, 
 
 The benefit of using a more optimised representation other the floating-point representation has been investigated as soon as in 2000 in \cite{Tong2000}. The authors present a way to reduce the energy consumption by minimising the bitwidth representation of the floating-point data. The data used to tailor the type representation is human-sensory data such as speech or video imagery. This kind of data is obtained at low precision (4 to 10 bits) but mapped into a full single-precision floating-point type. Using such optimisations, the authors manage to obtain a reduction of 66\% in multiplier energy per operation without sacrificing any accuracy.
 
-Modifications of the representations can be embedded in the architecture. Xilinx, a manufacturer of state-of-the-art architecture, produced a white paper written by \emph{FINN}erty et al. \cite{Xilinx2017} showing that their tools are able to handle fixed-point types and arithmetic and that the benefits are important:
+Modifications of the representations can be embedded in the architecture. Xilinx, a manufacturer of state-of-the-art architecture, produced a white paper written by Finnerty et al. \cite{Xilinx2017} showing that their tools are able to handle fixed-point types and arithmetic and that the benefits are important:
 \begin{itemize}
   \item Reduced power consumption
   \item Reduced use of resources (look-up tables, memory)
@@ -168,7 +168,7 @@ In conclusion, customising type in an environment where costs are translated in 
 
 \section{On Machine Learning}
 
-Machine Learning is one of the most promising asset of the recent years since it has proven to be reliable when tackling complex issues. Those tasks can either be recognizing a street sign, a disease in a radiography or classifying a piece of text under a sentiment. Text-to-speech, speech-to-text, image classification, object detection, etc. Those are all thedomains machine learning is suited for. This section will provide insight on the basic functions machine learning uses, present neural network architectures and development frameworks.
+Machine Learning is one of the most promising asset of the recent years since it has proven to be reliable when tackling complex issues. Those tasks can either be recognising a street sign, a disease in a radiography or classifying a piece of text under a sentiment. Text-to-speech, speech-to-text, image classification, object detection, etc. Those are all the domains machine learning is suited for. This section will provide insight on the basic functions machine learning uses, present neural network architectures and development frameworks.
 
 %-----------------------------------------------
 %	SUBSECTION 2.2.1 - Neurons and Neural Networks
@@ -182,7 +182,7 @@ Machine Learning is one of the most promising asset of the recent years since it
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=8cm]{Figures/Neuron.png}
-	\caption[Neuron Example]{Example of a neuron and its behavior in a neural network \cite{Karpathy2015}}
+	\caption[Neuron Example]{Example of a neuron and its behaviour in a neural network \cite{Karpathy2015}}
 	\label{fig:Neuron}
 \end{figure}
 
@@ -211,7 +211,7 @@ A neural network \guille{learns} by tuning its parameters. The tuning occurs in 
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=8cm]{Figures/backpropagation.png}
-	\caption[Backpropagation]{Backpropagation example}
+	\caption[Backpropagation example]{Backpropagation example}
 	\label{fig:Backpropagation}
 \end{figure}
 
@@ -247,7 +247,7 @@ Layers take as input a set of data, known as a \emph{Feature Map} and output a n
 
 \subsubsection{Network Architectures}
 
-While there exists a wide range of applications for neural networks and machine learning in general, the field of image classification is the most suitable to benchmarking. Literature presents a wide and evergrowing number of neural networks, often backed up by reknowned companies. Historically, Yann Le Cun et al. \cite{LeCun1998} presented the first version of a CNN tailored to a specific task: recognizing handwritten digits. By the same occasion, they created the MNIST (Modified National Institute of Standards and Technology) dataset to benchmark their network architecture. All CNN architectures are composed of two main phases:
+While there exists a wide range of applications for neural networks and machine learning in general, the field of image classification is the most suitable to benchmarking. Literature presents a wide and ever-growing number of neural networks, often backed up by renowned companies. Historically, Yann Le Cun et al. \cite{LeCun1998} presented the first version of a CNN tailored to a specific task: recognising handwritten digits. By the same occasion, they created the MNIST (Modified National Institute of Standards and Technology) dataset to benchmark their network architecture. All CNN architectures are composed of two main phases:
 \begin{itemize}
   \item \emph{Feature Extraction}: This phase consists of an extraction of features by downsampling the image through several filter layers (convolutions, pooling but also batch normalisation and dropout).
   \item \emph{Classification}: This phase consists of flattening the output of the first phase and running it through several linear layers with varying number of neurons. The final linear layer will always have a number of neurons equal to the number of classes in the classification challenge.
@@ -286,7 +286,7 @@ Using the same idea that Krizhevsky et al. \cite{Krizhevsky2012} had in mind whe
 	\label{fig:VGG-16}
 \end{figure}
 
-From now on, extending the layer size and network depth does not seem to give better results. Reknowned companies are now enrolling in the battle to the best accuracy on the ImageNet dataset \cite{ImageNet2009} and Microsoft presents its \emph{ResNet} \cite{He2015} in the 2015 competition. \emph{ResNet} uses a method to add a way to skip some connections. During the training of a network, all weights receive an update proportional to the gradient. If this gradient is very small, the change in weight can be minimal and the network can stop its training. Microsoft Research used those skipping connections to conserve the signal and mitigate data loss. In other words, \emph{ResNet} breaks a deep neural network into smaller networks connected through skip or shortcut connections. Its architecture is displayed on \emph{Figure} \ref{fig:ResNet-50}.
+From now on, extending the layer size and network depth does not seem to give better results. Renowned companies are now enrolling in the battle to the best accuracy on the ImageNet dataset \cite{ImageNet2009} and Microsoft presents its \emph{ResNet} \cite{He2015} in the 2015 competition. \emph{ResNet} uses a method to add a way to skip some connections. During the training of a network, all weights receive an update proportional to the gradient. If this gradient is very small, the change in weight can be minimal and the network can stop its training. Microsoft Research used those skipping connections to conserve the signal and mitigate data loss. In other words, \emph{ResNet} breaks a deep neural network into smaller networks connected through skip or shortcut connections. Its architecture is displayed on \emph{Figure} \ref{fig:ResNet-50}.
 
 % ResNet-50 PRESENTATION
 \begin{figure}[htbp]
@@ -296,7 +296,7 @@ From now on, extending the layer size and network depth does not seem to give be
 	\label{fig:ResNet-50}
 \end{figure}
 
-Google came into place by proposing the \emph{MobileNet} \cite{Howard2017} architecture. This architecture, as its name shows, aims at being embarked in many mobile or light hardware architectures. Its emphasis is put on the size of the network and should allow the developer to tailor it to the needs of his aimed hardware architecture. The number of parameters is reduced by using a \guille{\emph{separable depthwise convolution}} that separates the usual $3 \times 3$ convolution into two parts. The first one applies the filter on the inputs and the second (a $1 \times 1$ filter called \guille{\emph{pointwise convolution}}) combine the outputs. Overall, this technique allows to reduce the number of parameters and operations while keeping state-of-the-art.
+Google came into place by proposing the \emph{MobileNet} \cite{Howard2017} architecture. This architecture, as its name shows, aims at being embarked in many mobile or light hardware architectures. Its emphasis is put on the size of the network and should allow the developer to tailor it to the needs of his aimed hardware architecture. The number of parameters is reduced by using a \guille{\emph{separable depth-wise convolution}} that separates the usual $3 \times 3$ convolution into two parts. The first one applies the filter on the inputs and the second (a $1 \times 1$ filter called \guille{\emph{point-wise convolution}}) combine the outputs. Overall, this technique allows to reduce the number of parameters and operations while keeping state-of-the-art.
 
 % % MobileNet PRESENTATION
 % \begin{figure}[htbp]
@@ -329,7 +329,7 @@ Many other networks exist and are still being developed actively. New techniques
     \hline
   \end{tabular}
   }
-\caption[CNNTable]{Convolutional Neural Network Architectures}
+\caption[CNN Comparison]{Comparison of Convolutional Neural Network Architectures}
 \label{tab:CNNTable}
 \end{table}
 
@@ -341,7 +341,7 @@ Many other networks exist and are still being developed actively. New techniques
 
 The architectures presented earlier are well-known and are still getting better with version iterations and the discovery of new techniques (batch normalisation, depth-wise convolution, residuals, etc.). On the other side, datasets have evolved to present each time a new and harder challenge for different architectures to perform on. Well-known datasets consist of the following:
 \begin{itemize}
-  \item \emph{MNIST} is the historical dataset, considered as the machine learning version of a classic \guille{\emph{hello world}}. It was implemented along with the \emph{LeNet} architecture and has been the default first dataset to train a network architecture on ever since. Several extensions to this dataset have been created since the dataset is juged to be \guille{too easy} to be a challenge to modern neuron architectures. Very simple CNN can achieve less than 3\% error on this dataset. Several drop-in replacements have been developed such as \emph{Fashion-MNIST} \cite{Xiao2017} - set up by Zalando with simple images of garnments -, \emph{Kuzushiji-MNIST} \cite{Clanuwat2018} - three versions on the recognition of Japanese characters - or even \emph{MNIST-MIX} \cite{Jiang2020} - a mix of handwritten digits from different languages -. All the instances of the MNIST dataset and its variations are images with only one channel (grey levels) and sized 28 pixels by 28 pixels. Those images are labelled in 10 different classes (digits from 0 to 9).
+  \item \emph{MNIST} is the historical dataset, considered as the machine learning version of a classic \guille{\emph{hello world}}. It was implemented along with the \emph{LeNet} architecture and has been the default first dataset to train a network architecture on ever since. Several extensions to this dataset have been created since the dataset is juged to be \guille{too easy} to be a challenge to modern neuron architectures. Very simple CNN can achieve less than 3\% error on this dataset. Several drop-in replacements have been developed such as \emph{Fashion-MNIST} \cite{Xiao2017} - set up by Zalando with simple images of garments -, \emph{Kuzushiji-MNIST} \cite{Clanuwat2018} - three versions on the recognition of Japanese characters - or even \emph{MNIST-MIX} \cite{Jiang2020} - a mix of handwritten digits from different languages -. All the instances of the MNIST dataset and its variations are images with only one channel (grey levels) and sized 28 pixels by 28 pixels. Those images are labelled in 10 different classes (digits from 0 to 9).
 
   % MNIST PRESENTATION
   \begin{figure}[htbp]
@@ -351,7 +351,7 @@ The architectures presented earlier are well-known and are still getting better 
   	\label{fig:MNIST}
   \end{figure}
 
-  \item \emph{CIFAR-10} are labelled subset from the \emph{Tiny Images} dataset \cite{Krizhevsky2009}. It has been created in 2009 as collected and labeled automatically, supervised by three researchers from the MIT. This dataset is composed of tiny ($32 \times 32$) colored (3 channels) images of ten different classes: airplane, automobile, bird, cat, deer, dog, frog, horse, ship and truck. Instances taken from this dataset can be seen on \emph{Figure} \ref{fig:CIFAR-10} A more complicated dataset has been created in the same way. It is called \emph{CIFAR-100}, and as its name might suggest, contains a hundred different classes.
+  \item \emph{CIFAR-10} are labelled subset from the \emph{Tiny Images} dataset \cite{Krizhevsky2009}. It has been created in 2009 as collected and labeled automatically, supervised by three researchers from the MIT. This dataset is composed of tiny ($32 \times 32$) coloured (3 channels) images of ten different classes: airplane, automobile, bird, cat, deer, dog, frog, horse, ship and truck. Instances taken from this dataset can be seen on \emph{Figure} \ref{fig:CIFAR-10} A more complicated dataset has been created in the same way. It is called \emph{CIFAR-100}, and as its name might suggest, contains a hundred different classes.
 
   % CIFAR-10 PRESENTATION
   \begin{figure}[htbp]
@@ -361,7 +361,7 @@ The architectures presented earlier are well-known and are still getting better 
   	\label{fig:CIFAR-10}
   \end{figure}
 
-  \item With a growing emphasis put on autonomous vehicles, datasets have been developed accordingly. The two most well-known datasets covering this area are \emph{SVHN} (Street View House Numbers) \cite{Netzer2011} and \emph{GTSRB} (German Traffic Sign Recognition Benchmark) \cite{Stallkamp2012}. These two datasets have colored images of variable dimensions. \emph{SVHN} is an extension of \emph{MNIST} in the sense that it is a combination of different digits that the network will have to recognize. On the other hand, \emph{GTSRB} has been used in a 2012 competition and is useful to prototype self-driving components. \emph{GTSRB} contains 43 different classes of colored images and an instance of each of them can be seen on \emph{Figure} \ref{fig:GTSRB}.
+  \item With a growing emphasis put on autonomous vehicles, datasets have been developed accordingly. The two most well-known datasets covering this area are \emph{SVHN} (Street View House Numbers) \cite{Netzer2011} and \emph{GTSRB} (German Traffic Sign Recognition Benchmark) \cite{Stallkamp2012}. These two datasets have coloured images of variable dimensions. \emph{SVHN} is an extension of \emph{MNIST} in the sense that it is a combination of different digits that the network will have to recognise. On the other hand, \emph{GTSRB} has been used in a 2012 competition and is useful to prototype self-driving components. \emph{GTSRB} contains 43 different classes of colored images and an instance of each of them can be seen on \emph{Figure} \ref{fig:GTSRB}.
 
   % % SVHN PRESENTATION
   % \begin{figure}[htbp]
@@ -379,7 +379,7 @@ The architectures presented earlier are well-known and are still getting better 
   	\label{fig:GTSRB}
   \end{figure}
 
-  \item Finally, \emph{ImageNet} \cite{ImageNet2009} is one of the largest dataset developed. It has been put up by a team from the Princeton University and is the centre of a challenge each year where state-of-the-art architectures confront themselves to get the best accuracy possible. The challenge is named the ImageNet Large Scale Visual Recognition Challenge (ILSVRC). Every year, contesters try to get the best possible accuracy out of the network they propose. The images contained in the dataset are $224 \times 224$ colored images split in 20,000 classes. The dataset contains more than 14 million images and has become the benchmark to determine the accuracy and robustness of state-of-the-art architectures.
+  \item Finally, \emph{ImageNet} \cite{ImageNet2009} is one of the largest dataset developed. It has been put up by a team from the Princeton University and is the centre of a challenge each year where state-of-the-art architectures confront themselves to get the best accuracy possible. The challenge is named the ImageNet Large Scale Visual Recognition Challenge (ILSVRC). Every year, contesters try to get the best possible accuracy out of the network they propose. The images contained in the dataset are $224 \times 224$ coloured images split in 20,000 classes. The dataset contains more than 14 million images and has become the benchmark to determine the accuracy and robustness of state-of-the-art architectures.
 
   % IMAGENET PRESENTATION
   \begin{figure}[htbp]
@@ -418,7 +418,7 @@ The architectures presented earlier are well-known and are still getting better 
     \hline
   \end{tabular}
   }
-\caption[DatasetTable]{Datasets}
+\caption[Dataset Comparison]{Comparison between Datasets}
 \label{tab:DatasetTable}
 \end{table}
 
@@ -431,13 +431,13 @@ The architectures presented earlier are well-known and are still getting better 
 As research in the field of machine learning keeps growing and attracting more and more focus, many different development frameworks emerged to propose a high-level API and environment to experimental needs. Major industrial actors used this opportunity to present their own development API. Most of them have been under development for nearly a decade and still continue to attract a growing audience.
 
 \begin{itemize}
-  \item \emph{Tensorflow} has been the initiative of Google in 2011 and its source code has been opened in 2015. It is, to this day, the most used development framework in the field of machine learning. Its API is designed for Python and C++. However, due to increasing attention, numerous bindings to other languages have been created (Java, C\#, Haskell, etc.). Tensorflow set the milestones for AI frameworks by implementing production-ready resource distribution to deploy one's network to anyy architecture (CPU, GPU or a cluster). It also implements the idea of a \emph{tensor}, a ditributed array.
-  \item Microsoft launched in 2015 its \emph{Cognitive Toolkit (CNTK)} written in C++ that aims at the same objectives as \emph{Tensorflow}: easy network creation through a high-level API and simplified deployment to a variety of architectures.
+  \item \emph{TensorFlow} has been the initiative of Google in 2011 and its source code has been opened in 2015. It is, to this day, the most used development framework in the field of machine learning. Its API is designed for Python and C++. However, due to increasing attention, numerous bindings to other languages have been created (Java, C\#, Haskell, etc.). \emph{TensorFlow} set the milestones for AI frameworks by implementing production-ready resource distribution to deploy one's network to any architecture (CPU, GPU or a cluster). It also implements the idea of a \emph{tensor}, a distributed array.
+  \item Microsoft launched in 2015 its \emph{Cognitive Toolkit (CNTK)} written in C++ that aims at the same objectives as \emph{TensorFlow}: easy network creation through a high-level API and simplified deployment to a variety of architectures.
   \item The first version of \emph{Caffe (Convolutional Architecture for Fast Feature Embedding)} was developed in the University of Berkeley in 2014. In 2017, Facebook used \emph{Caffe} in an extended version called \emph{Caffe2} and as of May 2018, \emph{Caffe2} is officially merged in the \emph{PyTorch} project.
   \emph{Torch} is a Lua-based framework that was created in 2002. It is not in active development anymore since 2018 but \emph{PyTorch}, a Python implementation of the same underlying logic is in active development with a specific focus on the research community. \emph{Pytorch} aims at rapid prototyping and flexible architectures.
 \end{itemize}
 
-In the end, choosing a framework depends on one's objectives and knowledge of the language used. Benchmarks are getting released with, for example, Luo et al. \cite{Luo2020} that present a mobile implementation of several network architectures (\emph{ResNet, Inception, DenseNet, etc.}) implemented in \emph{TensorFlow Lite, Caffe2 and PyTorch Mobile}. The benchmark the authors propose is named \emph{AIoTBench} and focuses on computer vision. Few other initiatives have been published. The choice is purely personal for now.
+In the end, choosing a framework depends on one\'s objectives and knowledge of the language used. Benchmarks are getting released with, for example, Luo et al. \cite{Luo2020} that present a mobile implementation of several network architectures (\emph{ResNet, Inception, DenseNet, etc.}) implemented in \emph{TensorFlow Lite, Caffe2 and PyTorch Mobile}. The benchmark the authors propose is named \emph{AIoTBench} and focuses on computer vision. Few other initiatives have been published. The choice is purely personal for now.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 2.3 - Hardware Architecture
@@ -459,7 +459,7 @@ Along with GPUs come their proper Software Development Kit (SDK) in order for de
 
 GPUs allow computers to delegate expensive tasks (3D rendering for example) from the CPU to them. The GPUs can be either integrated or external. They require less knowledge than FPGAs but provide a more static architecture that will limit tuning opportunities. Mixed-precision mindset will not reach its full potential with this architecture but will still manage to increase the performance of different operations and tasks.
 
-GPU provide an easy access to parallelisation and allow researchers of different fields to experiment with different precisions and parallelisation. One field that benefits a lot from it is the field of physics and applied simulations. Inherently, mathematics benefit a lot from reduced precisions in terms of computation times and resource utilisation to perform clasic operations such as matrix factorisation. Next are some examples of GPU application in the world of mixed-precision along with the hardware used.
+GPU provide an easy access to parallelisation and allow researchers of different fields to experiment with different precisions and parallelisation. One field that benefits a lot from it is the field of physics and applied simulations. Inherently, mathematics benefit a lot from reduced precisions in terms of computation times and resource utilisation to perform classic operations such as matrix factorisation. Next are some examples of GPU application in the world of mixed-precision along with the hardware used.
 
 \begin{itemize}
   \item \emph{Mathematics:} Haidar et al. \cite{Haidar2018} present a mixed-precision method to factorise a matrix into two triangular matrices. In order to perform their experiments, they use two 10-cores \emph{Intel Xeon e5-2650 v3} CPUs and one \emph{NVidia V100 PCLe} GPU.
@@ -495,7 +495,7 @@ FPGAs can help prototyping chips and perform system validation, including pre-si
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=10cm]{Figures/EfficiencyVSFlexibility.png}
-	\caption[EfficiencyVSFlexibility]{Efficiency vs Flexibility}
+	\caption[Efficiency VS Flexibility]{Efficiency vs Flexibility}
 	\label{fig:EfficiencyVSFlexibility}
 \end{figure}
 
