@@ -24,7 +24,7 @@ Very few benchmarks exist on existing technologies, whether it is on development
 
 Setting a benchmark from the open-source acceleration framework can help any external user have both a direct implementation of the framework as well as backed-up arguments on why it can help deploy one's application, at what cost and compared to state-of-the-art implementation. While the first objective presented earlier would be too time-consuming to complete, the second one is made possible through the usage of the open-source accelerator.
 
-The main motivations taken in consideration when setting up the \emph{Brevitas} / \emph{FINN} benchmark is to provide an insight on the Xilinx tools and their workflow. This is important because widening the audience of the tool by presenting its capabilities allows both companies to be interested in the product as well as individuals to contribute to the project since it is open-source. The \emph{FINN} project started in September 2018 and has been in development ever since. The first version has been deprecated and a new direction is taken in 2019. The project is now using \emph{Brevitas} \cite{Pappalardo2020}, a PyTorch extension to perform the training and quantisation. \emph{FINN} is aiming at providing a clear acceleration of inference by deploying a network on an FPGA board. Both projects are open-source and can be found in their respective repositories on GitHub: FINN \cite{FINNRepo} and Brevitas \cite{BrevitasRepo}.
+The main motivations taken in consideration when setting up the \emph{Brevitas} / \emph{FINN} benchmark is to provide an insight on the Xilinx tools and their workflow. This is important because widening the audience of the tool by presenting its capabilities allows both companies to be interested in the product as well as individuals to contribute to the project since it is open-source. The \emph{FINN} project started in September 2018 and has been in development ever since. The first version has been deprecated and a new direction is taken in 2019. The project is now using \emph{Brevitas} \cite{Pappalardo2020}, a PyTorch extension to perform the training and quantisation. \emph{FINN} is aiming at providing a clear acceleration of inference by deploying a network on an FPGA board. Both projects are open-source and can be found in their respective repositories on GitHub: \emph{FINN} \cite{FINNRepo} and \emph{Brevitas} \cite{BrevitasRepo}.
 
 %--------------------------------------
 %	SUBSECTION 6.1.2 - About Perspective
@@ -43,12 +43,12 @@ Several papers present methods to \emph{train} networks on FPGAs \cite{Colangelo
 This section will present the whole workflow \emph{Brevitas} / \emph{FINN} put into place. By first going through the \emph{QNN} designer and trainer that is \emph{Brevitas}, the quantised neural network is translated into the intermediate representation, \emph{ONNX}. The resulting intermediate representation can then be imported by \emph{FINN}. \emph{FINN} will perform several transformations and deploy part of the resulting graph on the associated FPGA.
 
 %-----------------------------------
-%	SUBSECTION 6.2.1 - \emph{Brevitas}
+%	SUBSECTION 6.2.1 - Brevitas
 %-----------------------------------
 
 \subsection{Brevitas}
 
-Brevitas has been developed with the idea of corresponding to a \guille{drop-in} replacement of PyTorch. This means that it ensures that PyTorch functionalities will be kept, even when working with reduced-precision layers. \emph{Brevitas} implements a set of building blocks to model a reduced precision hardware data-path at training time. While partially biased towards modelling dataflow-style, very low-precision implementations, the building blocks can be parametrised and assembled together to target all sorts of reduced precision hardware.
+\emph{Brevitas} has been developed with the idea of corresponding to a \guille{drop-in} replacement of PyTorch. This means that it ensures that PyTorch functionalities will be kept, even when working with reduced-precision layers. \emph{Brevitas} implements a set of building blocks to model a reduced precision hardware data-path at training time. While partially biased towards modelling data-flow-style, very low-precision implementations, the building blocks can be parametrised and assembled together to target all sorts of reduced precision hardware.
 
 The implementation sets up several design principles: idiomatic PyTorch if possible, modularity first at the cost of some verbosity and a focus on easy extendability. \emph{Brevitas} features many different ideas such as extracted from its presentation:
 \begin{itemize}
@@ -167,7 +167,7 @@ class QuantLeNet5(nn.Module):
 Once the neural network is defined and trained, \emph{Brevitas} provides a way to export it to the intermediate representation. This representation is the focus of the next subsection and will be looked into in more details later on. \emph{Brevitas} uses specific annotations to define the quantised layers.  The intermediate representation, called \emph{ONNX} does not provide a way to represent layers with precisions under 8-bit. This is why this system of custom annotations has been created. These specific annotations can then be used by \emph{FINN} to perform transformations on.
 
 %--------------------------------------
-%	SUBSECTION 6.2.2 - \emph{ONNX}
+%	SUBSECTION 6.2.2 - ONNX
 %--------------------------------------
 
 \subsection{ONNX}
@@ -187,7 +187,7 @@ As extracted from their repository: \guille{\emph{Open Neural Network Exchange (
 \newpage
 
 %-------------------------
-%	SUBSECTION 6.2.3 - \emph{FINN}
+%	SUBSECTION 6.2.3 - FINN
 %-------------------------
 
 \subsection{FINN}
@@ -257,7 +257,7 @@ class Streamline(Transformation):
       model = model.transform(InferDataTypes())
     return (model, False)
 \end{lstlisting}
-\caption[FINN Streamline]{FINN Streamline process as proposed in \cite{Blott2018}}
+\caption[FINN Streamline]{FINN Streamline process as proposed in \cite{Umuroglu2017b, Blott2018}}
 	\label{fig:FINNStreamline}
 \end{figure}
 
@@ -316,7 +316,7 @@ The different objectives of the benchmark are:
 
 The project is structured as follows:
 \begin{itemize}
-  \item \textbf{\texttt{core}}: Core functionalities of the benchmark tool. This subpackage contains the \texttt{CLI}, \texttt{Trainer}, \texttt{Plotter}, \texttt{Logger} and \texttt{Exporter}. The \texttt{Trainer} is the main piece and is given all the arguments passed to the \texttt{CLI}. The \texttt{Logger} logs training routine, the \texttt{Plotter} allows to visualise instances of the dataset and the \texttt{Exporter} performs the export to \emph{ONNX}.
+  \item \textbf{\texttt{core}}: Core functionalities of the benchmark tool. This sub-package contains the \texttt{CLI}, \texttt{Trainer}, \texttt{Plotter}, \texttt{Logger} and \texttt{Exporter}. The \texttt{Trainer} is the main piece and is given all the arguments passed to the \texttt{CLI}. The \texttt{Logger} logs training routine, the \texttt{Plotter} allows to visualise instances of the dataset and the \texttt{Exporter} performs the export to \emph{ONNX}.
   \item \textbf{\texttt{extensions}}: Extensions of PyTorch functionalities to perform with quantised networks. These extensions consist of a new dataset, \emph{GTSRB}, a new loss function that can be used with binary networks, \emph{Squared Hinge Loss}, and a helper layer that performs the norm of the tensor.
   \item \textbf{\texttt{networks}}: Network architectures and their quantised counterpart. The defined networks consist of \texttt{TFC} ()three \emph{FC} layers next to each other), \texttt{CNV} (a simple CNN), \texttt{LeNet5}, \texttt{VGG11}, \texttt{VGG13}, \texttt{VGG16}, \texttt{VGG19} and \texttt{MobilenetV1}. All the different architectures answer to the same API and can be created by passing the number of \emph{classes}, number of \emph{in-channels} and the different quantisations if using a quantised network. The creation of a simple network and its quantised counterpart can be seen on \emph{Figure} \ref{fig:NetworkCreation}.
 \end{itemize}
@@ -351,7 +351,7 @@ quant_lenet5 = QuantLeNet5(n_classes = 10, in_channels = 3,
 	\label{fig:NetworkCreation}
 \end{figure}
 
-The training routine is wrapped up by the \texttt{Trainer} class and can be tuned through the command line. The \texttt{CLI} class holds a large number of parameters that can be used to customise the training phase. An example of a run can be seen on \emph{Figure} \ref{fig:BenchCLI}. The example presented on the figure will launch the training for the network \texttt{QuantTFC}, the \emph{Brevitas} version of the \emph{TFC} network (three successive fully-connected layers). This training will be run on the \texttt{FashionMNIST} dataset for 100 epochs. It will be overlooked by the \texttt{ADAM} optimiser and \texttt{CrossEntropy} loss function. The hyperparameters are tuned to a learning rate of 0.01 and a momentum of 0.9. The learning rate will change according to the scheduler, here a \texttt{MultiStepScheduler}. This scheduler will divide by 10 the learning rate after the epochs specified as milestones, here 34 and 37. Finally, the \emph{activation quantisation} is set to 2 bit, same for the \emph{weight quantisation} and the \emph{input quantisation} is set to 8 bits. The input quantisation is used for the first layer only. This often outputs better results due to the avoided harsh precision reduction. The first layers impact end accuracy a lot more than the last ones and the quantisation has to be delayed.
+The training routine is wrapped up by the \texttt{Trainer} class and can be tuned through the command line. The \texttt{CLI} class holds a large number of parameters that can be used to customise the training phase. An example of a run can be seen on \emph{Figure} \ref{fig:BenchCLI}. The example presented on the figure will launch the training for the network \texttt{QuantTFC}, the \emph{Brevitas} version of the \emph{TFC} network (three successive fully-connected layers). This training will be run on the \texttt{FashionMNIST} dataset for 100 epochs. It will be overlooked by the \texttt{ADAM} optimiser and \texttt{CrossEntropy} loss function. The hyper-parameters are tuned to a learning rate of 0.01 and a momentum of 0.9. The learning rate will change according to the scheduler, here a \texttt{MultiStepScheduler}. This scheduler will divide by 10 the learning rate after the epochs specified as milestones, here 34 and 37. Finally, the \emph{activation quantisation} is set to 2 bit, same for the \emph{weight quantisation} and the \emph{input quantisation} is set to 8 bits. The input quantisation is used for the first layer only. This often outputs better results due to the avoided harsh precision reduction. The first layers impact end accuracy a lot more than the last ones and the quantisation has to be delayed.
 
 \begin{figure}[htbp]
 \centering
