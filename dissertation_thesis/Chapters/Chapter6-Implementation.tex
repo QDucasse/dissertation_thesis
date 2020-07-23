@@ -32,8 +32,7 @@ The main motivations taken in consideration when setting up the \emph{Brevitas} 
 
 \subsection{About Perspective}
 
-% TODO ADD PAPERS THAT PROPOSE TRAINING ON FPGA
-Several papers present methods to \emph{train} networks on FPGAs \cite{}. However, while \emph{Brevitas} allows the training of \emph{QNNs}, it does not map the network on FPGAs at training time. It is expected to train the network on another hardware architecture (CPU(s) or GPU(s)) as PyTorch would expect and can handle. On the other hand, both \emph{Brevitas} and \emph{FINN} are in active development and in early phases of their development cycle. Version 0.3 of both tools has been released in late May this year.
+Several papers present methods to \emph{train} networks on FPGAs \cite{Colangelo2018, Zhao2016, Jahanshahi2019}. However, while \emph{Brevitas} allows the training of \emph{QNNs}, it does not map the network on FPGAs at training time. It is expected to train the network on another hardware architecture (CPU(s) or GPU(s)) as PyTorch would expect and can handle. On the other hand, both \emph{Brevitas} and \emph{FINN} are in active development and in early phases of their development cycle. Version 0.3 of both tools has been released in late May this year.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 6.2 - Workflow
@@ -271,7 +270,7 @@ Once the streamlining transformations are completed, \emph{FINN} will convert th
 % END TFC \emph{ONNX} THROUGH NETRON
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=6cm]{Figures/ONNXEND.png}
+		\includegraphics[width=6cm]{Figures/ONNXEnd.png}
 	\caption[Transformed TFC \emph{ONNX} representation]{Transformed TFC \emph{ONNX} Representation}
 	\label{fig:ONNXEnd}
 \end{figure}
