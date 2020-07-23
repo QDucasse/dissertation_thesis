@@ -1,9 +1,176 @@
 % Appendix A
 
-\chapter{Appendix Title Here} % Main appendix title
+\chapter{Hardware Utilisation Results} % Main appendix title
 
 \label{AppendixA} % For referencing this appendix elsewhere, use \ref{AppendixA}
 
-\lhead{Appendix A. \emph{Appendix Title Here}} % This is for the header on each page - perhaps a shortened title
+\lhead{Appendix A. \emph{Hardware Utilisation Results}} % This is for the header on each page - perhaps a shortened title
 
-Write your Appendix content here.
+This appendix contains the detailed results of the hardware utilisation for the different configuration. In the tables can be found the total number of resources used under the \texttt{resizer\_wrapper}, the used resources for the important \emph{IP}s of the system following and the different layers that begin with \texttt{Streaming...}.
+
+
+
+\begin{landscape}
+
+\begin{table}[!htb]
+\resizebox{24cm}{!}{
+\begin{tabular}{l|l|l|l|l|l|l|l|l|l|l}
+   \textbf{Instance}                                         & \textbf{Module}                                                                                        & \textbf{Total LUTs} & \textbf{Logic LUTs} & \textbf{LUTRAMs} & \textbf{SRLs} & \textbf{FFs}   & \textbf{RAMB36} & \textbf{RAMB18} & \textbf{DSP48 Blocks} \\
+   resizer\_wrapper                                        & (top)                                                                                                  & 31622      & 28324      & 1302    & 1996 & 27989 & 40     & 3      & 0            \\
+   resizer\_i                                              & resizer                                                                                                & 31622      & 28324      & 1302    & 1996 & 27989 & 40     & 3      & 0            \\
+   axi\_dma\_0                                             & resizer\_axi\_dma\_0\_0                                                                                & 1960       & 1750       & 12      & 198  & 2626  & 8      & 2      & 0            \\
+   axi\_interconnect\_0                                    & resizer\_axi\_interconnect\_0\_0                                                                       & 551        & 486        & 0       & 65   & 694   & 0      & 0      & 0            \\
+   axi\_protocol\_convert\_0                               & resizer\_axi\_protocol\_convert\_0\_0                                                                  & 393        & 383        & 10      & 0    & 430   & 0      & 0      & 0            \\
+   axis\_dwidth\_converter\_0                              & resizer\_axis\_dwidth\_converter\_0\_0                                                                 & 21         & 21         & 0       & 0    & 370   & 0      & 0      & 0            \\
+   axis\_dwidth\_converter\_1                              & resizer\_axis\_dwidth\_converter\_1\_0                                                                 & 335        & 335        & 0       & 0    & 995   & 0      & 0      & 0            \\
+   processing\_system7\_0                                  & resizer\_processing\_system7\_0\_0                                                                     & 112        & 112        & 0       & 0    & 0     & 0      & 0      & 0            \\
+   resize\_accel\_0                                        & resizer\_resize\_accel\_0\_0                                                                           & 28231      & 25219      & 1280    & 1732 & 22834 & 32     & 1      & 0            \\
+   rst\_ps7\_0\_100M                                       & resizer\_rst\_ps7\_0\_100M\_0                                                                          & 19         & 18         & 0       & 1    & 40    & 0      & 0      & 0            \\
+   StreamingDataWidthConverter\_Batch\_0                   & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingDataWidthConverter\_Batch\_0\_0                   & 101        & 101        & 0       & 0    & 196   & 0      & 0      & 0            \\
+   StreamingFCLayer\_Batch\_0                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_0\_0                              & 19464      & 18439      & 0       & 1025 & 16314 & 28     & 1      & 0            \\
+   StreamingFCLayer\_Batch\_1                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_1\_0                              & 2254       & 2189       & 0       & 65   & 1634  & 2      & 0      & 0            \\
+   StreamingFCLayer\_Batch\_2                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_2\_0                              & 2260       & 2195       & 0       & 65   & 1640  & 2      & 0      & 0            \\
+   StreamingFCLayer\_Batch\_3                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_3\_0                              & 2472       & 1111       & 1280    & 81   & 1491  & 0      & 0      & 0            \\
+   StreamingFIFO\_0                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_0\_0                                        & 542        & 286        & 0       & 256  & 276   & 0      & 0      & 0            \\
+   StreamingFIFO\_1                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_1\_0                                        & 91         & 59         & 0       & 32   & 42    & 0      & 0      & 0            \\
+   StreamingFIFO\_2                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_2\_0                                        & 59         & 43         & 0       & 16   & 26    & 0      & 0      & 0            \\
+   StreamingFIFO\_3                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_3\_0                                        & 59         & 43         & 0       & 16   & 26    & 0      & 0      & 0            \\
+   StreamingFIFO\_4                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_4\_0                                        & 59         & 43         & 0       & 16   & 26    & 0      & 0      & 0            \\
+   StreamingFIFO\_5                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_5\_0                                        & 338        & 178        & 0       & 160  & 169   & 0      & 0      & 0            \\
+   TLastMarker\_0                                          & resizer\_resize\_accel\_0\_0\_finn\_design\_TLastMarker\_0\_0                                          & 532        & 532        & 0       & 0    & 994   & 0      & 0      & 0            \\
+\end{tabular}
+}
+\caption[TFC Hardware Utilisation A2W2]{TFC Hardware Utilisation for A2W2 configuration}
+  \label{tab:TFCHardwareA2W2}
+\end{table}
+
+
+\begin{table}[!htb]
+\resizebox{24cm}{!}{
+\begin{tabular}{l|l|l|l|l|l|l|l|l|l|l}
+   \textbf{Instance}                                         & \textbf{Module}                                                                                        & \textbf{Total LUTs} & \textbf{Logic LUTs} & \textbf{LUTRAMs} & \textbf{SRLs} & \textbf{FFs}   & \textbf{RAMB36} & \textbf{RAMB18} & \textbf{DSP48 Blocks} \\
+   resizer\_wrapper                                        & (top)                                                                                                  & 31614      & 28316      & 1302    & 1996 & 28052 & 40     & 3      & 0            \\
+   resizer\_i                                              & resizer                                                                                                & 31614      & 28316      & 1302    & 1996 & 28052 & 40     & 3      & 0            \\
+   axi\_dma\_0                                             & resizer\_axi\_dma\_0\_0                                                                                & 1960       & 1750       & 12      & 198  & 2626  & 8      & 2      & 0            \\
+   axi\_interconnect\_0                                    & resizer\_axi\_interconnect\_0\_0                                                                       & 551        & 486        & 0       & 65   & 694   & 0      & 0      & 0            \\
+   axi\_protocol\_convert\_0                               & resizer\_axi\_protocol\_convert\_0\_0                                                                  & 393        & 383        & 10      & 0    & 430   & 0      & 0      & 0            \\
+   axis\_dwidth\_converter\_0                              & resizer\_axis\_dwidth\_converter\_0\_0                                                                 & 21         & 21         & 0       & 0    & 370   & 0      & 0      & 0            \\
+   axis\_dwidth\_converter\_1                              & resizer\_axis\_dwidth\_converter\_1\_0                                                                 & 335        & 335        & 0       & 0    & 995   & 0      & 0      & 0            \\
+   processing\_system7\_0                                  & resizer\_processing\_system7\_0\_0                                                                     & 112        & 112        & 0       & 0    & 0     & 0      & 0      & 0            \\
+   resize\_accel\_0                                        & resizer\_resize\_accel\_0\_0                                                                           & 28223      & 25211      & 1280    & 1732 & 22897 & 32     & 1      & 0            \\
+   rst\_ps7\_0\_100M                                       & resizer\_rst\_ps7\_0\_100M\_0                                                                          & 19         & 18         & 0       & 1    & 40    & 0      & 0      & 0            \\
+   StreamingDataWidthConverter\_Batch\_0                   & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingDataWidthConverter\_Batch\_0\_0                   & 101        & 101        & 0       & 0    & 196   & 0      & 0      & 0            \\
+   StreamingFCLayer\_Batch\_0                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_0\_0                              & 19505      & 18480      & 0       & 1025 & 16461 & 28     & 1      & 0            \\
+   StreamingFCLayer\_Batch\_1                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_1\_0                              & 2223       & 2158       & 0       & 65   & 1583  & 2      & 0      & 0            \\
+   StreamingFCLayer\_Batch\_2                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_2\_0                              & 2242       & 2177       & 0       & 65   & 1607  & 2      & 0      & 0            \\
+   StreamingFCLayer\_Batch\_3                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_3\_0                              & 2472       & 1111       & 1280    & 81   & 1491  & 0      & 0      & 0            \\
+   StreamingFIFO\_0                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_0\_0                                        & 542        & 286        & 0       & 256  & 276   & 0      & 0      & 0            \\
+   StreamingFIFO\_1                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_1\_0                                        & 91         & 59         & 0       & 32   & 42    & 0      & 0      & 0            \\
+   StreamingFIFO\_2                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_2\_0                                        & 59         & 43         & 0       & 16   & 26    & 0      & 0      & 0            \\
+   StreamingFIFO\_3                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_3\_0                                        & 59         & 43         & 0       & 16   & 26    & 0      & 0      & 0            \\
+   StreamingFIFO\_4                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_4\_0                                        & 59         & 43         & 0       & 16   & 26    & 0      & 0      & 0            \\
+   StreamingFIFO\_5                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_5\_0                                        & 338        & 178        & 0       & 160  & 169   & 0      & 0      & 0            \\
+   TLastMarker\_0                                          & resizer\_resize\_accel\_0\_0\_finn\_design\_TLastMarker\_0\_0                                          & 532        & 532        & 0       & 0    & 994   & 0      & 0      & 0            \\
+\end{tabular}
+}
+\caption[TFC Hardware Utilisation A4W4]{TFC Hardware Utilisation for A4W4 configuration}
+  \label{tab:TFCHardwareA4W4}
+\end{table}
+
+\begin{table}[!htb]
+\resizebox{24cm}{!}{
+\begin{tabular}{l|l|l|l|l|l|l|l|l|l|l}
+   \textbf{Instance}                                         & \textbf{Module}                                                                                        & \textbf{Total LUTs} & \textbf{Logic LUTs} & \textbf{LUTRAMs} & \textbf{SRLs} & \textbf{FFs}   & \textbf{RAMB36} & \textbf{RAMB18} & \textbf{DSP48 Blocks} \\
+   resizer\_wrapper                                        & (top)                                                                                                & 31653      & 28355      & 1302    & 1996 & 27953 & 40     & 3      & 0            \\
+   resizer\_i                                              & resizer                                                                                              & 31653      & 28355      & 1302    & 1996 & 27953 & 40     & 3      & 0            \\
+   axi\_dma\_0                                             & resizer\_axi\_dma\_0\_0                                                                              & 1960       & 1750       & 12      & 198  & 2626  & 8      & 2      & 0            \\
+   axi\_interconnect\_0                                    & resizer\_axi\_interconnect\_0\_0                                                                     & 551        & 486        & 0       & 65   & 694   & 0      & 0      & 0            \\
+   axi\_protocol\_convert\_0                               & resizer\_axi\_protocol\_convert\_0\_0                                                                & 393        & 383        & 10      & 0    & 430   & 0      & 0      & 0            \\
+   axis\_dwidth\_converter\_0                              & resizer\_axis\_dwidth\_converter\_0\_0                                                               & 21         & 21         & 0       & 0    & 370   & 0      & 0      & 0            \\
+   axis\_dwidth\_converter\_1                              & resizer\_axis\_dwidth\_converter\_1\_0                                                               & 335        & 335        & 0       & 0    & 995   & 0      & 0      & 0            \\
+   processing\_system7\_0                                  & resizer\_processing\_system7\_0\_0                                                                   & 112        & 112        & 0       & 0    & 0     & 0      & 0      & 0            \\
+   resize\_accel\_0                                        & resizer\_resize\_accel\_0\_0                                                                         & 28262      & 25250      & 1280    & 1732 & 22798 & 32     & 1      & 0            \\
+   rst\_ps7\_0\_100M                                       & resizer\_rst\_ps7\_0\_100M\_0                                                                        & 19         & 18         & 0       & 1    & 40    & 0      & 0      & 0            \\
+   StreamingDataWidthConverter\_Batch\_0                   & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingDataWidthConverter\_Batch\_0\_0                 & 101        & 101        & 0       & 0    & 196   & 0      & 0      & 0            \\
+   StreamingFCLayer\_Batch\_0                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_0\_0                            & 19568      & 18543      & 0       & 1025 & 16406 & 28     & 1      & 0            \\
+   StreamingFCLayer\_Batch\_1                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_1\_0                            & 2217       & 2152       & 0       & 65   & 1557  & 2      & 0      & 0            \\
+   StreamingFCLayer\_Batch\_2                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_2\_0                            & 2224       & 2159       & 0       & 65   & 1589  & 2      & 0      & 0            \\
+   StreamingFCLayer\_Batch\_3                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_3\_0                            & 2472       & 1111       & 1280    & 81   & 1491  & 0      & 0      & 0            \\
+   StreamingFIFO\_0                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_0\_0                                      & 542        & 286        & 0       & 256  & 276   & 0      & 0      & 0            \\
+   StreamingFIFO\_1                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_1\_0                                      & 91         & 59         & 0       & 32   & 42    & 0      & 0      & 0            \\
+   StreamingFIFO\_2                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_2\_0                                      & 59         & 43         & 0       & 16   & 26    & 0      & 0      & 0            \\
+   StreamingFIFO\_3                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_3\_0                                      & 59         & 43         & 0       & 16   & 26    & 0      & 0      & 0            \\
+   StreamingFIFO\_4                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_4\_0                                      & 59         & 43         & 0       & 16   & 26    & 0      & 0      & 0            \\
+   StreamingFIFO\_5                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_5\_0                                      & 338        & 178        & 0       & 160  & 169   & 0      & 0      & 0            \\
+   TLastMarker\_0                                          & resizer\_resize\_accel\_0\_0\_finn\_design\_TLastMarker\_0\_0                                        & 532        & 532        & 0       & 0    & 994   & 0      & 0      & 0            \\
+\end{tabular}
+}
+\caption[TFC Hardware Utilisation A8W8]{TFC Hardware Utilisation for A8W8 configuration}
+  \label{tab:TFCHardwareA8W8}
+\end{table}
+
+\begin{table}[!htb]
+\resizebox{24cm}{!}{
+\begin{tabular}{l|l|l|l|l|l|l|l|l|l|l}
+   \textbf{Instance}                                         & \textbf{Module}                                                                                        & \textbf{Total LUTs} & \textbf{Logic LUTs} & \textbf{LUTRAMs} & \textbf{SRLs} & \textbf{FFs}   & \textbf{RAMB36} & \textbf{RAMB18} & \textbf{DSP48 Blocks} \\
+   resizer\_wrapper                                        & (top)                                                                                                  & 31612      & 28314      & 1302    & 1996 & 27997 & 40     & 3      & 0            \\
+   resizer\_i                                              & resizer                                                                                                & 31612      & 28314      & 1302    & 1996 & 27997 & 40     & 3      & 0            \\
+   axi\_dma\_0                                             & resizer\_axi\_dma\_0\_0                                                                                & 1960       & 1750       & 12      & 198  & 2626  & 8      & 2      & 0            \\
+   axi\_interconnect\_0                                    & resizer\_axi\_interconnect\_0\_0                                                                       & 551        & 486        & 0       & 65   & 694   & 0      & 0      & 0            \\
+   axi\_protocol\_convert\_0                               & resizer\_axi\_protocol\_convert\_0\_0                                                                  & 393        & 383        & 10      & 0    & 430   & 0      & 0      & 0            \\
+   axis\_dwidth\_converter\_0                              & resizer\_axis\_dwidth\_converter\_0\_0                                                                 & 21         & 21         & 0       & 0    & 370   & 0      & 0      & 0            \\
+   axis\_dwidth\_converter\_1                              & resizer\_axis\_dwidth\_converter\_1\_0                                                                 & 335        & 335        & 0       & 0    & 995   & 0      & 0      & 0            \\
+   processing\_system7\_0                                  & resizer\_processing\_system7\_0\_0                                                                     & 112        & 112        & 0       & 0    & 0     & 0      & 0      & 0            \\
+   resize\_accel\_0                                        & resizer\_resize\_accel\_0\_0                                                                           & 28221      & 25209      & 1280    & 1732 & 22842 & 32     & 1      & 0            \\
+   rst\_ps7\_0\_100M                                       & resizer\_rst\_ps7\_0\_100M\_0                                                                          & 19         & 18         & 0       & 1    & 40    & 0      & 0      & 0            \\
+   StreamingDataWidthConverter\_Batch\_0                   & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingDataWidthConverter\_Batch\_0\_0                   & 101        & 101        & 0       & 0    & 196   & 0      & 0      & 0            \\
+   StreamingFCLayer\_Batch\_0                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_0\_0                              & 19521      & 18496      & 0       & 1025 & 16462 & 28     & 1      & 0            \\
+   StreamingFCLayer\_Batch\_1                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_1\_0                              & 2218       & 2153       & 0       & 65   & 1559  & 2      & 0      & 0            \\
+   StreamingFCLayer\_Batch\_2                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_2\_0                              & 2229       & 2164       & 0       & 65   & 1575  & 2      & 0      & 0            \\
+   StreamingFCLayer\_Batch\_3                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_3\_0                              & 2472       & 1111       & 1280    & 81   & 1491  & 0      & 0      & 0            \\
+   StreamingFIFO\_0                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_0\_0                                        & 542        & 286        & 0       & 256  & 276   & 0      & 0      & 0            \\
+   StreamingFIFO\_1                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_1\_0                                        & 91         & 59         & 0       & 32   & 42    & 0      & 0      & 0            \\
+   StreamingFIFO\_2                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_2\_0                                        & 59         & 43         & 0       & 16   & 26    & 0      & 0      & 0            \\
+   StreamingFIFO\_3                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_3\_0                                        & 59         & 43         & 0       & 16   & 26    & 0      & 0      & 0            \\
+   StreamingFIFO\_4                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_4\_0                                        & 59         & 43         & 0       & 16   & 26    & 0      & 0      & 0            \\
+   TLastMarker\_0                                          & resizer\_resize\_accel\_0\_0\_finn\_design\_TLastMarker\_0\_0                                          & 532        & 532        & 0       & 0    & 994   & 0      & 0      & 0            \\
+\end{tabular}
+}
+\caption[TFC Hardware Utilisation A16W16]{TFC Hardware Utilisation for A16W16 configuration}
+  \label{tab:TFCHardwareA16W16}
+\end{table}
+
+
+\begin{table}[!htb]
+\resizebox{24cm}{!}{
+\begin{tabular}{l|l|l|l|l|l|l|l|l|l|l}
+   \textbf{Instance}                                         & \textbf{Module}                                                                                        & \textbf{Total LUTs} & \textbf{Logic LUTs} & \textbf{LUTRAMs} & \textbf{SRLs} & \textbf{FFs}   & \textbf{RAMB36} & \textbf{RAMB18} & \textbf{DSP48 Blocks} \\
+   resizer\_wrapper                                        & (top)                                                                                                  & 31599      & 28301      & 1302    & 1996 & 27949 & 40     & 3      & 0            \\
+   resizer\_i                                              & resizer                                                                                                & 31599      & 28301      & 1302    & 1996 & 27949 & 40     & 3      & 0            \\
+   axi\_dma\_0                                             & resizer\_axi\_dma\_0\_0                                                                                & 1960       & 1750       & 12      & 198  & 2626  & 8      & 2      & 0            \\
+   axi\_interconnect\_0                                    & resizer\_axi\_interconnect\_0\_0                                                                       & 551        & 486        & 0       & 65   & 694   & 0      & 0      & 0            \\
+   axi\_protocol\_convert\_0                               & resizer\_axi\_protocol\_convert\_0\_0                                                                  & 393        & 383        & 10      & 0    & 430   & 0      & 0      & 0            \\
+   axis\_dwidth\_converter\_0                              & resizer\_axis\_dwidth\_converter\_0\_0                                                                 & 21         & 21         & 0       & 0    & 370   & 0      & 0      & 0            \\
+   axis\_dwidth\_converter\_1                              & resizer\_axis\_dwidth\_converter\_1\_0                                                                 & 335        & 335        & 0       & 0    & 995   & 0      & 0      & 0            \\
+   processing\_system7\_0                                  & resizer\_processing\_system7\_0\_0                                                                     & 112        & 112        & 0       & 0    & 0     & 0      & 0      & 0            \\
+   resize\_accel\_0                                        & resizer\_resize\_accel\_0\_0                                                                           & 28208      & 25196      & 1280    & 1732 & 22794 & 32     & 1      & 0            \\
+   rst\_ps7\_0\_100M                                       & resizer\_rst\_ps7\_0\_100M\_0                                                                          & 19         & 18         & 0       & 1    & 40    & 0      & 0      & 0            \\
+   StreamingDataWidthConverter\_Batch\_0                   & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingDataWidthConverter\_Batch\_0\_0                   & 101        & 101        & 0       & 0    & 196   & 0      & 0      & 0            \\
+   StreamingFCLayer\_Batch\_0                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_0\_0                              & 19511      & 18486      & 0       & 1025 & 16414 & 28     & 1      & 0            \\
+   StreamingFCLayer\_Batch\_1                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_1\_0                              & 2217       & 2152       & 0       & 65   & 1554  & 2      & 0      & 0            \\
+   StreamingFCLayer\_Batch\_2                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_2\_0                              & 2227       & 2162       & 0       & 65   & 1580  & 2      & 0      & 0            \\
+   StreamingFCLayer\_Batch\_3                              & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFCLayer\_Batch\_3\_0                              & 2472       & 1111       & 1280    & 81   & 1491  & 0      & 0      & 0            \\
+   StreamingFIFO\_0                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_0\_0                                        & 542        & 286        & 0       & 256  & 276   & 0      & 0      & 0            \\
+   StreamingFIFO\_1                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_1\_0                                        & 91         & 59         & 0       & 32   & 42    & 0      & 0      & 0            \\
+   StreamingFIFO\_2                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_2\_0                                        & 59         & 43         & 0       & 16   & 26    & 0      & 0      & 0            \\
+   StreamingFIFO\_3                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_3\_0                                        & 59         & 43         & 0       & 16   & 26    & 0      & 0      & 0            \\
+   StreamingFIFO\_4                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_4\_0                                        & 59         & 43         & 0       & 16   & 26    & 0      & 0      & 0            \\
+   StreamingFIFO\_5                                        & resizer\_resize\_accel\_0\_0\_finn\_design\_StreamingFIFO\_5\_0                                        & 338        & 178        & 0       & 160  & 169   & 0      & 0      & 0            \\
+   TLastMarker\_0                                          & resizer\_resize\_accel\_0\_0\_finn\_design\_TLastMarker\_0\_0                                          & 532        & 532        & 0       & 0    & 994   & 0      & 0      & 0            \\
+\end{tabular}
+}
+\caption[TFC Hardware Utilisation A32W32]{TFC Hardware Utilisation for A32W32 configuration}
+  \label{tab:TFCHardwareA32W32}
+\end{table}
+
+\end{landscape}

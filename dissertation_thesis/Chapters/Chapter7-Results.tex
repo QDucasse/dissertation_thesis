@@ -419,17 +419,17 @@ The other metrics include several I/O mechanics when looking at the DRAM in/out 
   \resizebox{9cm}{!}{
   \begin{tabular}{ | c | c | c | c | c | }
     \hline
-    \textbf{Experiment Name} & \textbf{Power} & \textbf{Look-Up Tables} & \textbf{Flip-Flops} \\
+    \textbf{Experiment Name} & \textbf{Power} & \textbf{Look-Up Tables} & \textbf{Flip-Flops} & \textbf{BRAM} \\
     \hline
-    \textbf{A2W2}          & 2.140 [W]  & 30618 & 27704 \\
+    \textbf{A2W2}          & 2.140 [W]  & 30618 [57.55\%] & 27704 [26.04\%] &  41.5 [29.6\%] \\
     \hline
-    \textbf{A4W4}          & 2.151 [W]  & 30644 & 27760 \\
+    \textbf{A4W4}          & 2.151 [W]  & 30644 [57.60\%] & 27760 [26.09\%] &  41.5 [29.6\%] \\
     \hline
-    \textbf{A8W8}          & 2.070 [W]  & 30617 & 27660 \\
+    \textbf{A8W8}          & 2.070 [W]  & 30617 [57.55\%] & 27660 [26.09\%] &  41.5 [29.6\%] \\
     \hline
-    \textbf{A16W16}       & 2.136 [W]  & 30610 & 27717 \\
+    \textbf{A16W16}        & 2.136 [W]  & 30610 [57.54\%] & 27717 [26.05\%] &  41.5 [29.6\%] \\
     \hline
-    \textbf{A32W32}       & 2.159 [W]  & 30586 & 27670 \\
+    \textbf{A32W32}        & 2.159 [W]  & 30586 [57.49\%] & 27670 [26.01\%] &  41.5 [29.6\%] \\
     \hline
   \end{tabular}
   }
@@ -437,7 +437,7 @@ The other metrics include several I/O mechanics when looking at the DRAM in/out 
 \label{tab:TFCHardwareTable}
 \end{table}
 
-Finally, hardware resources are available in \emph{Table} \ref{tab:TFCHardwareTable}. They present both the power needed to run the bitfile, the number of \emph{Look-Up Tables (LUT)} needed to synthesise the design and the number of \emph{Flip-Flops (FF)}. In terms of power, A8W8 consumes the less with 2.07W and S2W2 as well as A4W4 consume more (2.14W and 2.151 respectively) than A16W16 at 2.136W. A32W32 is well on top with 2.159W consumed. In terms of \emph{LUTs} and \emph{FFs}, A32W32 is the representation using the less \emph{LUTs} while A8W8 is the representation using the less \emph{FFs}. On the other hand, A4W4 uses the most \emph{LUTs} and \emph{FFs}.
+Finally, hardware resources are available in \emph{Table} \ref{tab:TFCHardwareTable}. They present both the power needed to run the bitfile, the number of \emph{Look-Up Tables (LUT)} needed to synthesise the design, the number of \emph{Flip-Flops (FF)} as well as the \emph{BRAM Usage}. In terms of power, A8W8 consumes the less with 2.07W and S2W2 as well as A4W4 consume more (2.14W and 2.151 respectively) than A16W16 at 2.136W. A32W32 is well on top with 2.159W consumed. In terms of \emph{LUTs} and \emph{FFs}, A32W32 is the representation using the less \emph{LUTs} while A8W8 is the representation using the less \emph{FFs}. On the other hand, A4W4 uses the most \emph{LUTs} and \emph{FFs}. The \emph{BRAM} usage is the exact same for all the different representations. More information and more detailed hardware utilisation metrics can be seen in the \emph{Appendix A} \ref{AppendixA}. 
 
 %----------------------------------------------------------------------------------------
 %	SUBSECTION 7.1.3 - Results Conclusion
