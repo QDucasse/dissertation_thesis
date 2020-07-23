@@ -24,7 +24,7 @@ Very few benchmarks exist on existing technologies, whether it is on development
 
 Setting a benchmark from the open-source acceleration framework can help any external user have both a direct implementation of the framework as well as backed-up arguments on why it can help deploy one's application, at what cost and compared to state-of-the-art implementation. While the first objective presented earlier would be too time-consuming to complete, the second one is made possible through the usage of the open-source accelerator.
 
-The main motivations taken in consideration when setting up the \emph{Brevitas} / \emph{FINN} benchmark is to provide an insight on the Xilinx tools and their workflow. This is important because widening the audience of the tool by presenting its capabilities allows both companies to be interested in the product as well as individuals to contribute to the project since it is open-source. The \emph{FINN} project started in September 2018 and has been in development ever since. The first version has been deprecated and a new direction is taken in 2019. The project is now using \emph{Brevitas}, a PyTorch extension to perform the training and quantisation. \emph{FINN} is aiming at providing a clear acceleration of inference by deploying a network on an FPGA board.
+The main motivations taken in consideration when setting up the \emph{Brevitas} / \emph{FINN} benchmark is to provide an insight on the Xilinx tools and their workflow. This is important because widening the audience of the tool by presenting its capabilities allows both companies to be interested in the product as well as individuals to contribute to the project since it is open-source. The \emph{FINN} project started in September 2018 and has been in development ever since. The first version has been deprecated and a new direction is taken in 2019. The project is now using \emph{Brevitas} \cite{Pappalardo2020}, a PyTorch extension to perform the training and quantisation. \emph{FINN} is aiming at providing a clear acceleration of inference by deploying a network on an FPGA board. Both projects are open-source and can be found in their respective repositories on GitHub: FINN \cite{FINNRepo} and Brevitas \cite{BrevitasRepo}.
 
 %--------------------------------------
 %	SUBSECTION 6.1.2 - About Perspective
@@ -44,14 +44,14 @@ Several papers present methods to \emph{train} networks on FPGAs \cite{}. Howeve
 This section will present the whole workflow \emph{Brevitas} / \emph{FINN} put into place. By first going through the \emph{QNN} designer and trainer that is \emph{Brevitas}, the quantised neural network is translated into the intermediate representation, \emph{ONNX}. The resulting intermediate representation can then be imported by \emph{FINN}. \emph{FINN} will perform several transformations and deploy part of the resulting graph on the associated FPGA.
 
 %-----------------------------------
-%	SUBSECTION 6.2.1 - Brevitas
+%	SUBSECTION 6.2.1 - \emph{Brevitas}
 %-----------------------------------
 
 \subsection{Brevitas}
 
-Brevitas has been developed with the idea of corresponding to a \guille{drop-in} replacement of PyTorch. This means that it ensures that PyTorch functionalities will be kept, even when working with reduced-precision layers. Brevitas implements a set of building blocks to model a reduced precision hardware data-path at training time. While partially biased towards modelling dataflow-style, very low-precision implementations, the building blocks can be parametrised and assembled together to target all sorts of reduced precision hardware.
+Brevitas has been developed with the idea of corresponding to a \guille{drop-in} replacement of PyTorch. This means that it ensures that PyTorch functionalities will be kept, even when working with reduced-precision layers. \emph{Brevitas} implements a set of building blocks to model a reduced precision hardware data-path at training time. While partially biased towards modelling dataflow-style, very low-precision implementations, the building blocks can be parametrised and assembled together to target all sorts of reduced precision hardware.
 
-The implementation sets up several design principles: idiomatic PyTorch if possible, modularity first at the cost of some verbosity and a focus on easy extendability. Brevitas features many different ideas such as extracted from its presentation:
+The implementation sets up several design principles: idiomatic PyTorch if possible, modularity first at the cost of some verbosity and a focus on easy extendability. \emph{Brevitas} features many different ideas such as extracted from its presentation:
 \begin{itemize}
   \item \textbf{Quantisation Type}: Binary, ternary or uniform integer.
   \item \textbf{Target Tensor}: Weights, activations or accumulators.
@@ -60,7 +60,7 @@ The implementation sets up several design principles: idiomatic PyTorch if possi
   \item \textbf{Cost}: Hardware cost modelled at training time.
 \end{itemize}
 
-Note that \emph{scaling} is the method used by Brevitas to preserve a good precision even though the layers use quantised parameters. Brevitas handles several different methods to determine the scaling factor. It determines it either with respect to the number of dimensions, with respect to a learned parameter, shared between different layers or constrained to specific values. On the other hand, Brevitas supports both constant and learned precision.
+Note that \emph{scaling} is the method used by \emph{Brevitas} to preserve a good precision even though the layers use quantised parameters. \emph{Brevitas} handles several different methods to determine the scaling factor. It determines it either with respect to the number of dimensions, with respect to a learned parameter, shared between different layers or constrained to specific values. On the other hand, \emph{Brevitas} supports both constant and learned precision.
 
 As an example, we would like to define the \emph{LeNet-5} architecture as presented by Le Cun et al. \cite{LeCun1998}. The \emph{PyTorch} version can be seen on \emph{Figure} \ref{fig:LeNetPyTorch}. It consists of an extension of the \texttt{Module} class. The layers are then defined into two separate parts in the initialisation method. In one side and as part of a \texttt{Sequential}, the layers performing the \emph{feature extraction}. Those layers consist mostly of convolutions, pooling and activations, sometimes with batch normalisations and dropouts. In our case, the \emph{feature extraction} consists of three sequences of \texttt{Convolution => TanH Activation => Average Pooling}. Next comes the \emph{classifier} sequence, represented by a \texttt{Sequential} as well. It consists of fully-connected layers and end up with a number of neurons equal to the number of classes. Here, our \emph{classifier} consists of two fully-connected layers.
 
@@ -119,7 +119,7 @@ On the other hand, \emph{Brevitas} provides a very similar API in terms of layer
 \centering
 \begin{lstlisting}[language=Python]
 import torch
-import brevitas.nn as bnn
+import \emph{Brevitas}.nn as bnn
 import torch.nn.functional as F
 
 class QuantLeNet5(nn.Module):
@@ -168,44 +168,42 @@ class QuantLeNet5(nn.Module):
 Once the neural network is defined and trained, \emph{Brevitas} provides a way to export it to the intermediate representation. This representation is the focus of the next subsection and will be looked into in more details later on. \emph{Brevitas} uses specific annotations to define the quantised layers.  The intermediate representation, called \emph{ONNX} does not provide a way to represent layers with precisions under 8-bit. This is why this system of custom annotations has been created. These specific annotations can then be used by \emph{FINN} to perform transformations on.
 
 %--------------------------------------
-%	SUBSECTION 6.2.2 - ONNX
+%	SUBSECTION 6.2.2 - \emph{ONNX}
 %--------------------------------------
 
 \subsection{ONNX}
 
-As extracted from their repository: \guille{\emph{Open Neural Network Exchange (ONNX)} is an open ecosystem that empowers AI developers to choose the right tool for their project}. \emph{ONNX} provides an open-source format for artificial intelligence and machine learning models. This is done by defining an extensible computation graph model, as well as definitions of operators and data types. \emph{ONNX} is widely supported in different frameworks or tools. The main goal behind its design and development was to \guille{enable interoperability between different frameworks to streamline the path between research and production}.
+As extracted from their repository: \guille{\emph{Open Neural Network Exchange (ONNX)} is an open ecosystem that empowers AI developers to choose the right tool for their project}. \emph{ONNX} provides an open-source format for artificial intelligence and machine learning models. This is done by defining an extensible computation graph model, as well as definitions of operators and data types. \emph{ONNX} is widely supported in different frameworks or tools. The main goal behind its design and development was to \guille{enable interoperability between different frameworks to streamline the path between research and production} \cite{ONNXRepo}.
 
-\emph{Figure} \ref{fig:ONNXBeginning} presents the ONNX representation of a network architecture called \emph{TFC} and corresponding to three fully-connected layers put one after each other. This ONNX representation is obtained through the export modules in Brevitas, and particularly \texttt{brevitas.onnx}. This module is still under active development by the Xilinx team. The visualisation is made possible through the \emph{Netron} tool.
+\emph{Figure} \ref{fig:ONNXBeginning} presents the \emph{ONNX} representation of a network architecture called \emph{TFC} and corresponding to three fully-connected layers put one after each other. This \emph{ONNX} representation is obtained through the export modules in \emph{Brevitas}, and particularly \texttt{brevitas.onnx}. This module is still under active development by the Xilinx team. The visualisation is made possible through the \emph{Netron} tool \cite{NetronRepo}.
 
-% TODO CITE GITHUB BREVITAS FINN ONNX NETRON NN_BENCHMARK
-
-% TFC ONNX THROUGH NETRON
+% TFC \emph{ONNX} THROUGH NETRON
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=12cm]{Figures/ONNXBeginning.png}
-	\caption[TFC ONNX representation]{TFC ONNX Representation}
+	\caption[TFC \emph{ONNX} representation]{TFC \emph{ONNX} Representation}
 	\label{fig:ONNXBeginning}
 \end{figure}
 
 \newpage
 
 %-------------------------
-%	SUBSECTION 6.2.3 - FINN
+%	SUBSECTION 6.2.3 - \emph{FINN}
 %-------------------------
 
 \subsection{FINN}
 
 The last piece of the workflow is \emph{FINN}, described by Xilinx as allowing \guille{Fast, Scalable Quantized Neural Network Inference on FPGAs}. The \emph{FINN} compiler goes through three major steps to be able to port a neural network as shown on \emph{Figure} \ref{fig:FINNWholeFlow}. First, \emph{Network Preparation} where \emph{FINN} uses different transformations on the \emph{ONNX} graph to simplify it or make it more convenient for the next steps. Then, \emph{IP Generation} where the \emph{Vivado} tool is called to generate a network of HLS layers with one IP block per layer and finally stitches all the blocks together. Finally, the network is deployed on an FPGA with a \emph{PYNQ} shell, an FPGA utility providing a Python environment on an FPGA. This deployment is made possible by creating a project and driver then transferring it on the board along with the bitfile.
 
-% FINN WHOLE FLOW
+% \emph{FINN} WHOLE FLOW
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=16cm]{Figures/FINNWholeFlow.png}
-	\caption[FINN whole flow]{FINN workflow from Brevitas import to FPGA deployment}
+	\caption[FINN whole flow]{FINN workflow from \emph{Brevitas} import to FPGA deployment}
 	\label{fig:FINNWholeFlow}
 \end{figure}
 
-% FINN TRANSFORMATIONS
+% \emph{FINN} TRANSFORMATIONS
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=8cm]{Figures/FINNTransformations.png}
@@ -266,21 +264,21 @@ class Streamline(Transformation):
 
 \newpage
 
-Once the streamlining transformations are completed, \emph{FINN} will convert the different layers to their HLS counterpart if possible. This conversion is made possible by using \texttt{finn-hls}, a backend library developed by the same team to translate layers to HLS. The result of the transformation consists of a mixture of HLS and non-HLS layers. The \emph{HLS Conversion} completed, \emph{FINN} will then proceed to a \emph{Dataflow Partitioning}. This step will separate the whole network graph into a parent graph that will be executed through the \texttt{onnx-exec}. One of its child node contains all the different HLS layers and during the execution of the whole graph, \emph{FINN} delegates the execution of this child node to the FPGA board and gets the result before injecting it back in the graph execution flow. The resulting ONNX representation can be seen on \emph{Figure} \ref{fig:ONNXEnd} where the network and its ONNX representation (presented earlier on \emph{Figure} \ref{fig:ONNXBeginning}) now corresponds to few basic operations followed by a \texttt{StreamingDataflowPartition} layer that contains the layers that need to be deployed.
+Once the streamlining transformations are completed, \emph{FINN} will convert the different layers to their HLS counterpart if possible. This conversion is made possible by using \texttt{finn-hls}, a backend library developed by the same team to translate layers to HLS. The result of the transformation consists of a mixture of HLS and non-HLS layers. The \emph{HLS Conversion} completed, \emph{FINN} will then proceed to a \emph{Dataflow Partitioning}. This step will separate the whole network graph into a parent graph that will be executed through the \texttt{onnx-exec}. One of its child node contains all the different HLS layers and during the execution of the whole graph, \emph{FINN} delegates the execution of this child node to the FPGA board and gets the result before injecting it back in the graph execution flow. The resulting \emph{ONNX} representation can be seen on \emph{Figure} \ref{fig:ONNXEnd} where the network and its \emph{ONNX} representation (presented earlier on \emph{Figure} \ref{fig:ONNXBeginning}) now corresponds to few basic operations followed by a \texttt{StreamingDataflowPartition} layer that contains the layers that need to be deployed.
 
 \newpage
 
-% END TFC ONNX THROUGH NETRON
+% END TFC \emph{ONNX} THROUGH NETRON
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=6cm]{Figures/ONNXEND.png}
-	\caption[Transformed TFC ONNX representation]{Transformed TFC ONNX Representation}
+	\caption[Transformed TFC \emph{ONNX} representation]{Transformed TFC \emph{ONNX} Representation}
 	\label{fig:ONNXEnd}
 \end{figure}
 
 Once the graph is separated into two distinct parts, the synthesis can begin using \emph{Vivado}. Each layer is converted to one \emph{IP block}, a logical unit, then they are all stitched together to form the whole partition that will be ported to the board, as presented on \emph{Figure} \ref{fig:FINNSynthesis}. This part produces a \emph{bitfile} that defines the configuration of the FPGA.
 
-% FINN SYNTHESIS
+% \emph{FINN} SYNTHESIS
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=10cm]{Figures/FINNSynthesis.png}
@@ -342,7 +340,7 @@ from nn_benchmark.networks import LeNet5, QuantLeNet5
 # (10 classes and black and white images)
 lenet5 = LeNet5(n_classes = 10, in_channels = 1)
 
-# To train a quantised Brevitas network on CIFAR-10 for example
+# To train a quantised \emph{Brevitas} network on CIFAR-10 for example
 # (10 classes and RGB images) with quantisations of 2 bits for the
 # weights, 2 bits for the activations and 4 bits for the first layer
 quant_lenet5 = QuantLeNet5(n_classes = 10, in_channels = 3,
@@ -354,9 +352,7 @@ quant_lenet5 = QuantLeNet5(n_classes = 10, in_channels = 3,
 	\label{fig:NetworkCreation}
 \end{figure}
 
-The training routine is wrapped up by the \texttt{Trainer} class and can be tuned through the command line. The \texttt{CLI} class holds a large number of parameters that can be used to customise the training phase. An example of a run can be seen on \emph{Figure} \ref{fig:BenchCLI}. The example presented on the figure will launch the training for the network \texttt{QuantTFC}, the Brevitas version of the \emph{TFC} network (three successive fully-connected layers). This training will be run on the \texttt{FashionMNIST} dataset for 100 epochs. It will be overlooked by the \texttt{ADAM} optimiser and \texttt{CrossEntropy} loss function. The hyperparameters are tuned to a learning rate of 0.01 and a momentum of 0.9. The learning rate will change according to the scheduler, here a \texttt{MultiStepScheduler}. This scheduler will divide by 10 the learning rate after the epochs specified as milestones, here 34 and 37. Finally, the \emph{activation quantisation} is set to 2 bit, same for the \emph{weight quantisation} and the \emph{input quantisation} is set to 8 bits. The input quantisation is used for the first layer only. This often outputs better results due to the avoided harsh precision reduction. The first layers impact end accuracy a lot more than the last ones and the quantisation has to be delayed.
-
-% TODO REFERENCE INPUT QUANT
+The training routine is wrapped up by the \texttt{Trainer} class and can be tuned through the command line. The \texttt{CLI} class holds a large number of parameters that can be used to customise the training phase. An example of a run can be seen on \emph{Figure} \ref{fig:BenchCLI}. The example presented on the figure will launch the training for the network \texttt{QuantTFC}, the \emph{Brevitas} version of the \emph{TFC} network (three successive fully-connected layers). This training will be run on the \texttt{FashionMNIST} dataset for 100 epochs. It will be overlooked by the \texttt{ADAM} optimiser and \texttt{CrossEntropy} loss function. The hyperparameters are tuned to a learning rate of 0.01 and a momentum of 0.9. The learning rate will change according to the scheduler, here a \texttt{MultiStepScheduler}. This scheduler will divide by 10 the learning rate after the epochs specified as milestones, here 34 and 37. Finally, the \emph{activation quantisation} is set to 2 bit, same for the \emph{weight quantisation} and the \emph{input quantisation} is set to 8 bits. The input quantisation is used for the first layer only. This often outputs better results due to the avoided harsh precision reduction. The first layers impact end accuracy a lot more than the last ones and the quantisation has to be delayed.
 
 \begin{figure}[htbp]
 \centering
@@ -380,6 +376,8 @@ PYTORCH_JIT=1 python nn_benchmark/main.py \
 \end{figure}
 
 The programs in \texttt{quant\_utils\/} present helper methods to create the different quantised layers. Those helpers work as both a simplification of the quantised layers API but also as controllers of the homogeneity of the layers functionalities. This homogeneity is crucial as, for now, \emph{FINN} can only handle a subset of what \emph{Brevitas} is able to design and train.
+
+The final project can be seen on GitHub under the name \texttt{nn\_benchmark} \cite{BenchmarkRepo}.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 6.3 - Methodology and Setup
@@ -419,8 +417,6 @@ The initial objective was to train three different neural networks and their acc
 
 \subsection{Training}
 
-% TODO Specify missing refs
-
 The training of the different networks is made with the following parameters and hyper-parameters:
 \begin{itemize}
   \item \textbf{Epochs}: 40
@@ -429,7 +425,7 @@ The training of the different networks is made with the following parameters and
   \item \textbf{Scheduler}: Multi-step scheduler, the learning rate is divided by 10 on epochs 34 and 37 as done in \cite{}.
   \item \textbf{Batch size}: 100 instances per batch.
   \item \textbf{Loss function}: The loss function used is \emph{Cross Entropy}.
-  \item \textbf{Optimiser}: The optimiser use dis the \emph{ADAM} optimiser as it has been shown it is the most performing one when dealing with reduced precision \cite{}.
+  \item \textbf{Optimiser}: The optimiser use dis the \emph{ADAM} optimiser as it has been shown it is the most performing one when dealing with reduced precision \cite{Alizadeh2018}.
 \end{itemize}
 
 Along with those parameters, the bitwidths of weights and activations are taken from 2 to 32 bits. There are no differences here between the weights and activations. While \cite{Bacchus2020} differentiates the bitwidths, this functionality is still not fully supported in \emph{Brevitas} / \emph{FINN}. The inputs are either 8 bits (for sub-8bits weights and activations) or 32 bits (for 16 and 32-bits weights and activations). A summary of the bitwidths used follows:
@@ -579,7 +575,7 @@ In the end, it is possible to provide an image to the deployed network as presen
 \centering
 \begin{lstlisting}[language=Python]
 import numpy as np
-from finn.core.onnx_exec import execute_onnx
+from \emph{FINN}.core.onnx_exec import execute_onnx
 # Loading the image
 image = Image.open('/workspace/finn/onnx_experiments/img_MNIST.png')
 x = TF.to_tensor(image)
@@ -615,7 +611,7 @@ Moreover, \emph{FINN} provides a way to conduct a throughput test as presented o
 \begin{figure}[htbp]
 \centering
 \begin{lstlisting}[language=Python]
-from finn.core.throughput_test import throughput_test
+from \emph{FINN}.core.throughput_test import throughput_test
 
 child_model = ModelWrapper(getCustomOp(sdp_node).get_nodeattr("model"))
 res = throughput_test(child_model)
