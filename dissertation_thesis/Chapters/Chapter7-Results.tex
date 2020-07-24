@@ -20,7 +20,7 @@ This section will present several graphs taken from data extracted throughout th
 
 In the end, out of the three networks presented in the last chapter, only the \emph{TFC} network can make the full run, through training, export and on FPGA. The \emph{CNV} network gets stuck through several transformations and sequence of layers that are not yet supported by the streamlining process. On the other hand, \emph{MobilenetV1} is not even exporting to \emph{ONNX} and was chosen to be stopped.
 
-However, \emph{TFC} training results can be seen on \emph{Figure} \ref{fig:TFCErrorRate} where the different configuration A\emph{X}W\emph{X}, where \emph{X} is the bitwidth of both activations and weights. The different configurations have been trained for 40 epochs in total and a model has been kept for evaluation every 10 epochs. The graph represents the error rate (or $100 - accuracy$) given the training time.
+However, \emph{TFC} training results can be seen on \emph{Figure} \ref{fig:TFCErrorRate} where the different configuration A\emph{X}W\emph{X}, where \emph{X} is the bit-width of both activations and weights. The different configurations have been trained for 40 epochs in total and a model has been kept for evaluation every 10 epochs. The graph represents the error rate (or $100 - accuracy$) given the training time.
 
 % GRAPH ACCURACY TRAINING TIME TFC
 \begin{figure}[htbp]
@@ -84,7 +84,7 @@ However, \emph{TFC} training results can be seen on \emph{Figure} \ref{fig:TFCEr
   \label{fig:TFCErrorRate}
 \end{figure}
 
-While the \emph{CNV} network could not be deployed, it could still be trained and the results can be seen on \emph{Figure} \ref{fig:CNVErrorRate}. As in the \emph{TFdC} figure, the configurations are named A\emph{X}W\emph{X}, where \emph{X} is the bitwidth.
+While the \emph{CNV} network could not be deployed, it could still be trained and the results can be seen on \emph{Figure} \ref{fig:CNVErrorRate}. As in the \emph{TFdC} figure, the configurations are named A\emph{X}W\emph{X}, where \emph{X} is the bit-width.
 
 % GRAPH ACCURACY TRAINING TIME CNV
 \begin{figure}[htbp]
@@ -207,7 +207,7 @@ The three metrics presented in the next graphs are: \emph{throughput}, the numbe
   \end{figure}
 
 
-  \item \textbf{DRAM in bandwidth}(\emph{Figure} \ref{fig:TFCDRAMIn}): The same conclusions can be used for the DRAM bandwidth. The more the bitwidth, the lower the bandwidth, with an exception fo A4W4 that outperforms A2W2 being at 288 against 283 Mb/s.
+  \item \textbf{DRAM in bandwidth}(\emph{Figure} \ref{fig:TFCDRAMIn}): The same conclusions can be used for the DRAM bandwidth. The more the bit-width, the lower the bandwidth, with an exception fo A4W4 that outperforms A2W2 being at 288 against 283 Mb/s.
 
   % DRAM in bandwidth FIGURE
   \begin{figure}[htbp]
@@ -384,7 +384,7 @@ The \emph{CNV} case in \emph{Table} \ref{tab:CNVAccuracyTable} presents the same
 
 \begin{table}[!htb]
   \centering
-  \resizebox{11cm}{!}{
+  \resizebox{\textwidth}{!}{
   \begin{tabular}{ | c | c | c | c | c | }
     \hline
     \textbf{Experiment Name} & \textbf{Throughput} & \textbf{DRAM in bandwidth} & \textbf{DRAM out bandwidth} \\
@@ -402,7 +402,7 @@ The \emph{CNV} case in \emph{Table} \ref{tab:CNVAccuracyTable} presents the same
   \end{tabular}
   }
 \caption[TFC IO Table]{TFC I/O metrics}
-\label{tab:TFCIOTable}
+  \label{tab:TFCIOTable}
 \end{table}
 
 % Results for            Throughput | DRAM in bandwidth | DRAM out bandwidth:
@@ -412,11 +412,11 @@ The \emph{CNV} case in \emph{Table} \ref{tab:CNVAccuracyTable} presents the same
 % A16W16: 236205 (img/s) | 241.87 (Mb/s)     | 9.45   (Mb/s)
 % A32W32: 276541 (img/s) | 283.18 (Mb/s)     | 11.06  (MB/s)
 
-The other metrics include several I/O mechanics when looking at the DRAM in/out bandwith and the underlying throughput. Those three metrics are presented in \emph{Table} \ref{tab:TFCIOTable}. From this table, we can see that, with an exception to A32W32, the lower the bitwidth the higher the throughput and DRAM i/o bandwidth. However, A32W32 is coming third on the throughput test, DRAM in bandwidth and fourth on the DRAM out bandwidth.
+The other metrics include several I/O mechanics when looking at the DRAM in/out bandwidth and the underlying throughput. Those three metrics are presented in \emph{Table} \ref{tab:TFCIOTable}. From this table, we can see that, with an exception to A32W32, the lower the bit-width the higher the throughput and DRAM i/o bandwidth. However, A32W32 is coming third on the throughput test, DRAM in bandwidth and fourth on the DRAM out bandwidth.
 
 \begin{table}[!htb]
   \centering
-  \resizebox{9cm}{!}{
+  \resizebox{\textwidth}{!}{
   \begin{tabular}{ | c | c | c | c | c | }
     \hline
     \textbf{Experiment Name} & \textbf{Power} & \textbf{Look-Up Tables} & \textbf{Flip-Flops} & \textbf{BRAM} \\
@@ -437,7 +437,7 @@ The other metrics include several I/O mechanics when looking at the DRAM in/out 
 \label{tab:TFCHardwareTable}
 \end{table}
 
-Finally, hardware resources are available in \emph{Table} \ref{tab:TFCHardwareTable}. They present both the power needed to run the bitfile, the number of \emph{Look-Up Tables (LUT)} needed to synthesise the design, the number of \emph{Flip-Flops (FF)} as well as the \emph{BRAM Usage}. In terms of power, A8W8 consumes the less with 2.07W and S2W2 as well as A4W4 consume more (2.14W and 2.151 respectively) than A16W16 at 2.136W. A32W32 is well on top with 2.159W consumed. In terms of \emph{LUTs} and \emph{FFs}, A32W32 is the representation using the less \emph{LUTs} while A8W8 is the representation using the less \emph{FFs}. On the other hand, A4W4 uses the most \emph{LUTs} and \emph{FFs}. The \emph{BRAM} usage is the exact same for all the different representations. More information and more detailed hardware utilisation metrics can be seen in the \emph{Appendix A} \ref{AppendixA}. 
+Finally, hardware resources are available in \emph{Table} \ref{tab:TFCHardwareTable}. They present both the power needed to run the bitfile, the number of \emph{Look-Up Tables (LUT)} needed to synthesise the design, the number of \emph{Flip-Flops (FF)} as well as the \emph{BRAM Usage}. In terms of power, A8W8 consumes the less with 2.07W and S2W2 as well as A4W4 consume more (2.14W and 2.151 respectively) than A16W16 at 2.136W. A32W32 is well on top with 2.159W consumed. In terms of \emph{LUTs} and \emph{FFs}, A32W32 is the representation using the less \emph{LUTs} while A8W8 is the representation using the less \emph{FFs}. On the other hand, A4W4 uses the most \emph{LUTs} and \emph{FFs}. The \emph{BRAM} usage is the exact same for all the different representations. More information and more detailed hardware utilisation metrics can be seen in the \emph{Appendix A} \ref{AppendixA}.
 
 %----------------------------------------------------------------------------------------
 %	SUBSECTION 7.1.3 - Results Conclusion
@@ -445,7 +445,7 @@ Finally, hardware resources are available in \emph{Table} \ref{tab:TFCHardwareTa
 
 \subsection{Results Conclusion}
 
-These results show several interesting insights on the representations. First of all, those results confirm that the workflow of \emph{Benchmark}, \emph{Brevitas}, \emph{ONNX}, \emph{FINN} is working and can allow one to port its neural networks on an FPGA board. The results on accuracy correspond to the intuition one might have on the idea of \guille{the higher the bitwidth of weights and activations, the higher the overall accuracy of the network}. However, it highlights a small difference in accuracy between 2-bits and 32-bits representations, and even a more negligible difference between 32-bits and 40bits or 8-bits representations.
+These results show several interesting insights on the representations. First of all, those results confirm that the workflow of \emph{Benchmark}, \emph{Brevitas}, \emph{ONNX}, \emph{FINN} is working and can allow one to port its neural networks on an FPGA board. The results on accuracy correspond to the intuition one might have on the idea of \guille{the higher the bit-width of weights and activations, the higher the overall accuracy of the network}. However, it highlights a small difference in accuracy between 2-bits and 32-bits representations, and even a more negligible difference between 32-bits and 40bits or 8-bits representations.
 
 An unsettling result is the performance of the 32-bits representation in terms of I/O metrics. This representation outperforms several other contenders in terms of throughput and DRAM i/o bandwidth. This is while the 16-bit representation arrives last with an important difference in both throughput (40 thousands images when compared to the 2-bits representation) or DRAM bandwidth (40 Mb/s for the in bandwidth and 2 Mb/s for the out bandwidth).
 

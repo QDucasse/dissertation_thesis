@@ -149,7 +149,7 @@ The operations performed in floating-point are expensive in terms of bandwidth, 
 	\label{fig:OpCosts}
 \end{figure}
 
-The benefit of using a more optimised representation other the floating-point representation has been investigated as soon as in 2000 in \cite{Tong2000}. The authors present a way to reduce the energy consumption by minimising the bitwidth representation of the floating-point data. The data used to tailor the type representation is human-sensory data such as speech or video imagery. This kind of data is obtained at low precision (4 to 10 bits) but mapped into a full single-precision floating-point type. Using such optimisations, the authors manage to obtain a reduction of 66\% in multiplier energy per operation without sacrificing any accuracy.
+The benefit of using a more optimised representation other the floating-point representation has been investigated as soon as in 2000 in \cite{Tong2000}. The authors present a way to reduce the energy consumption by minimising the bit-width representation of the floating-point data. The data used to tailor the type representation is human-sensory data such as speech or video imagery. This kind of data is obtained at low precision (4 to 10 bits) but mapped into a full single-precision floating-point type. Using such optimisations, the authors manage to obtain a reduction of 66\% in multiplier energy per operation without sacrificing any accuracy.
 
 Modifications of the representations can be embedded in the architecture. Xilinx, a manufacturer of state-of-the-art architecture, produced a white paper written by Finnerty et al. \cite{Xilinx2017} showing that their tools are able to handle fixed-point types and arithmetic and that the benefits are important:
 \begin{itemize}

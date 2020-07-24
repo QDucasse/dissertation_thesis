@@ -55,7 +55,7 @@ The implementation sets up several design principles: idiomatic PyTorch if possi
   \item \textbf{Quantisation Type}: Binary, ternary or uniform integer.
   \item \textbf{Target Tensor}: Weights, activations or accumulators.
   \item \textbf{Scaling}: Support for different shapes, learning strategies and constraints.
-  \item \textbf{Precision}: Constant or learned bitwidth.
+  \item \textbf{Precision}: Constant or learned bit-width.
   \item \textbf{Cost}: Hardware cost modelled at training time.
 \end{itemize}
 
@@ -111,7 +111,7 @@ class LeNet5(nn.Module):
 \end{figure}
 
 
-On the other hand, \emph{Brevitas} provides a very similar API in terms of layer definition. The one thing changing is the need to specify the bitwidth, or precision, of each one of the layers. In the example, the bitwidth is determined from three parameters at initialisation: \texttt{weight\_bit\_width}, the bitwidth used for the weights parameters ; \texttt{act\_bit\_width}, the bitwidth used for the activations and \texttt{in\_bit\_width}, the bitwidth used for the input layer. This last bitwidth is important because the first layer is particularly sensible to precision changes and often requires a higher-precision to not deteriorate too much the end accuracy. An example of the \emph{Brevitas} way to define \emph{LeNet-5} is presented in \emph{Figure} \ref{fig:LeNetBrevitas}.
+On the other hand, \emph{Brevitas} provides a very similar API in terms of layer definition. The one thing changing is the need to specify the bit-width, or precision, of each one of the layers. In the example, the bit-width is determined from three parameters at initialisation: \texttt{weight\_bit\_width}, the bit-width used for the weights parameters ; \texttt{act\_bit\_width}, the bit-width used for the activations and \texttt{in\_bit\_width}, the bit-width used for the input layer. This last bit-width is important because the first layer is particularly sensible to precision changes and often requires a higher-precision to not deteriorate too much the end accuracy. An example of the \emph{Brevitas} way to define \emph{LeNet-5} is presented in \emph{Figure} \ref{fig:LeNetBrevitas}.
 
 
 \begin{figure}[htbp]
@@ -427,14 +427,14 @@ The training of the different networks is made with the following parameters and
   \item \textbf{Optimiser}: The optimiser use dis the \emph{ADAM} optimiser as it has been shown it is the most performing one when dealing with reduced precision \cite{Alizadeh2018}.
 \end{itemize}
 
-Along with those parameters, the bitwidths of weights and activations are taken from 2 to 32 bits. There are no differences here between the weights and activations. While \cite{Bacchus2020} differentiates the bitwidths, this functionality is still not fully supported in \emph{Brevitas} / \emph{FINN}. The inputs are either 8 bits (for sub-8bits weights and activations) or 32 bits (for 16 and 32-bits weights and activations). A summary of the bitwidths used follows:
+Along with those parameters, the bit-widths of weights and activations are taken from 2 to 32 bits. There are no differences here between the weights and activations. While \cite{Bacchus2020} differentiates the bit-widths, this functionality is still not fully supported in \emph{Brevitas} / \emph{FINN}. The inputs are either 8 bits (for sub-8bits weights and activations) or 32 bits (for 16 and 32-bits weights and activations). A summary of the bit-widths used follows:
 \begin{itemize}
   \item \textbf{weights}: 2, 4, 8, 16, 32
   \item \textbf{activations}: 2, 4, 8, 16, 32
   \item \textbf{inputs}: 8, 8, 8, 32, 32
 \end{itemize}
 
-Rather than using the \emph{CLI} to specify the training configuration for each one of the neural networks as in \emph{Figure} \ref{fig:BenchCLI}, a running script is provided as presented in \emph{Figure} \ref{fig:TrainingScript}. This script emulates the \emph{CLI} by passing the specified parameters and hyper-parameters presented earlier but varying both the network architecture, dataset and the different bitwidths.
+Rather than using the \emph{CLI} to specify the training configuration for each one of the neural networks as in \emph{Figure} \ref{fig:BenchCLI}, a running script is provided as presented in \emph{Figure} \ref{fig:TrainingScript}. This script emulates the \emph{CLI} by passing the specified parameters and hyper-parameters presented earlier but varying both the network architecture, dataset and the different bit-widths.
 
 \begin{figure}[htbp]
 \centering
