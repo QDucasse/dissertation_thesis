@@ -205,7 +205,7 @@ The last piece of the workflow is \emph{FINN}, described by Xilinx as allowing \
 % \emph{FINN} TRANSFORMATIONS
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=8cm]{Figures/FINNTransformations.png}
+		\includegraphics[width=10cm]{Figures/FINNTransformations.png}
 	\caption[FINN Transformations]{FINN Transformations}
 	\label{fig:FINNTransformations}
 \end{figure}
@@ -421,13 +421,13 @@ The training of the different networks is made with the following parameters and
   \item \textbf{Epochs}: 40
   \item \textbf{Momentum}: 0.9
   \item \textbf{Learning Rate}: 0.01
-  \item \textbf{Scheduler}: Multi-step scheduler, the learning rate is divided by 10 on epochs 34 and 37 as done in \cite{}.
+  \item \textbf{Scheduler}: Multi-step scheduler, the learning rate is divided by 10 on epochs 34 and 37 as done in \cite{Bethge2018}.
   \item \textbf{Batch size}: 100 instances per batch.
   \item \textbf{Loss function}: The loss function used is \emph{Cross Entropy}.
   \item \textbf{Optimiser}: The optimiser use dis the \emph{ADAM} optimiser as it has been shown it is the most performing one when dealing with reduced precision \cite{Alizadeh2018}.
 \end{itemize}
 
-Along with those parameters, the bit-widths of weights and activations are taken from 2 to 32 bits. There are no differences here between the weights and activations. While \cite{Bacchus2020} differentiates the bit-widths, this functionality is still not fully supported in \emph{Brevitas} / \emph{FINN}. The inputs are either 8 bits (for sub-8bits weights and activations) or 32 bits (for 16 and 32-bits weights and activations). A summary of the bit-widths used follows:
+Along with those parameters, the bit-widths of weights and activations are taken from 2 to 32 bits. There are no differences here between the weights and activations. While \cite{Bacchus2020} differentiates the bit-widths, this functionality is still not fully supported in \emph{Brevitas} / \emph{FINN}. The inputs are either 8 bits (for sub-8bits weights and activations) or 32 bits (for 16 and 32-bits weights and activations). Using higher inputs (precision of the first layer) will help not deteriorate the end accuracy too much. A summary of the bit-widths used follows:
 \begin{itemize}
   \item \textbf{weights}: 2, 4, 8, 16, 32
   \item \textbf{activations}: 2, 4, 8, 16, 32
@@ -560,7 +560,7 @@ These steps create a final \emph{Vivado} project, perform the synthesis and tran
 % PYNQ PHOTO
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=\textwidth]{Figures/PYNQ.png}
+		\includegraphics[width=12cm]{Figures/PYNQ.png}
 	\caption[PYNQ-Z1]{PYNQ-Z1 with a neural network deployed}
 	\label{fig:PYNQ-Z1}
 \end{figure}
