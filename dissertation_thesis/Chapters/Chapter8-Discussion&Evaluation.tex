@@ -65,11 +65,24 @@ The activation bit-width used were taken specifically to be comparable. This mea
 
 \subsection{Comparison to the literature}
 
-% TODO COMPARISON LITERATURE
+While the networks and experiments have not been designed to be extremely performant accuracy-wise but mostly to compare them between themselves, a comparison can be presented to results obtained by well-known architectures.
 
-Comparison \emph{TFC} / \emph{Fashion-MNIST} with other results from the literature.
+\begin{itemize}
+  \item Accuracy comparison \emph{TFC} / \emph{Fashion-MNIST}: Looking at the results presented on the official \emph{Fashion MNIST} repository \cite{FashionMNISTRepo}, the network composed of three simple fully-connected layers managed to obtain 87.7\% accuracy for the A4W4 configuration (best of the sub 8-bits configurations), and 88.4\% for the A16W16 configuration (best of the over 8-bits configurations). This is comparable to the first neural networks they propose: 2 \texttt{CONV} and \texttt{POOL} achieves 87.6\%, \emph{AlexNet} achieves tops at 89.9\% while more modern architectures revolve around 95\%. \emph{VGG-16} achieves, 93.5\%, \emph{Mobilenet} 95\% and \emph{ResNet18} 94.9\%.
+  \item Accuracy comparison \emph{CNV} / \emph{CIFAR-10}: Taken from the official benchmark of the \emph{CIFAR-10} dataset, \emph{LeNet-5} achieves 62.8\%, \emph{AlexNet} 84.6\%. More modern architectures achieve higher results such as 93.3\% for \emph{VGG-16} or 94.3\% for \emph{ResNet18}.
+\end{itemize}
 
-Comparison \emph{CNV} / \emph{CIFAR-10} with other results from the literature.
+The evaluation methodology defined in earlier sections advised to compare to \cite{Jia2018, Micikevicius2017, Kurth2018} but they all present metric relative to the \emph{ImageNet} dataset. While these results are comparable, they would require the benchmark to train a similar network architecture on this dataset. \emph{ImageNet} has been excluded from the benchmark as it is too costly in terms of time and energy for a network to train on it.
+
+\begin{itemize}
+  \item Zhao et al. \cite{Zhao2016} present an experiment with \emph{LeNet-5} on \emph{MNIST} and \emph{AlexNet} on \emph{CIFAR-10}. These experiments are performed on an Altera Stratix V FPGA. Their implementation presents a better performance over CPUs or GPUs but the performance metrics is the \emph{GFlops} and not throughput or comparable accuracy.
+  \item Colangelo et al. \cite{Colangelo2018} manage to obtain a throughput of 3700 images per second for their \emph{AlexNet} model trained on \emph{ImageNet}. This model has 2-bits activation and 3-bits weights.
+  \item Jahanshahi et al. \emph{Jahanshahi2019} use 16-bits fixed-point CNN accelerator. Their experiment consists of a simple convolutional network trained on CIFAR-10, they manage to obtain better runtime and a small loss in accuracy compared to the software version. Their accuracy is 62.28\%, a score that is easily achievable by the presented \emph{CNV} network that achieved 87.15\% after 40 epochs on the same datasets with 2-bits activations and weights.
+  \item Bacchus et al. \cite{Bacchus2020} achieved a 2\% error rate for their experiments with a similar \emph{TFC} network on the \emph{MNIST} dataset. Their presentation of hardware utilisation clearly shows that the lowest the bit-widths, the less resources used, especially linked to the weight precision.
+\end{itemize}
+
+While the results produced in \emph{Chapter} \ref{Chapter7} give an interesting insight to the \emph{Brevitas} / \emph{FINN} workflow, they are still not ready to be thoroughly compared to state-of-the-art results as several elements are missing to the workflow for now. However, it highlighted the fact that it is going against results from the literature in terms of hardware utilisation as weight and activation precisions should have a higher impact on the resources used. Same goes for the 32-bits representations that, when looking at the other frameworks, should follow the trend and require more resources for a better accuracy.
+
 %----------------------------------------------------------------------------------------
 %	SUBSECTION 8.3.2 - Future Works
 %----------------------------------------------------------------------------------------
