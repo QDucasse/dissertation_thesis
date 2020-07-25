@@ -143,6 +143,7 @@
 \usepackage{multirow}
 \usepackage{lscape}
 \usepackage{newfloat}
+\usepackage{float}
 \DeclareFloatingEnvironment[fileext=lop]{mylisting}
 \renewcommand\mylistingname{Listing}
 \usepackage{tcolorbox}

@@ -61,12 +61,12 @@ The implementation sets up several design principles: idiomatic PyTorch if possi
 
 Note that \emph{scaling} is the method used by \emph{Brevitas} to preserve a good precision even though the layers use quantised parameters. \emph{Brevitas} handles several different methods to determine the scaling factor. It determines it either with respect to the number of dimensions, with respect to a learned parameter, shared between different layers or constrained to specific values. On the other hand, \emph{Brevitas} supports both constant and learned precision.
 
-As an example, we would like to define the \emph{LeNet-5} architecture as presented by Le Cun et al. \cite{LeCun1998}. The \emph{PyTorch} version can be seen on \emph{Figure} \ref{fig:LeNetPyTorch}. It consists of an extension of the \texttt{Module} class. The layers are then defined into two separate parts in the initialisation method. In one side and as part of a \texttt{Sequential}, the layers performing the \emph{feature extraction}. Those layers consist mostly of convolutions, pooling and activations, sometimes with batch normalisations and dropouts. In our case, the \emph{feature extraction} consists of three sequences of \texttt{Convolution => TanH Activation => Average Pooling}. Next comes the \emph{classifier} sequence, represented by a \texttt{Sequential} as well. It consists of fully-connected layers and end up with a number of neurons equal to the number of classes. Here, our \emph{classifier} consists of two fully-connected layers.
+As an example, we would like to define the \emph{LeNet-5} architecture as presented by Le Cun et al. \cite{LeCun1998}. The \emph{PyTorch} version can be seen on \emph{Listing} \ref{fig:LeNetPyTorch}. It consists of an extension of the \texttt{Module} class. The layers are then defined into two separate parts in the initialisation method. In one side and as part of a \texttt{Sequential}, the layers performing the \emph{feature extraction}. Those layers consist mostly of convolutions, pooling and activations, sometimes with batch normalisations and dropouts. In our case, the \emph{feature extraction} consists of three sequences of \texttt{Convolution => TanH Activation => Average Pooling}. Next comes the \emph{classifier} sequence, represented by a \texttt{Sequential} as well. It consists of fully-connected layers and end up with a number of neurons equal to the number of classes. Here, our \emph{classifier} consists of two fully-connected layers.
 
 PyTorch asks to define the \texttt{function} and manages backpropagation on its own when dealing with a neural network. Here, the forward function consists of feeding the instance (image supposedly) in the \emph{feature extractor}, reshaping the result into a 1-dimensional array, feeding this array to the \emph{classifier} and using a \emph{softmax} function to access the probabilities determined for each of the classes of the dataset.
 
 % PyTorch LeNet5 implementation
-\begin{figure}[htbp]
+\begin{mylisting}[htbp]
 \centering
 \begin{lstlisting}[language=Python]
 import torch
@@ -108,13 +108,13 @@ class LeNet5(nn.Module):
 \end{lstlisting}
 \caption[LeNetPyTorch]{PyTorch LeNet-5 \cite{LeCun1998} implementation}
 	\label{fig:LeNetPyTorch}
-\end{figure}
+\end{mylisting}
 
 
-On the other hand, \emph{Brevitas} provides a very similar API in terms of layer definition. The one thing changing is the need to specify the bit-width, or precision, of each one of the layers. In the example, the bit-width is determined from three parameters at initialisation: \texttt{weight\_bit\_width}, the bit-width used for the weights parameters ; \texttt{act\_bit\_width}, the bit-width used for the activations and \texttt{in\_bit\_width}, the bit-width used for the input layer. This last bit-width is important because the first layer is particularly sensible to precision changes and often requires a higher-precision to not deteriorate too much the end accuracy. An example of the \emph{Brevitas} way to define \emph{LeNet-5} is presented in \emph{Figure} \ref{fig:LeNetBrevitas}.
+On the other hand, \emph{Brevitas} provides a very similar API in terms of layer definition. The one thing changing is the need to specify the bit-width, or precision, of each one of the layers. In the example, the bit-width is determined from three parameters at initialisation: \texttt{weight\_bit\_width}, the bit-width used for the weights parameters ; \texttt{act\_bit\_width}, the bit-width used for the activations and \texttt{in\_bit\_width}, the bit-width used for the input layer. This last bit-width is important because the first layer is particularly sensible to precision changes and often requires a higher-precision to not deteriorate too much the end accuracy. An example of the \emph{Brevitas} way to define \emph{LeNet-5} is presented in \emph{Listing} \ref{fig:LeNetBrevitas}.
 
 
-\begin{figure}[htbp]
+\begin{mylisting}[htbp]
 \centering
 \begin{lstlisting}[language=Python]
 import torch
@@ -162,7 +162,7 @@ class QuantLeNet5(nn.Module):
 \end{lstlisting}
 \caption[LeNetBrevitas]{Brevitas quantised LeNet-5 \cite{LeCun1998} implementation}
 	\label{fig:LeNetBrevitas}
-\end{figure}
+\end{mylisting}
 
 Once the neural network is defined and trained, \emph{Brevitas} provides a way to export it to the intermediate representation. This representation is the focus of the next subsection and will be looked into in more details later on. \emph{Brevitas} uses specific annotations to define the quantised layers.  The intermediate representation, called \emph{ONNX} does not provide a way to represent layers with precisions under 8-bit. This is why this system of custom annotations has been created. These specific annotations can then be used by \emph{FINN} to perform transformations on.
 
@@ -221,9 +221,9 @@ The network preparation part is the one involving several transformations in the
   \item \textbf{Absorbing into Thresholds} :Updating the threshold values with the changes in the linear transformations removes any linear transformation from the graph.
 \end{itemize}
 
-The \texttt{Streamline} transformation class is implemented as presented on \emph{Figure} \ref{fig:FINNStreamline}.
+The \texttt{Streamline} transformation class is implemented as presented on \emph{Listing} \ref{fig:FINNStreamline}.
 
-\begin{figure}[htbp]
+\begin{mylisting}[htbp]
 \centering
 \begin{lstlisting}[language=Python]
 class Streamline(Transformation):
@@ -259,7 +259,7 @@ class Streamline(Transformation):
 \end{lstlisting}
 \caption[FINN Streamline]{FINN Streamline process as proposed in \cite{Umuroglu2017b, Blott2018}}
 	\label{fig:FINNStreamline}
-\end{figure}
+\end{mylisting}
 
 \newpage
 
@@ -318,7 +318,7 @@ The project is structured as follows:
 \begin{itemize}
   \item \textbf{\texttt{core}}: Core functionalities of the benchmark tool. This sub-package contains the \texttt{CLI}, \texttt{Trainer}, \texttt{Plotter}, \texttt{Logger} and \texttt{Exporter}. The \texttt{Trainer} is the main piece and is given all the arguments passed to the \texttt{CLI}. The \texttt{Logger} logs training routine, the \texttt{Plotter} allows to visualise instances of the dataset and the \texttt{Exporter} performs the export to \emph{ONNX}.
   \item \textbf{\texttt{extensions}}: Extensions of PyTorch functionalities to perform with quantised networks. These extensions consist of a new dataset, \emph{GTSRB}, a new loss function that can be used with binary networks, \emph{Squared Hinge Loss}, and a helper layer that performs the norm of the tensor.
-  \item \textbf{\texttt{networks}}: Network architectures and their quantised counterpart. The defined networks consist of \texttt{TFC} ()three \emph{FC} layers next to each other), \texttt{CNV} (a simple CNN), \texttt{LeNet5}, \texttt{VGG11}, \texttt{VGG13}, \texttt{VGG16}, \texttt{VGG19} and \texttt{MobilenetV1}. All the different architectures answer to the same API and can be created by passing the number of \emph{classes}, number of \emph{in-channels} and the different quantisations if using a quantised network. The creation of a simple network and its quantised counterpart can be seen on \emph{Figure} \ref{fig:NetworkCreation}.
+  \item \textbf{\texttt{networks}}: Network architectures and their quantised counterpart. The defined networks consist of \texttt{TFC} ()three \emph{FC} layers next to each other), \texttt{CNV} (a simple CNN), \texttt{LeNet5}, \texttt{VGG11}, \texttt{VGG13}, \texttt{VGG16}, \texttt{VGG19} and \texttt{MobilenetV1}. All the different architectures answer to the same API and can be created by passing the number of \emph{classes}, number of \emph{in-channels} and the different quantisations if using a quantised network. The creation of a simple network and its quantised counterpart can be seen on \emph{Listing} \ref{fig:NetworkCreation}.
 \end{itemize}
 
 % PROJECT UML
@@ -330,7 +330,7 @@ The project is structured as follows:
 % \end{figure}
 
 
-\begin{figure}[htbp]
+\begin{mylisting}[htbp]
 \centering
 \begin{lstlisting}[language=Python]
 from nn_benchmark.networks import LeNet5, QuantLeNet5
@@ -349,11 +349,11 @@ quant_lenet5 = QuantLeNet5(n_classes = 10, in_channels = 3,
 \end{lstlisting}
 \caption[NetworkCreation]{Network Creation with the benchmark tool}
 	\label{fig:NetworkCreation}
-\end{figure}
+\end{mylisting}
 
 The training routine is wrapped up by the \texttt{Trainer} class and can be tuned through the command line. The \texttt{CLI} class holds a large number of parameters that can be used to customise the training phase. An example of a run can be seen on \emph{Figure} \ref{fig:BenchCLI}. The example presented on the figure will launch the training for the network \texttt{QuantTFC}, the \emph{Brevitas} version of the \emph{TFC} network (three successive fully-connected layers). This training will be run on the \texttt{FashionMNIST} dataset for 100 epochs. It will be overlooked by the \texttt{ADAM} optimiser and \texttt{CrossEntropy} loss function. The hyper-parameters are tuned to a learning rate of 0.01 and a momentum of 0.9. The learning rate will change according to the scheduler, here a \texttt{MultiStepScheduler}. This scheduler will divide by 10 the learning rate after the epochs specified as milestones, here 34 and 37. Finally, the \emph{activation quantisation} is set to 2 bit, same for the \emph{weight quantisation} and the \emph{input quantisation} is set to 8 bits. The input quantisation is used for the first layer only. This often outputs better results due to the avoided harsh precision reduction. The first layers impact end accuracy a lot more than the last ones and the quantisation has to be delayed.
 
-\begin{figure}[htbp]
+\begin{mylisting}[htbp]
 \centering
 \begin{lstlisting}[language=bash]
 PYTORCH_JIT=1 python nn_benchmark/main.py \
@@ -372,7 +372,7 @@ PYTORCH_JIT=1 python nn_benchmark/main.py \
 \end{lstlisting}
 \caption[Command Line Interface]{Command Line Interface arguments}
 	\label{fig:BenchCLI}
-\end{figure}
+\end{mylisting}
 
 The programs in \texttt{quant\_utils\/} present helper methods to create the different quantised layers. Those helpers work as both a simplification of the quantised layers API but also as controllers of the homogeneity of the layers functionalities. This homogeneity is crucial as, for now, \emph{FINN} can only handle a subset of what \emph{Brevitas} is able to design and train.
 
@@ -434,9 +434,9 @@ Along with those parameters, the bit-widths of weights and activations are taken
   \item \textbf{inputs}: 8, 8, 8, 32, 32
 \end{itemize}
 
-Rather than using the \emph{CLI} to specify the training configuration for each one of the neural networks as in \emph{Figure} \ref{fig:BenchCLI}, a running script is provided as presented in \emph{Figure} \ref{fig:TrainingScript}. This script emulates the \emph{CLI} by passing the specified parameters and hyper-parameters presented earlier but varying both the network architecture, dataset and the different bit-widths.
+Rather than using the \emph{CLI} to specify the training configuration for each one of the neural networks as in \emph{Listing} \ref{fig:BenchCLI}, a running script is provided as presented in \emph{Listing} \ref{fig:TrainingScript}. This script emulates the \emph{CLI} by passing the specified parameters and hyper-parameters presented earlier but varying both the network architecture, dataset and the different bit-widths.
 
-\begin{figure}[htbp]
+\begin{mylisting}[htbp]
 \centering
 \begin{lstlisting}[language=Python]
 import sys
@@ -489,7 +489,7 @@ if __name__ == "__main__":
 \end{lstlisting}
 \caption[Training Script]{Training Script to train all three networks}
 	\label{fig:TrainingScript}
-\end{figure}
+\end{mylisting}
 
 %--------------------------------------
 %	SUBSECTION 6.3.3 - Deployment
@@ -507,9 +507,9 @@ Looking through the transformations steps presented earlier, here are the transf
   \item \textbf{Streamline}: The streamline process described earlier is resumed to the \texttt{Streamline} transformation.
   \item \textbf{HLS Conversion}: The conversion consists of changing the layers to their HLS counterpart. In the case of quantised FC layers, the transformation is \texttt{Infer} \texttt{QuantizedStreamingFCLayer}.
   \item \textbf{Dataflow Partition}: The separation is contained in the \texttt{CreateDataflowParti-} \texttt{tion} transformation.
-  \item \textbf{Folding}: The tuning operates on the child containing the HLS layers of the previously created partition. This folding is an empiric process for now but can be guided using \guille{folding factors}. Here, the folding factor used was 32. Each image consists of 1024 pixels ($32 \times 32$) and the PE and SIMD determines the number of simultaneous operations that can be processed in order to process the full image. The higher the folding factor, the higher number of passes are needed but the fewer hardware resources used. The \emph{PYNQ} being a relatively small FPGA, a folding factor of 16 was too much to handle and therefore 32 is chosen. The folding process can be seen on \emph{Figure} \ref{fig:FoldingProcess}. After selecting the PE and SIMD, the transformations \texttt{InsertDWC} \texttt{InsertFIFO} and \texttt{InsertTLastMarker} can be used.
+  \item \textbf{Folding}: The tuning operates on the child containing the HLS layers of the previously created partition. This folding is an empiric process for now but can be guided using \guille{folding factors}. Here, the folding factor used was 32. Each image consists of 1024 pixels ($32 \times 32$) and the PE and SIMD determines the number of simultaneous operations that can be processed in order to process the full image. The higher the folding factor, the higher number of passes are needed but the fewer hardware resources used. The \emph{PYNQ} being a relatively small FPGA, a folding factor of 16 was too much to handle and therefore 32 is chosen. The folding process can be seen on \emph{Listing} \ref{fig:FoldingProcess}. After selecting the PE and SIMD, the transformations \texttt{InsertDWC} \texttt{InsertFIFO} and \texttt{InsertTLastMarker} can be used.
 
-  \begin{figure}[htbp]
+  \begin{mylisting}[htbp]
   \centering
   \begin{lstlisting}[language=Python]
   fc_layers = model.get_nodes_by_op_type("StreamingFCLayer_Batch")
@@ -531,7 +531,7 @@ Looking through the transformations steps presented earlier, here are the transf
   \end{lstlisting}
   \caption[Folding Process]{Folding process on the different layers}
   	\label{fig:FoldingProcess}
-  \end{figure}
+  \end{mylisting}
   \item \textbf{IP Synthesis}: The IP are synthesised using \texttt{PrepareIP}, \texttt{HLSSynthIP}, \texttt{ReplaceVeri-} \texttt{logRelPaths} and \texttt{CreateStitchedIP}. The result is a stitched IP consisting of one IP per layer succeeding one another. The resulting block design is presented on \emph{Figure} \ref{fig:StitchedBlockDesign} and displays successive \texttt{StreamingFIFO} and \texttt{StreamingFCLayer\_Batch}.
 
   \newpage
@@ -568,9 +568,9 @@ These steps create a final \emph{Vivado} project, perform the synthesis and tran
 
 \newpage
 
-In the end, it is possible to provide an image to the deployed network as presented on \emph{Figure} \ref{fig:DeployedInference}. This figure presents a script to first load the image and convert it to a tensor. Then, the trained transformed network is loaded and \texttt{onnx-exec} is used to run the image through the network. The result is then interpreted through the \texttt{softmax} function that outputs the different probabilities of each class for the provided picture.
+In the end, it is possible to provide an image to the deployed network as presented on \emph{Listing} \ref{fig:DeployedInference}. This figure presents a script to first load the image and convert it to a tensor. Then, the trained transformed network is loaded and \texttt{onnx-exec} is used to run the image through the network. The result is then interpreted through the \texttt{softmax} function that outputs the different probabilities of each class for the provided picture.
 
-\begin{figure}[htbp]
+\begin{mylisting}[htbp]
 \centering
 \begin{lstlisting}[language=Python]
 import numpy as np
@@ -603,11 +603,11 @@ plt.bar(np.arange(10), prob)
 \end{lstlisting}
 \caption[Deployed Inference]{Inference on the deployed network}
   \label{fig:DeployedInference}
-\end{figure}
+\end{mylisting}
 
-Moreover, \emph{FINN} provides a way to conduct a throughput test as presented on \emph{Figure} \ref{fig:ThroughputTest}. The test takes advantage of \emph{FINN} function \texttt{throughput\_test} that outputs both the throughput and other i/o metrics such as the DRAM bandwidth for example.
+Moreover, \emph{FINN} provides a way to conduct a throughput test as presented on \emph{Listing} \ref{fig:ThroughputTest}. The test takes advantage of \emph{FINN} function \texttt{throughput\_test} that outputs both the throughput and other i/o metrics such as the DRAM bandwidth for example.
 
-\begin{figure}[htbp]
+\begin{mylisting}[htbp]
 \centering
 \begin{lstlisting}[language=Python]
 from \emph{FINN}.core.throughput_test import throughput_test
@@ -620,4 +620,4 @@ for key in res:
 \end{lstlisting}
 \caption[Throughput Test]{Throughput test method}
   \label{fig:ThroughputTest}
-\end{figure}
+\end{mylisting}
