@@ -156,7 +156,7 @@ Now if we look deeper into the \emph{TFC} deployment, we can get other important
 The three metrics presented in the next graphs are: \emph{throughput}, the number of images the deployed network can process in one second ; \emph{DRAM in bandwidth}, the amount of data that can be processed coming from the DRAM in to the FPGA board ; \emph{DRAM out banwidth}, the amount of data that can be processed coming from the FPGA board out to the DRAM.
 
 \begin{itemize}
-  \item \textbf{Throughput}(\emph{Figure} \ref{fig:TFCThroughput}): If the throughput seems nearly identical for A2W2 and A4W4, going to A8W8 makes one lose more than 10 thousands images per second. And even worse, using A16W16 consists of a loss of over 45 thousands images per second.
+  \item \textbf{Throughput} (\emph{Figure} \ref{fig:TFCThroughput}): If the throughput seems nearly identical for A2W2 and A4W4, going to A8W8 makes one lose more than 10 thousands images per second. And even worse, using A16W16 consists of a loss of over 45 thousands images per second.
 
   % THROUGHPUT FIGURE
   \begin{figure}[htbp]
@@ -207,7 +207,7 @@ The three metrics presented in the next graphs are: \emph{throughput}, the numbe
   \end{figure}
 
 
-  \item \textbf{DRAM in bandwidth}(\emph{Figure} \ref{fig:TFCDRAMIn}): The same conclusions can be used for the DRAM bandwidth. The more the bit-width, the lower the bandwidth, with an exception fo A4W4 that outperforms A2W2 being at 288 against 283 Mb/s.
+  \item \textbf{DRAM in bandwidth} (\emph{Figure} \ref{fig:TFCDRAMIn}): The same conclusions can be used for the DRAM bandwidth. The more the bit-width, the lower the bandwidth, with an exception fo A4W4 that outperforms A2W2 being at 288 against 283 Mb/s.
 
   % DRAM in bandwidth FIGURE
   \begin{figure}[htbp]
@@ -257,7 +257,7 @@ The three metrics presented in the next graphs are: \emph{throughput}, the numbe
     \label{fig:TFCDRAMIn}
   \end{figure}
 
-  \item \textbf{DRAM out bandwidth}(\emph{Figure} \ref{fig:TFCDRAMOut}): While the graph presents the same impressions as the DRAM in, the results for A2W2 and A4W4 are this time nearly identical around 11.3Mb/s
+  \item \textbf{DRAM out bandwidth} (\emph{Figure} \ref{fig:TFCDRAMOut}): While the graph presents the same impressions as the DRAM in, the results for A2W2 and A4W4 are this time nearly identical around 11.3Mb/s
 
 
   % DRAM out bandwidth FIGURE
@@ -433,7 +433,7 @@ The other metrics include several I/O mechanics when looking at the DRAM in/out 
     \hline
   \end{tabular}
   }
-\caption[TFC Hardware Utilisation Table]{TFC Hardware Utilisation}
+\caption[TFC Hardware Utilisation Table]{TFC Hardware Utilisation for a Zynq Z-7020 device}
 \label{tab:TFCHardwareTable}
 \end{table}
 
@@ -445,7 +445,7 @@ Finally, hardware resources are available in \emph{Table} \ref{tab:TFCHardwareTa
 
 \subsection{Results Conclusion}
 
-These results show several interesting insights on the representations. First of all, those results confirm that the workflow of \emph{Benchmark}, \emph{Brevitas}, \emph{ONNX}, \emph{FINN} is working and can allow one to port its neural networks on an FPGA board. The results on accuracy correspond to the intuition one might have on the idea of \guille{the higher the bit-width of weights and activations, the higher the overall accuracy of the network}. However, it highlights a small difference in accuracy between 2-bits and 32-bits representations, and even a more negligible difference between 32-bits and 40bits or 8-bits representations.
+These results show several interesting insights on the representations. First of all, those results confirm that the workflow of \emph{Benchmark}, \emph{Brevitas}, \emph{ONNX} and \emph{FINN} is working and can allow one to port its neural networks on an FPGA board. The results on accuracy correspond to the intuition one might have on the idea of \guille{the higher the bit-width of weights and activations, the higher the overall accuracy of the network}. However, it highlights a small difference in accuracy between 2-bits and 32-bits representations, and even a more negligible difference between 32-bits and 40bits or 8-bits representations.
 
 An unsettling result is the performance of the 32-bits representation in terms of I/O metrics. This representation outperforms several other contenders in terms of throughput and DRAM i/o bandwidth. This is while the 16-bit representation arrives last with an important difference in both throughput (40 thousands images when compared to the 2-bits representation) or DRAM bandwidth (40 Mb/s for the in bandwidth and 2 Mb/s for the out bandwidth).
 
